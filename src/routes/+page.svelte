@@ -1,7 +1,7 @@
-<h1 class="text-3xl font-bold">Hello world!</h1>
+<script>
+  import Hero from "$lib/components/Hero.svelte"
+  import Projects from "$lib/components/Projects.svelte"
+</script>
 
-<style lang="postcss">
-  :global(html) {
-    background-color: theme(colors.gray.100);
-  }
-</style>
+<Hero />
+<Projects />
