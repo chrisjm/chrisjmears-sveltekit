@@ -13,7 +13,7 @@
     {#each posts as post (post.id)}
       <li class="md:flex-1 md:mr-5">
         <a
-          href={post.slug}
+          href="/blog/{post.slug}"
           rel="prev"
           class="hover:text-blue-200 hover:no-underline"
         >
