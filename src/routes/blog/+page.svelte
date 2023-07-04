@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { PageData } from "./$types"
-  import { AdvancedImage } from "@cloudinary/svelte"
+  import { CldImage } from "svelte-cloudinary"
   export let data: PageData
   export let title: string
 </script>
@@ -23,17 +23,11 @@
         <div class="mt-2 shadow-lg">
           <a href="/blog/{post.id}">
             {#if post.data.metadata.header.cloudinaryPublicId}
-              <AdvancedImage
+              <CldImage
                 class="w-full h-48 object-cover"
-                public_id={post.data.metadata.header.cloudinaryPublicId}
-                cloud_name="wanderingleafstudios"
-                secure="true"
-                transformation={{
-                  width: 1152,
-                  height: 192,
-                  gravity: "auto",
-                  crop: "fill",
-                }}
+                src={post.data.metadata.header.cloudinaryPublicId}
+                width={1152}
+                height={192}
               />
             {:else}
               <img
