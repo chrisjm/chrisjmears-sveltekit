@@ -38,6 +38,7 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@cloudinary/svelte": "^1.0.0-beta.11",
 		"sorters": "^1.1.0"
 	}
 }
