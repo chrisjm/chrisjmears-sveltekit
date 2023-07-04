@@ -95,7 +95,7 @@ a {
 }
 
 .hero {
-  background-image: url("../images/icons/rain.svg");
+  background-image: url("../src/lib/images/icons/rain.svg");
   background-repeat: repeat;
 }
 
