@@ -105,7 +105,7 @@
 
 <Section>
   <Heading2 title="Projects" />
-  <div class="flex md:flex-column flex-wrap md:flex-nowrap justify-between">
+  <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-3">
     {#each projects as project (project.id)}
       <ProjectCard {...project} />
     {/each}

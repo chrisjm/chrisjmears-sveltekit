@@ -2,8 +2,8 @@
 </script>
 
 <footer class="bg-blue-800 text-white">
-  <div class="container mx-auhref p-5 md:p-10">
-    <div class="content">
+  <div class="mx-auto p-5 md:p-10">
+    <div class="flex flex-col">
       <div class="flex justify-center mb-6">
         <a
           href="https://twitter.com/chrisjm"

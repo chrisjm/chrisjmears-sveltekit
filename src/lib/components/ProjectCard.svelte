@@ -8,7 +8,7 @@
 </script>
 
 <div
-  class="max-w-xl lg:max-w-xs rounded overflow-hidden shadow-lg hover:shadow-md mx-4 my-3"
+  class="rounded overflow-hidden shadow-lg hover:shadow-md mx-4 my-3"
 >
   <img class="w-full h-48 object-cover" src={imageUrl} alt={imageAlt} />
   <div class="px-6 py-4">
