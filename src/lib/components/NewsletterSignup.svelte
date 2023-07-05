@@ -6,7 +6,7 @@
   let honeypot: string
 </script>
 
-<Section sectionClasses="bg-blue-900 text-white">
+<Section sectionClasses="bg-sky-900 text-white">
   <div class="content" id="newsletter">
     <div class="mb-6 text-center">
       <h2 class="text-4xl font-bold">Sign up for my newsletter.</h2>

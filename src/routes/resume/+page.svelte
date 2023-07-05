@@ -286,7 +286,7 @@
   <h1 class="text-5xl text-center">{resume.personal.name}</h1>
 
   <div
-    class="text-center mt-10 border-8 rounded p-8 mt-10 border-blue-500 bg-blue-700 text-white border-radius rounded-lg"
+    class="text-center mt-10 border-8 rounded p-8 mt-10 border-sky-500 bg-sky-700 text-white border-radius rounded-lg"
   >
     <div class="flex justify-center">
       <div>
@@ -301,7 +301,7 @@
     <div class="text-center mt-6">
       <a
         href="/contact"
-        class="js-event-track bg-blue-900 border-2 border-white hover:bg-blue-500 text-white font-semibold py-2 px-3 rounded shadow-md hover:shadow-none inline-block no-underline text-xl"
+        class="js-event-track bg-sky-900 border-2 border-white hover:bg-sky-500 text-white font-semibold py-2 px-3 rounded shadow-md hover:shadow-none inline-block no-underline text-xl"
       >
         Let's Chat!
       </a>

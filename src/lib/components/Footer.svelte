@@ -1,14 +1,14 @@
 <script lang="ts">
 </script>
 
-<footer class="bg-blue-800 text-white">
+<footer class="bg-sky-800 text-white">
   <div class="mx-auto p-5 md:p-10">
     <div class="flex flex-col">
       <div class="flex justify-center mb-6">
         <a
           href="https://twitter.com/chrisjm"
           target="_blank"
-          class="text-white hover:text-blue-300"
+          class="text-white hover:text-sky-300"
           aria-label="Twitter"
         >
           <svg
@@ -26,7 +26,7 @@
         <a
           href="https://github.com/chrisjm"
           target="_blank"
-          class="text-white hover:text-blue-300"
+          class="text-white hover:text-sky-300"
           aria-label="Github"
         >
           <svg
@@ -44,7 +44,7 @@
         <a
           href="https://instagram.com/chrisjm"
           target="_blank"
-          class="text-white hover:text-blue-300"
+          class="text-white hover:text-sky-300"
           aria-label="Instagram"
         >
           <svg
@@ -61,7 +61,7 @@
         </a>
         <a
           href="https://www.linkedin.com/in/chrisjm80/"
-          class="text-white hover:text-blue-300"
+          class="text-white hover:text-sky-300"
           target="_blank"
           aria-label="LinkedIn"
         >
@@ -82,7 +82,7 @@
         &copy; {new Date().getFullYear()}
         &nbsp;
         <a
-          class="text-white hover:text-blue-300"
+          class="text-white hover:text-sky-300"
           href="https://wanderingleafstudios.com/"
           target="_blank"
         >

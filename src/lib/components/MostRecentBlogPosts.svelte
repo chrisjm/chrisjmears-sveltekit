@@ -3,10 +3,10 @@
   import Header2 from "$lib/components/Heading2.svelte"
 
   // TODO: Replace `any`
-  export let posts: any[];
+  export let posts: any[]
 </script>
 
-<Section sectionClasses="bg-blue-800 text-white">
+<Section sectionClasses="bg-sky-800 text-white">
   <Header2 title="Most Recent Posts" />
   <ul class="flex flex-col md:flex-row">
     {#each posts as post (post.slug)}
@@ -14,7 +14,7 @@
         <a
           href="/blog/{post.slug}"
           rel="prev"
-          class="hover:text-blue-200 hover:no-underline"
+          class="hover:text-sky-200 hover:no-underline"
         >
           {#if post.frontmatter.header}
             <div class="mb-2">

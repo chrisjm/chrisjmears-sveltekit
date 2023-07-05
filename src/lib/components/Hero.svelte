@@ -2,7 +2,7 @@
   import Section from "$lib/components/Section.svelte"
 </script>
 
-<Section sectionClasses="bg-blue-700 text-white hero">
+<Section sectionClasses="bg-sky-700 text-white hero">
   <div class="flex flex-col md:flex-row items-center">
     <div class="mb-5 md:mb-0 md:mr-10">
       <img
@@ -13,7 +13,7 @@
     </div>
     <div class="flex-1 antialiased">
       <h1 class="text-5xl font-bold mb-2">Hi! My name is Chris.</h1>
-      <h2 class="text-2xl font-bold text-blue-200 mb-6">
+      <h2 class="text-2xl font-bold text-sky-200 mb-6">
         I'm a
         <strong class="text-white">
           Data Visualization Engineer and Data Scientist
@@ -26,7 +26,7 @@
       </h2>
       <a
         href="/contact"
-        class="js-event-track bg-blue-900 border-2 border-white hover:bg-blue-500 text-white font-semibold py-2 px-4 rounded shadow-md hover:shadow-none inline-block no-underline text-xl"
+        class="js-event-track bg-sky-900 border-2 border-white hover:bg-sky-500 text-white font-semibold py-2 px-4 rounded shadow-md hover:shadow-none inline-block no-underline text-xl"
       >
         Contact Me
       </a>

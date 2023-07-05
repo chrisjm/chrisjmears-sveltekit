@@ -6,8 +6,8 @@
 
 <div class="flex flex-col min-h-screen text-gray-900">
   <Header
-    backgroundColor="blue-700"
-    mobileMenuTextColor="blue-700"
+    backgroundColor="sky-700"
+    mobileMenuTextColor="sky-700"
     textColor="white"
   />
 
