@@ -13,5 +13,5 @@
 <Hero />
 <Projects />
 <AboutMe />
-<MostRecentBlogPosts posts={data.posts} />
+<MostRecentBlogPosts posts={data.recentPosts} />
 <NewsletterSignup />

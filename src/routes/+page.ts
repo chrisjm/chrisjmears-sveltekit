@@ -32,5 +32,5 @@ export const load: PageLoad = async ({ params }) => {
       };
     });
 
-  return { posts: recentPosts };
+  return { recentPosts };
 };
