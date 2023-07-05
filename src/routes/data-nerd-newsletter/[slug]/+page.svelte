@@ -1,9 +1,14 @@
 <script lang="ts">
-	import type { PageData } from './$types';
+  import type { PageData } from "./$types"
+  import Section from "$lib/components/Section.svelte"
 
-	export let data: PageData;
+  export let data: PageData
 
-	$: component = data.component;
+  $: component = data.component
 </script>
 
-<svelte:component this={component} />
+<Section containerClasses="container mx-auto max-w-3xl p-5 md:pt-10">
+  <div class="post-content">
+    <svelte:component this={component} />
+  </div>
+</Section>
