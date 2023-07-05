@@ -7,7 +7,7 @@
 </script>
 
 <Section>
-  <h1 class="text-4xl mb-6">Blog</h1>
+  <h1 class="text-4xl mb-6">Blog Archive</h1>
   <BlogList posts={data.allPosts} />
 </Section>
 <NewsletterSignup />
