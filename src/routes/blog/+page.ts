@@ -1,5 +1,6 @@
 import type { PageLoad } from "./$types";
 import { slugFromPath } from "$lib/slugFromPath";
+import sorter from "sorters";
 
 export const load: PageLoad = async ({ params }) => {
   const posts = import.meta.glob(`/src/posts/blog/*.{md,svx,svelte.md}`);
@@ -14,5 +15,9 @@ export const load: PageLoad = async ({ params }) => {
     }
   }
 
-  return { allPosts };
+  return {
+    allPosts: allPosts.sort(
+      sorter({ value: (v) => v.data.metadata.date, descending: true })
+    ),
+  };
 };

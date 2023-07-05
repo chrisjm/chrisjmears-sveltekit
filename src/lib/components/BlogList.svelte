@@ -26,6 +26,8 @@
                 src={post.data.metadata.header.cloudinaryPublicId}
                 width={1152}
                 height={192}
+                gravity="auto"
+                crop="fill"
               />
             {:else}
               <img
