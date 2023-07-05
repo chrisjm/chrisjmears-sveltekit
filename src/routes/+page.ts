@@ -24,7 +24,6 @@ export const load: PageLoad = async ({ params }) => {
     )
     .slice(0, 3)
     .map((p) => {
-      console.log({ header: p.resolvedPost.metadata.header });
       return {
         component: p.resolvedPost.default,
         frontmatter: p.resolvedPost.metadata,
