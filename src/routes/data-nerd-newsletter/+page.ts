@@ -2,7 +2,7 @@ import type { PageLoad } from "./$types";
 import { slugFromPath } from "$lib/slugFromPath";
 
 export const load: PageLoad = async ({ params }) => {
-  const posts = import.meta.glob(`/src/posts/blog/*.{md,svx,svelte.md}`);
+  const posts = import.meta.glob(`/src/posts/data-nerd-newsletter/*.{md,svx,svelte.md}`);
 
   let allPosts = [];
 
