@@ -3,7 +3,7 @@
   export let posts: any[]
 </script>
 
-<div class="blog-list">
+<div>
   {#each posts as post (post.id)}
     <div class="mb-10 leading-normal">
       <a
