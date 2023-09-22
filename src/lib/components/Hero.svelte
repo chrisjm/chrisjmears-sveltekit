@@ -15,12 +15,11 @@
       <h1 class="text-5xl font-bold mb-2">Hi! My name is Chris.</h1>
       <h2 class="text-2xl font-bold text-sky-200 mb-6">
         I'm a
+        <strong class="text-white"> Senior Software Engineer </strong>
+        with a focus in
         <strong class="text-white">
-          Data Visualization Engineer and Data Scientist
-        </strong>
-        with experience in
-        <strong class="text-white">
-          Machine Learning, NLP, Deep Learning, SQL, Python, and JavaScript
+          Data Engineering, Machine Learning, Artificial Intelligence, Svelte,
+          and TypeScript
         </strong>
         .
       </h2>
