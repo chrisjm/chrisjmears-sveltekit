@@ -17,14 +17,12 @@
       <div>
         <ul class="text-lg mb-8">
           <li class="mb-4 leading-tight">
-            I'm Data Visualization Engineer and Data Scientist with JavaScript
-            and Python skills, a love for data analysis, and a passion for
-            machine learning.
+            I'm Senior Software Engineer with a focus on Data Engineering, Data Analysis, Machine Learning, Artificial Intelligence, and Aviation.
           </li>
           <li class="mb-4 leading-tight">
             I'm currently employed as a Senior Engineer with
             <a href="https://www.carevoyance.com" target="_blank">
-              Carevoyance
+              H1 | Carevoyance
             </a>
             , a healthcare business intelligence and sales platform.
           </li>

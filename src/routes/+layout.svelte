@@ -4,6 +4,8 @@
   import "../app.css"
   import { page } from "$app/stores"
 
+  // TODO: Font stuff here?
+
   $: routeId = $page.route.id
   $: isHome = routeId === "/"
 </script>
