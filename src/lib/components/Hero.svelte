@@ -16,11 +16,12 @@
       <h2 class="text-2xl font-bold text-sky-200 mb-6">
         I'm a
         <strong class="text-white">
-          Data Visualization Engineer and Data Scientist
+          Senior-level Software Engineer and aspiring Data Engineer
         </strong>
         with experience in
         <strong class="text-white">
-          Machine Learning, NLP, Deep Learning, SQL, Python, and JavaScript
+          Python, SQL, JavaScript/TypeScript, Data Analysis, Machine Learning,
+          and AI
         </strong>
         .
       </h2>

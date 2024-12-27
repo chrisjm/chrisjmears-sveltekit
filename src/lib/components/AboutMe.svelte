@@ -17,19 +17,10 @@
       <div>
         <ul class="text-lg mb-8">
           <li class="mb-4 leading-tight">
-            I'm Data Visualization Engineer and Data Scientist with JavaScript
-            and Python skills, a love for data analysis, and a passion for
-            machine learning.
+            As an accomplished Senior Software Engineer transitioning into Data Engineering, I bring a strong foundation in JavaScript and Python, complemented by my expertise in data analysis and statistics. My passion for machine learning and artificial intelligence fuels my commitment to harnessing data to drive actionable insights and innovative solutions.
           </li>
           <li class="mb-4 leading-tight">
-            I'm currently employed as a Senior Engineer with
-            <a href="https://www.carevoyance.com" target="_blank">
-              Carevoyance
-            </a>
-            , a healthcare business intelligence and sales platform.
-          </li>
-          <li class="mb-4 leading-tight">
-            I also own and operate a
+            I own and operate a
             <a href="https://www.wanderingleafstudios.com" target="_blank">
               data analytics consulting business
             </a>
@@ -41,7 +32,7 @@
             <a href="https://www.openbrewerydb.org/" target="_blank">
               Open Brewery DB
             </a>
-            , and rescue dog owner.
+            , and proud rescue dog owner.
           </li>
           <li class="mb-4 leading-tight"></li>
         </ul>

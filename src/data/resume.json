@@ -1,0 +1,328 @@
+{
+  "basics": {
+    "name": "Chris J Mears",
+    "label": "Senior Software Engineer",
+    "image": "",
+    "email": "chris.mears@gmail.com",
+    "phone": "(415) 830-5258",
+    "url": "https://chrisjmears.com",
+    "summary": "Senior software engineer with over ten years of experience in full-stack web engineering, specializing in TypeScript, Node.js, Python, and SQL. Enhanced data accessibility by transforming billions of claims data into BigQuery for analytics and architected robust pipeline systems that improved operational efficiency while managing cloud services across AWS and Google Cloud platforms.",
+    "location": {
+      "address": "",
+      "postalCode": "",
+      "city": "San Diego",
+      "countryCode": "US",
+      "region": "California"
+    },
+    "profiles": [
+      {
+        "network": "LinkedIn",
+        "username": "chrisjm80",
+        "url": "https://www.linkedin.com/in/chrisjm80"
+      },
+      {
+        "network": "Github",
+        "username": "chrisjm",
+        "url": "https://github.com/chrisjm"
+      }
+    ]
+  },
+  "work": [
+    {
+      "name": "Definitive Healthcare / Carevoyance",
+      "position": "Senior Software Engineer",
+      "url": "https://www.definitivehc.com/carevoyance",
+      "startDate": "2024-01-01",
+      "endDate": "2024-07-19",
+      "summary": "Something about being acquired and part of the acquisition team and working as an alternate Data Engineer for integrating the data.",
+      "highlights": [
+        "Implemented data pipelines to transform billions of Medicare and proprietary claims data, load into BigQuery, and import into PostgreSQL via scheduled Node.js scripts, enhancing data accessibility for analytics and in-product usage."
+      ]
+    },
+    {
+      "name": "Definitive Healthcare / Carevoyance",
+      "position": "Senior Software Engineer",
+      "url": "https://www.definitivehc.com/carevoyance",
+      "startDate": "2021-10-01",
+      "endDate": "2023-12-31",
+      "summary": "Something about getting acquired by H1 and transitioning positions from a front-end software engineer to more back-end software engineer.",
+      "highlights": [
+        "Generated comprehensive reports using Svelte and an Express.js API server on key healthcare business metrics, including Total ROI, Readmissions, and procedure referrals analysis, providing critical insights that informed strategic initiatives that increased customer usage by 20%.",
+        "Developed new features for a custom PowerPoint generation system using Python and TypeScript, implementing data-generated charts, enabling customers to generate accurate, real-time embedded charts that saved an average of 10 hours each week per user.",
+        "Managed Elasticsearch and custom graph database operations while overseeing AWS and Google Cloud cloud services, enhancing system reliability and performance while maintaining consistent costs."
+      ]
+    },
+    {
+      "name": "Carevoyance",
+      "position": "Senior Software Engineer",
+      "url": "https://www.definitivehc.com/carevoyance",
+      "startDate": "2021-02-01",
+      "endDate": "2021-09-30",
+      "summary": "Early engineering hire at a twice-acquired healthcare claims analytics startup, contributing to the development of innovative solutions through data visualization, UI architecture, and data pipeline integration.",
+      "highlights": [
+        "Collaborated on a small engineering team within an enterprise-level monolithic platform, focusing on feature building, data architecture, and system design principles to ensure scalability, security, and performance.",
+        "Engineered the initial UI architecture and data visualization projects using AngularJS and Svelte, enhancing user experience and interface functionality, which resulted in a 20% increase in user engagement.",
+        "Created Google Looker Studio dashboards generated from daily-updated Google Cloud Storage data, transforming complex user analytics datasets from PostgreSQL into actionable visualizations for managers, improving stakeholder decision-making efficiency by 50%.",
+        "Mastered foundational knowledge in data analysis, data engineering, and API development to support team initiatives."
+      ]
+    },
+    {
+      "name": "Wandering Leaf Studios, LLC",
+      "position": "Owner / Software Engineer / Data Engineer / Data Analyst",
+      "url": "https://wanderingleafstudios.com",
+      "startDate": "2014-01-01",
+      "endDate": "2021-01-31",
+      "summary": "Established a consulting business that empowers clients to discover hidden data insights, increasing actionable strategies by 30% through tailored analytics and technology solutions.",
+      "highlights": [
+        "Increased online sales by over $200k in six months by enhancing a brewery’s Shopify eCommerce solution, configuring data analytics to collect relevant customer data for email marketing, and collaborating on creative solutions for shipping and logistics problems.",
+        "Facilitated effective communication with clients through multiple support channels, providing timely debugging support and improving client satisfaction ratings by 15%.",
+        "Elevated sales by 50% over the previous year using data-driven analysis, A/B testing, and geo-targeted segmentation with Google AdWords campaigns.",
+        "Automated queries and text scraping using Zapier and cloud computing to reduce weekly administration tasks by over 50%."
+      ]
+    },
+    {
+      "name": "Amazon / Goodreads",
+      "position": "Web Development Engineer II",
+      "url": "https://www.goodreads.com",
+      "startDate": "2013-02-01",
+      "endDate": "2014-05-01",
+      "summary": "Hired pre-Amazon acquisition and contributor to mobile web development team on a product used by millions of users.",
+      "highlights": [
+        "Built cross-browser and cross-device compliant mobile web app using Ruby on Rails and JavaScript.",
+        "Mentored junior team members on web development conventions and best practices."
+      ]
+    },
+    {
+      "name": "Canned Banners",
+      "position": "Technical Co-Founder",
+      "startDate": "2009-01-01",
+      "endDate": "2013-02-01",
+      "summary": "Technical co-founder at a three-person bootstrapped advertising tech startup that culminated in a successful acquisition by Adacus in January 2018.",
+      "highlights": [
+        "Designed the backend for a data-driven ad creation product, generating consistent revenue over 5 years with minimal maintenance.",
+        "Architected a robust PHP backend platform, automating reporting and configuring data pipelines and storage solutions using AWS cloud services, resulting in operational efficiency and minimal costs.",
+        "Drove strategic technical decisions that enhanced team productivity and project outcomes while fulfilling multiple roles, including data engineer, lead software developer, systems administrator, database administrator, and cloud systems architect."
+      ]
+    },
+    {
+      "name": "Cisco Systems",
+      "position": "Software Engineer III",
+      "url": "https://www.cisco.com/",
+      "startDate": "2010-01-01",
+      "endDate": "2011-06-01",
+      "summary": "Initially hired as a contract-to-hire Software Engineer III, transitioning to a full-time Front-End Engineer role, contributing to optimizing user experience and enhancing the performance of enterprise-level media solutions.",
+      "highlights": [
+        "Redesigned front-end code, resulting in a 5% reduction in download times and increased browser compatibility for an enterprise-level media platform.",
+        "Influenced the internationalization (i18n) effort, collaborating with senior developers to implement custom text replacement, enhancing accessibility for global users in the Cisco Media Solutions Group."
+      ]
+    },
+    {
+      "name": "Foodbuzz, Inc",
+      "position": "Front-end Web Developer",
+      "startDate": "2008-09-01",
+      "endDate": "2009-08-01",
+      "summary": "Transitioned to a Full-stack Web Developer role, focusing on establishing robust front-end solutions and fostering best practices in coding standards within a startup environment.",
+      "highlights": [
+        "Established the front-end web development framework for a small startup, initiating team coding standards, code quality, code review, and collaboration."
+      ]
+    },
+    {
+      "name": "Wine Institute",
+      "position": "Information Technology Manager",
+      "url": "https://wineinstitute.org/",
+      "startDate": "2005-06-01",
+      "endDate": "2008-09-01",
+      "summary": "Pioneered the IT department as the first hire at the Wine Institute, driving significant improvements in technology infrastructure and operations within a non-profit environment.",
+      "highlights": [
+        "Continuously improved the non-profit’s IT infrastructure with a minimal budget, resulting in 99% system uptime and enhanced user satisfaction.",
+        "Migrated the main member database and re-branded the website, leading to a 10% increase in website traffic; managed network security, asset management, and comprehensive documentation."
+      ]
+    },
+    {
+      "name": "Progressive Insurance",
+      "position": "Telecom Specialist II",
+      "url": "https://www.progressive.com/",
+      "startDate": "2003-07-01",
+      "endDate": "2005-02-01",
+      "summary": "Acquired technical expertise in telecommunications and network support, focusing on data management, security protocols, and customer service in a corporate environment.",
+      "highlights": [
+        "Delivered Tier 2 network support to over 400 remote offices nationwide, resolving more than 80% of issues on the first call and maintaining active communication with major carriers like AT&T and MCI Worldcom.",
+        "Led a data and voice network management initiative using HP OpenView to monitor network devices, resulting in a 20% improvement in response times and automated ticket generation through Remedy.",
+        "Pioneered comprehensive voice and data security procedures, reducing vulnerability to hacker and virus attacks."
+      ]
+    },
+    {
+      "name": "NCR",
+      "position": "Project Assistant (Intern)",
+      "url": "https://www.ncrvoyix.com/",
+      "startDate": "2002-06-01",
+      "endDate": "2002-08-01",
+      "summary": "Engaged in a focused internship at NCR, contributing to the implementation of network solutions and enhancing customer connectivity.",
+      "highlights": [
+        "Assisted in deploying a VPN program to over 1,000 employees and customers, enhancing secure access and connectivity for clients within NPR."
+      ]
+    },
+    {
+      "name": "BAE Systems",
+      "position": "Web Developer (Intern)",
+      "url": "https://www.baesystems.com/",
+      "startDate": "2000-06-01",
+      "endDate": "2001-08-01",
+      "summary": "Gained hands-on experience in web development, collaborating with a corporate team to deliver critical applications for defense clients.",
+      "highlights": [
+        "Collaborated with a corporate web team to develop 3 ColdFusion web applications for the U.S. Navy (AEGIS) and Defense Energy Support Center (DESC), enhancing operational efficiency and user experience."
+      ]
+    }
+  ],
+  "education": [
+    {
+      "institution": "Georgia Institute of Technology",
+      "url": "https://gatech.edu/",
+      "area": "Analytics (OMSA) Computational Data Analytics Track",
+      "studyType": "Online Master of Science",
+      "startDate": "2024-08-01",
+      "endDate": "2028-06-01",
+      "courses": [
+        "Computing for Data Analysis (Python, Pandas, SQLite, NumPy, scikit-learn)",
+        "Business Fundamentals for Analytics: Accounting, Supply Chain, Finance Management, Marketing, Business Strategy"
+      ]
+    },
+    {
+      "institution": "Ohio University",
+      "url": "https://ohio.edu/",
+      "area": "Communication Systems Management",
+      "studyType": "Bachelor of Science",
+      "startDate": "1999-09-01",
+      "endDate": "2003-05-01",
+      "courses": ["Minor in Business Administration; Calculus, Data Networks"]
+    }
+  ],
+  "certificates": [
+    {
+      "name": "Data Science Career Track, Data Science (April 2020 cohort)",
+      "date": "2021-01-01",
+      "issuer": "Springboard",
+      "url": "https://www.coursera.org/account/accomplishments/specialization/77F6S8V7QERX",
+      "summary": "600+ hours of hands-on curriculum, with 1:1 industry expert mentor oversight, and completion of 2 in-depth capstone projects. Mastering skills in Python, SQL, data analysis, data visualization, hypothesis testing, and machine learning."
+    }
+  ],
+  "publications": [
+    {
+      "name": "TextMate How-to",
+      "publisher": "Packt Publishing",
+      "releaseDate": "2012-10-26",
+      "summary": "ISBN: 1849693986"
+    }
+  ],
+  "skills": [
+    {
+      "name": "Programming",
+      "keywords": [
+        "Python",
+        "SQL",
+        "JavaScript",
+        "TypeScript",
+        "Ruby",
+        "PHP",
+        "HTML",
+        "CSS"
+      ]
+    },
+    {
+      "name": "Machine Learning",
+      "keywords": [
+        "scikit-learn",
+        "spaCy",
+        "regression models",
+        "classification/clustering models",
+        "NumPy"
+      ]
+    },
+    {
+      "name": "Database & Data Storage",
+      "keywords": [
+        "Relational",
+        "NoSQL",
+        "MySQL",
+        "Postgres",
+        "MongoDB",
+        "S3",
+        "RDS",
+        "Google Cloud Storage (GCS)",
+        "Databricks"
+      ]
+    },
+    {
+      "name": "Cloud Services",
+      "keywords": ["Amazon Web Services (AWS)", "Google Cloud Platform (GCP)"]
+    },
+    {
+      "name": "DevOps",
+      "keywords": ["Docker", "Github", "Github Actions"]
+    },
+    {
+      "name": "Tools",
+      "keywords": [
+        "bash",
+        "git",
+        "Github",
+        "Jira",
+        "Linux",
+        "NumPy",
+        "Pandas",
+        "SciPy",
+        "UNIX",
+        "Vim",
+        "VS Code",
+        "Jupyter",
+        "Spark",
+        "PySpark",
+        "BigQuery"
+      ]
+    },
+    {
+      "name": "Data Visualization & Deployment",
+      "keywords": [
+        "Tableau",
+        "Seaborn",
+        "Matplotlib",
+        "Streamlit",
+        "Google Looker Studio"
+      ]
+    },
+    {
+      "name": "Research & Analysis",
+      "keywords": [
+        "A/B Testing",
+        "Data Visualization",
+        "Exploratory Data Analysis (EDA)",
+        "Extract Transform Load (ETL)",
+        "Hypothesis Testing",
+        "Data Mining",
+        "Data Management"
+      ]
+    }
+  ],
+  "projects": [
+    {
+      "name": "Brewery Review Analysis with Natural Language Processing (NLP) and Named Entity Recognition (NER)",
+      "description": "Springboard Data Science Career Track Capstone Project",
+      "url": "https://chrisjm.co/brewery-nlp",
+      "startDate": "2020-11-01",
+      "endDate": "2021-01-01"
+    },
+    {
+      "name": "Credit Card Fraud Analysis and Prediction",
+      "description": "Springboard Data Science Career Track Capstone Project",
+      "url": "https://chrisjm.co/cc-fraud-analysis",
+      "startDate": "2020-06-01",
+      "endDate": "2020-09-01"
+    },
+    {
+      "name": "Open Brewery DB",
+      "description": "Open source dataset and API of breweries.",
+      "url": "https://www.openbrewerydb.org/",
+      "startDate": "2018-08-01"
+    }
+  ]
+}
