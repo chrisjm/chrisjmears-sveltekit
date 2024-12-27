@@ -43,7 +43,7 @@
             </a>
             , and rescue dog owner.
           </li>
-          <li class="mb-4 leading-tight" />
+          <li class="mb-4 leading-tight"></li>
         </ul>
       </div>
     </div>

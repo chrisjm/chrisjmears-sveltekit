@@ -1,10 +1,21 @@
 <script lang="ts">
-  export let title: string
-  export let description: string
-  export let tags: string[]
-  export let imageUrl: string
-  export let imageAlt: string
-  export let links: { url: string; text: string }[]
+  interface Props {
+    title: string;
+    description: string;
+    tags: string[];
+    imageUrl: string;
+    imageAlt: string;
+    links: { url: string; text: string }[];
+  }
+
+  let {
+    title,
+    description,
+    tags,
+    imageUrl,
+    imageAlt,
+    links
+  }: Props = $props();
 </script>
 
 <div

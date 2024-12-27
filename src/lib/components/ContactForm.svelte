@@ -1,8 +1,8 @@
 <script lang="ts">
-  let fullName: string;
-  let botField: string;
-  let email: string;
-  let message: string;
+  let fullName: string = $state();
+  let botField: string = $state();
+  let email: string = $state();
+  let message: string = $state();
 
   function handleSubmit(event: CustomEvent) {
     console.log(event);
@@ -14,7 +14,7 @@
   <form
     name="contact"
     method="post"
-    on:submit={handleSubmit}
+    onsubmit={handleSubmit}
   >
     <!-- The `form-name` hidden field is required to support form submissions without JavaScript -->
     <input type="hidden" name="form-name" value="contact" />
@@ -56,7 +56,7 @@
           class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           name="message"
           bind:value={message}
-        />
+></textarea>
       </label>
     </p>
     <p>

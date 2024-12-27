@@ -2,8 +2,13 @@
   import Section from "$lib/components/Section.svelte"
   import Header2 from "$lib/components/Heading2.svelte"
 
-  // TODO: Replace `any`
-  export let posts: any[]
+  
+  interface Props {
+    // TODO: Replace `any`
+    posts: any[];
+  }
+
+  let { posts }: Props = $props();
 </script>
 
 <Section sectionClasses="bg-sky-800 text-white">

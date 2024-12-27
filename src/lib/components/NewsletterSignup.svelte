@@ -1,9 +1,9 @@
 <script lang="ts">
   import Section from "$lib/components/Section.svelte"
 
-  let firstName: string
-  let email: string
-  let honeypot: string
+  let firstName: string = $state()
+  let email: string = $state()
+  let honeypot: string = $state()
 </script>
 
 <Section sectionClasses="bg-sky-900 text-white">

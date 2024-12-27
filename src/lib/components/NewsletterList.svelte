@@ -1,5 +1,9 @@
 <script lang="ts">
-  export let posts: any[]
+  interface Props {
+    posts: any[];
+  }
+
+  let { posts }: Props = $props();
 </script>
 
 <ul class="post-list mt-12">

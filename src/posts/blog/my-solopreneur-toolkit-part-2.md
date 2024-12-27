@@ -25,9 +25,9 @@ It's a simple fact that we humans need to communicate with other humans. Some to
 
 📝 Note: Since my work (i.e., coding 🤓) requires a certain amount of concentration, all of the tools I use have a silence feature so that I can (attempt to) get into [flow](<https://en.wikipedia.org/wiki/Flow_(psychology)>). When I need a little extra concentration, I use the Do Not Disturb setting on my phone and computer, though sometimes I forget to turn them off. Oops.
 
-### [Calendly](https://calendly.com/)
+### Calendly
 
-Calendly allows me to schedule meetings with clients efficiently and removes the awkward email back-and-forth. The service connects to my Google Calendar (it also links to Office 365, Outlook and iCloud) and synchronizes automatically so that it won't show a time when I'm busy. It requires me to keep my calendar up-to-date, but that's an easy task for my [weekly review](https://gettingthingsdone.com/wp-content/uploads/2014/10/Weekly_review1.pdf).
+[Calendly](https://calendly.com/) allows me to schedule meetings with clients efficiently and removes the awkward email back-and-forth. The service connects to my Google Calendar (it also links to Office 365, Outlook and iCloud) and synchronizes automatically so that it won't show a time when I'm busy. It requires me to keep my calendar up-to-date, but that's an easy task for my [weekly review](https://gettingthingsdone.com/wp-content/uploads/2014/10/Weekly_review1.pdf).
 
 To get more than one event type (i.e., a different length or type of meeting) and some other helpful features such as event reminder and simple metrics, you need to pay for the Pro version ($8-10/mo; annual vs. monthly). However, to accept payments (Stripe and Paypal) and hook up Google Analytics, the price increases to $12-15/mo (yearly vs. monthly).
 
@@ -36,7 +36,7 @@ Overall, Calendly automates the majority of the scheduling headaches and allows 
 **Purpose:** Scheduling<br>
 **Cost:** Free (for one event type) - \$15/mo
 
-### [Gmail](https://mail.google.com/) (though Google Inbox forever!)
+### Gmail (though Google Inbox forever!)
 
 I'll admit, I was a [Google Inbox](https://inbox.google.com/) user. However, since [Google decided to discontinue the service in March 2019](https://www.blog.google/products/gmail/inbox-signing-find-your-favorite-features-new-gmail/), I switched back to Gmail this past week.
 
@@ -49,18 +49,18 @@ I hadn't used Gmail for a long time, but they did incorporate most of the best p
 **Purpose:** Email<br>
 **Cost:** Free
 
-### [Google Calendar](http://calendar.google.com/)
+### Google Calendar
 
-I couldn't live without my calendar. It keeps my days organized and sane. I've been using Google Calendar since almost the beginning. It syncs across all of my devices, and I can view it from almost anywhere. I can share it with friends or family and even add other online calendars.
+I couldn't live without my [Google Calendar](https://calendar.google.com/). It keeps my days organized and sane. I've been using Google Calendar since almost the beginning. It syncs across all of my devices, and I can view it from almost anywhere. I can share it with friends or family and even add other online calendars.
 
 I've tried the other popular calendar apps, but Google Calendar is the best interface for my workflow. Now if only Google Calendar's iOS app was more user-friendly. 😕
 
 **Purpose:** Scheduling<br>
 **Cost:** Free
 
-### [Slack](https://slack.com/)
+### Slack
 
-Essentially a series of chat groups and channels, it can be exceptionally useful and paradoxically supremely overwhelming.
+Essentially a series of chat groups and channels, [Slack](https://slack.com/) can be exceptionally useful and paradoxically supremely overwhelming.
 
 I use Slack as a combination of real-time chat and a repository of information for later use by using the [Star](https://get.slack.help/hc/en-us/articles/201331016-Star-channels-messages-or-files) and [Search](https://get.slack.help/hc/en-us/articles/202528808-Guide-to-search-in-Slack-) features.
 
@@ -77,11 +77,11 @@ All-in-all, I find it an effective way to communicate quickly and reliably with 
 **Purpose:** Chat<br>
 **Cost:** Free; Standard Plan \$6.67-8.00 per active user per month (annual vs. monthly payment)
 
-### [Zoom](https://zoom.us/)
+### Zoom
 
 Despite being an introvert, I do admit that face-to-face communication is a necessary evil to assure clients that I'm not crazy. 🤪
 
-All joking aside, screen sharing and pair programming, along with video chats with clients, are a big part of my day-to-day and Zoom offers the best quality and features for solo business owners and freelancers.
+All joking aside, screen sharing and pair programming, along with video chats with clients, are a big part of my day-to-day and [Zoom](https://zoom.us/) offers the best quality and features for solo business owners and freelancers.
 
 The free plan allows for unlimited 1-on-1 video conference time. You can also host up to 100 participants for up to 40 minutes. If you need to record meetings or work with a team, the plans are relatively reasonable.
 

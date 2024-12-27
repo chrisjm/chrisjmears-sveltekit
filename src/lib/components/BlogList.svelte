@@ -1,6 +1,10 @@
 <script lang="ts">
   import { CldImage } from "svelte-cloudinary"
-  export let posts: any[]
+  interface Props {
+    posts: any[]
+  }
+
+  let { posts }: Props = $props()
 </script>
 
 <div>
@@ -22,6 +26,7 @@
           <a href="/blog/{post.id}">
             {#if post.data.metadata.header.cloudinaryPublicId}
               <CldImage
+                config={{ cloud: { cloudName: "wanderingleafstudios" } }}
                 class="w-full h-48 object-cover"
                 src={post.data.metadata.header.cloudinaryPublicId}
                 width={1152}

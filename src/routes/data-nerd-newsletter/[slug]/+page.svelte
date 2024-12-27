@@ -2,13 +2,18 @@
   import type { PageData } from "./$types"
   import Section from "$lib/components/Section.svelte"
 
-  export let data: PageData
+  interface Props {
+    data: PageData;
+  }
 
-  $: component = data.component
+  let { data }: Props = $props();
+
+  let component = $derived(data.component)
 </script>
 
 <Section containerClasses="container mx-auto max-w-3xl p-5 md:pt-10">
+  {@const SvelteComponent = component}
   <div class="post-content">
-    <svelte:component this={component} />
+    <SvelteComponent />
   </div>
 </Section>

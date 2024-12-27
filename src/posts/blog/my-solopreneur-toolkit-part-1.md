@@ -29,9 +29,9 @@ As a solo business owner, I try to keep things simple when it comes to my projec
 
 These are the tools I use every day to get things done, keep existing clients informed, and onboard new customers.
 
-### [Todoist](https://todoist.com)
+### Todoist
 
-I've been a Todoist user for most of my professional career. Since it syncs across devices and platforms, I use it as my primary task inbox (_side note: I use the built-in iOS Reminders for grocery and simple lists_).
+I've been a [Todoist](https://todoist.com/) user for most of my professional career. Since it syncs across devices and platforms, I use it as my primary task inbox (_side note: I use the built-in iOS Reminders for grocery and simple lists_).
 
 I have Projects and sub-projects for granularity and so that I can archive a Project when it's not currently in use. My top-level projects are:
 
@@ -45,11 +45,11 @@ While it's not for everyone, Todoist's features are in-line with my workflow. Al
 **Purpose:** Todo list<br>
 **Cost:** Free or \$29/year for Premium
 
-### [Trello](https://trello.com/)
+### Trello
 
 I come from a software development background, so I find the action of moving cards horizontally from one list to another to be oddly satisfying (see the [HBO series "Silicon Valley"](https://www.youtube.com/watch?v=oyVksFviJVE) or [read more about Kanban](https://www.atlassian.com/agile/kanban/boards)).
 
-Trello tends to confuse people, and I understand why. I initially found it challenging to create new boards. However, once I saw the [Inspiration Boards](https://trello.com/inspiration), everything became more evident.
+[Trello](https://trello.com/) tends to confuse people, and I understand why. I initially found it challenging to create new boards. However, once I saw the [Inspiration Boards](https://trello.com/inspiration), everything became more evident.
 
 I have boards for my clients, yearly goals, code projects, study plans, etc. To reduce being overwhelmed, I ensure I'm only actively working on 6 or fewer boards at any given time by using the [Starred Boards feature](https://help.trello.com/article/965-starring-a-board).
 
@@ -69,23 +69,23 @@ Google Docs has quite a bit of notoriety surrounding it, so I won't go into deta
 
 While my current setup works best for me, future changes to my business may dictate I change ways. Since we must always be willing to adapt to our surroundings, these are a few other project management tools I've considered and am considering for the future.
 
-### [Basecamp](https://basecamp.com/)
+### Basecamp
 
-Long-standing project management tool, but priced best for teams of two or more. That said, their customer support is incomparable. They love their customers, and it shows.
+[Bandcamp](https://bandcamp.com/) is a long-standing project management tool, but priced best for teams of two or more. That said, their customer support is incomparable. They love their customers, and it shows.
 
 **Purpose:** Project management for teams (2+)<br>
 **Pricing:** \$99/month all-inclusive
 
-### [Notion](https://www.notion.so/)
+### Notion
 
-Notion provides an all-in-one collaboration tool. I tried it for a day but found it overwhelming. However, I've heard good things from users, and I understand the appeal. For now, I'll stick with moving my cards between lists 😆.
+[Notion](https://www.notion.so/) provides an all-in-one collaboration tool. I tried it for a day but found it overwhelming. However, I've heard good things from users, and I understand the appeal. For now, I'll stick with moving my cards between lists 😆.
 
 **Purpose:** All-in-one collaborative workplace<br>
 **Price:** Free up to \$8/user/month.
 
-### [Monday](https://monday.com/)
+### Monday
 
-This project management tool has popped up on my radar recently. It looks beautiful and user-friendly. However, it also seems most useful for and marketed towards medium-to-large teams of 5 or more.
+The [Monday](https://www.monday.com/) project management tool has popped up on my radar recently. It looks beautiful and user-friendly. However, it also seems most useful for and marketed towards medium-to-large teams of 5 or more.
 
 **Purpose:** Project management<br>
 **Pricing:** Basic plan is \$25/month for up to 5 users. The price only goes up from there.

@@ -7,7 +7,11 @@
   import type { PageData } from "./$types"
   import MostRecentBlogPosts from "$lib/components/MostRecentBlogPosts.svelte"
 
-  export let data: PageData
+  interface Props {
+    data: PageData;
+  }
+
+  let { data }: Props = $props();
 </script>
 
 <Hero />

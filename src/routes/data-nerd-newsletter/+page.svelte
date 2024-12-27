@@ -3,7 +3,11 @@
   import Section from "$lib/components/Section.svelte"
   import NewsletterList from "$lib/components/NewsletterList.svelte"
   import NewsletterSignup from "$lib/components/NewsletterSignup.svelte"
-  export let data: PageData
+  interface Props {
+    data: PageData;
+  }
+
+  let { data }: Props = $props();
 </script>
 
 <Section>

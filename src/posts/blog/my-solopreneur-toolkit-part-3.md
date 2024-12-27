@@ -21,27 +21,27 @@ In the third part of "My Solopreneur Toolkit" series, I'll go over the services 
 
 If you missed the first two parts, they are [Part 1: Project Management & Productivity](https://chrisjmears.com/blog/my-solopreneur-toolkit-part-1/) and [Part 2: Communication & Scheduling](https://chrisjmears.com/blog/my-solopreneur-toolkit-part-2/). I'll wrap up this series next week with "Part 4: Web Hosting & Email Marketing."
 
-## [Google Sheets](https://www.google.com/sheets/about/) 📊
+## Google Sheets 📊
 
-All right, I know I mentioned Google Sheets in the last part with Google Docs, but spreadsheets are a business necessity because they are just so darn useful. While Microsoft Excel is king, the ability to collaborate is becoming more popular. Sharing one link is much easier more efficient than sending multiple files back and forth via email.
+All right, I know I mentioned [Google Sheets](https://www.google.com/sheets/about/) in the last part with Google Docs, but spreadsheets are a business necessity because they are just so darn useful. While Microsoft Excel is king, the ability to collaborate is becoming more popular. Sharing one link is much easier more efficient than sending multiple files back and forth via email.
 
 I mostly use Google Sheets to share analysis data but also use it for quick scheduling tables and CSV imports.
 
 **Purpose:** Spreadsheets<br>
 **Cost:** Free
 
-## [HelloSign](https://www.hellosign.com/) ✍️
+## HelloSign ✍️
 
-HelloSign has been around for a long time and facilitates the signing of documents such as contracts and proposals. While you'll likely find HelloSign integrated with other all-in-one business services, I like having a separate account for one-off reasons and access to their API.
+[HelloSign](https://www.hellosign.com/) has been around for a long time and facilitates the signing of documents such as contracts and proposals. While you'll likely find HelloSign integrated with other all-in-one business services, I like having a separate account for one-off reasons and access to their API.
 
 Upload a document or integrate with Google Docs. Select where you want the recipient(s) to sign. Send. It only gets faster with the other automated service integrations such as Zapier.
 
 **Purpose:** Document signing<br>
 **Cost:** Free (3 documents per month); \$13-15/month (unlimited documents)
 
-## [Legal Zoom](https://www.legalzoom.com/) ⚖️
+## Legal Zoom ⚖️
 
-I'm very happy for services like Legal Zoom which helps makes the process of setting up a business and other complex legal services as painless as possible.
+I'm very happy for services like [Legal Zoom](https://www.legalzoom.com/) which helps makes the process of setting up a business and other complex legal services as painless as possible.
 
 Legal Zoom has packages which walk you through legal processes such as Business Formation, Intellectual Property, and even Wills and Trusts. Each service has it's own price tag, so you'll need to research based on your needs.
 
@@ -50,9 +50,9 @@ Despite the cost, I found it was worth it not to have to spend the time filling 
 **Purpose:** Legal<br>
 **Cost:** LLC Packages starting at \$79 + filing fees
 
-## [Track.tax](https://www.track.tax/) 💰
+## Track.tax 💰
 
-In the United States, paying tax as a solo business owner is tough and complicated. Most solopreneurs I know are sole proprietors (either with or without an LLC). This tax designation means they are required to pay both a self-employment tax and as well as state and federal (and sometimes city) income tax.
+In the United States, paying tax as a solo business owner is tough and complicated. Most solopreneurs I know are sole proprietors (either with or without an LLC). [Track.tax](https://track.tax/) designation means they are required to pay both a self-employment tax and as well as state and federal (and sometimes city) income tax.
 
 Additionally, you're required to pay quarterly federal and state taxes, which are usually determined by your previous year's income tax.
 
@@ -63,9 +63,9 @@ This is the first year I'm using their service. So far it has saved me a bunch o
 **Purpose:** United States federal income tax payment<br>
 **Cost:** \$21/month after a free trial
 
-## [Stripe](https://stripe.com/) & [Braintree](https://www.braintreepayments.com/) 💸
+## Stripe & Braintree 💸
 
-Payment gateways are necessary if you're going to accept money online. Both Stripe and Braintree make this process uncomplicated.
+Payment gateways are necessary if you're going to accept money online. Both [Stripe](https://stripe.com/) and [Braintree](https://www.braintreepayments.com/) make this process uncomplicated.
 
 I like Stripe for its excellent documentation and easy-to-implement solutions. Also, their website designs are top notch and absolutely beautiful.
 
@@ -74,9 +74,9 @@ Braintree is a lot like Stripe, but a Paypal company. Because of this, they inte
 **Purpose:** Payment gateway<br>
 **Cost:** 2.9% + \$0.30 per transaction
 
-## [Xero](https://www.xero.com/) 💵
+## Xero 💵
 
-I have mixed feelings about Xero. I chose the accounting service initially a few years ago as I was making my bookkeeping software comparison and I knew I wanted an online option. However, it might be time for a change.
+I have mixed feelings about [Xero](https://www.xero.com/). I chose the accounting service initially a few years ago as I was making my bookkeeping software comparison and I knew I wanted an online option. However, it might be time for a change.
 
 It is a powerful and versatile bookkeeping service. But I find it's not exceptionally user-friendly and is rather over-featured for a solo business owner.
 

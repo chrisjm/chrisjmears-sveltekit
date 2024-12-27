@@ -1,5 +1,9 @@
 <script lang="ts">
-  export let title = "Heading 2 Placeholder"
+  interface Props {
+    title?: string;
+  }
+
+  let { title = "Heading 2 Placeholder" }: Props = $props();
 </script>
 
 <div class="mb-10 text-center">

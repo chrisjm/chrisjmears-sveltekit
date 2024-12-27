@@ -23,18 +23,18 @@ I conclude this toolkit series with Web Hosting and Email Marketing.
 
 If you missed the first three parts, they are [Part 1: Project Management & Productivity](https://chrisjmears.com/blog/my-solopreneur-toolkit-part-1/) and [Part 2: Communication & Scheduling](https://chrisjmears.com/blog/my-solopreneur-toolkit-part-2/), and [Part 3: Business & Finance](https://chrisjmears.com/blog/my-solopreneur-toolkit-part-3/).
 
-## [DigitalOcean](https://www.digitalocean.com/) 💦
+## DigitalOcean 💦
 
-While I'm a big fan of DigitalOcean, they are difficult for me to recommend to non-technical folks. However, it's one of the most user-friendly cloud platform services available (other examples being [AWS](https://aws.amazon.com/) and [Linode](https://www.linode.com/)).
+While I'm a big fan of [DigitalOcean](https://www.digitalocean.com/), they are difficult for me to recommend to non-technical folks. However, it's one of the most user-friendly cloud platform services available (other examples being [AWS](https://aws.amazon.com/) and [Linode](https://www.linode.com/)).
 
 Due to the nature of their business, you will need some developer chops or cloud computing knowledge in order to use it successfully. Alternatively, depending on your budget, you could hire someone to set you up a server. If set up correctly, your private server could last you for several months or years with minimal maintenance.
 
 **Purpose:** Web Hosting<br>
 **Cost:** Starts at \$5/month
 
-## [Drip](https://www.getdrip.com/) 💧
+## Drip 💧
 
-Drip is one of the more pricey email marketing services because they specialize in [drip campaigns](https://en.wikipedia.org/wiki/Drip_marketing) and [transactional emails](https://en.wikipedia.org/wiki/Email_marketing#Transactional_emails) (i.e., massive amounts of emails).
+[Drip](https://www.getdrip.com/) is one of the more pricey email marketing services because they specialize in [drip campaigns](https://en.wikipedia.org/wiki/Drip_marketing) and [transactional emails](https://en.wikipedia.org/wiki/Email_marketing#Transactional_emails) (i.e., massive amounts of emails).
 
 Their interface is a bit on the unintuitive-side, especially for someone who isn't familiar with email marketing (i.e., me 😬). That said, it is very powerful, and I would eventually like to explore some more of the advanced features once I get to releasing video courses (e.g., determining users who only get through 50% of a video).
 
@@ -43,27 +43,27 @@ Personal note, I moved this newsletter list from Drip to MailChimp last week bec
 **Purpose:** Email Marketing<br>
 **Cost:** Starting at \$0 for up to 100 subscribers
 
-## [MailChimp](https://mailchimp.com/) 🙊
+## MailChimp 🙊
 
-While most may know MailChimp as a dead-simple email marketing campaign service, they can also help you automate your business email in other ways by integrating with many existing services such as Eventbrite, Shopify, WooCommerce, and many more.
+While most may know [MailChimp](https://mailchimp.com/) as a dead-simple email marketing campaign service, they can also help you automate your business email in other ways by integrating with many existing services such as Eventbrite, Shopify, WooCommerce, and many more.
 
 MailChimp's free tier features and limits are somewhat decent. As you grow past 2000 subscribers, MailChimp can get on the pricey side.
 
 **Purpose:** Email Marketing<br>
 **Cost:** Starting at \$0 for 2k subscribers and 12k emails
 
-## [Netlify](https://www.netlify.com/) 🚀
+## Netlify 🚀
 
-I'm a huge Netlify fan. I'll admit, they are more geared towards developers. However, with a little dev training, you could release a free landing page or static site complete with SSL/TLS, and global content delivery. All for free!
+I'm a huge [Netlify](https://www.netlify.com/) fan. I'll admit, they are more geared towards developers. However, with a little dev training, you could release a free landing page or static site complete with SSL/TLS, and global content delivery. All for free!
 
 You can also add on services such as forms (e.g., a contact form or survey) and serverless functions (e.g., process payments or send transactional emails). These add-ons start for free and subsequently are priced based on demand.
 
 **Purpose:** Web Hosting<br>
 **Cost:** Starting at \$0
 
-## [WP Engine](https://wpengine.com/) 🖋
+## WP Engine 🖋
 
-If you have a WordPress site, I think WP Engine is the only web host to use.
+If you have a WordPress site, I think [WP Engine](https://wpengine.com/) is the only web host to use.
 
 While on the expensive side for hosts, their migration process is top-notch. You could move all of your data and files away from another hosted WordPress site by using only their [plugin](https://wpengine.com/support/wp-engine-automatic-migration-powered-by-blogvault/). It will take anywhere from 15 minutes to a few hours depending on the size of your site and is completely automated.
 

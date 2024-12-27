@@ -1,9 +1,13 @@
 <script lang="ts">
-  export let backgroundColor: string
-  export let textColor: string
-  export let mobileMenuTextColor: string
+  interface Props {
+    backgroundColor: string;
+    textColor: string;
+    mobileMenuTextColor: string;
+  }
 
-  let isExpanded = false
+  let { backgroundColor, textColor, mobileMenuTextColor }: Props = $props();
+
+  let isExpanded = $state(false)
 </script>
 
 <header class="bg-{backgroundColor} text-{textColor}">
@@ -19,7 +23,7 @@
         <div class="flex flex-wrap items-center justify-end">
           <button
             class="block md:hidden border flex items-center px-3 py-2 rounded border-{textColor} text-{textColor}"
-            on:click={() => (isExpanded = !isExpanded)}
+            onclick={() => (isExpanded = !isExpanded)}
           >
             <svg
               class="fill-current h-3 w-3"

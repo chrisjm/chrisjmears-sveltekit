@@ -3,9 +3,14 @@
   import Footer from "$lib/components/Footer.svelte"
   import "../app.css"
   import { page } from "$app/stores"
+  interface Props {
+    children?: import('svelte').Snippet;
+  }
 
-  $: routeId = $page.route.id
-  $: isHome = routeId === "/"
+  let { children }: Props = $props();
+
+  let routeId = $derived($page.route.id)
+  let isHome = $derived(routeId === "/")
 </script>
 
 <div class="flex flex-col min-h-screen text-gray-900">
@@ -16,7 +21,7 @@
   />
 
   <main class="flex flex-col flex-1 md:justify-center">
-    <slot />
+    {@render children?.()}
   </main>
 
   <Footer />
