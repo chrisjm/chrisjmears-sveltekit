@@ -22,7 +22,7 @@ Following the advice of Jon Acuff by way of the book [Finish: Give Yourself the 
 Enjoy the imperfections. 😁
 
 <div class="video-container">
-  <iframe width="560" height="315" src="https://www.youtube.com/embed/2kX28-DmfE8" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+  <iframe title="Learn why your site is slow with some Inspector Magic" width="560" height="315" src="https://www.youtube.com/embed/2kX28-DmfE8" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 </div>
 
 <div class="text-center mt-10 border bg-gray-100 p-6">
