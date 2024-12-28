@@ -2,8 +2,16 @@
   import type { PageData } from "./$types"
   import Section from "$lib/components/Section.svelte"
   import NewsletterSignup from "$lib/components/NewsletterSignup.svelte"
+  import SEO from "$lib/components/SEO.svelte"
   let { data }: { data: PageData } = $props()
 </script>
+
+<SEO 
+  title="Resume - Chris J Mears"
+  description="Professional resume and work experience of Chris J Mears - Full Stack Developer with expertise in JavaScript, TypeScript, React, and Node.js"
+  keywords="resume, work experience, full stack developer, javascript, typescript, react, node.js"
+  type="profile"
+/>
 
 <Section sectionClasses="container mx-auto max-w-4xl">
   <h1 class="text-5xl text-center">{data.resume.basics.name}</h1>
