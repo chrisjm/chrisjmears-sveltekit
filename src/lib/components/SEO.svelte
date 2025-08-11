@@ -9,17 +9,17 @@
   }
 
   let {
-    title = "Chris J Mears - Full Stack Developer",
-    description = "Full Stack Developer specializing in JavaScript, TypeScript, React, and Node.js",
-    keywords = "full stack developer, javascript, typescript, react, node.js",
-    image = "https://res.cloudinary.com/wanderingleafstudios/image/upload/c_scale,w_512/v1543031975/chrisjmears.com/chris-mears-profile-2018.jpg",
+    title = "Chris J Mears",
+    description = "Senior-level Software Engineer and aspiring Machine Learning Engineer with experience in Python, SQL, JavaScript/TypeScript, Data Analysis, Machine Learning, and AI.",
+    keywords = "software engineer, machine learning engineer, analytics engineer, data analyst, data engineer, svelte, python, sql, javascript, typescript, data analysis, machine learning, ai",
+    image = "https://res.cloudinary.com/wanderingleafstudios/image/upload/c_scale,w_512/v1543031975/chrisjmears.com/chris-mears-aug-2024_ncnshm.jpg",
     type = "website",
     canonicalUrl = "https://chrisjmears.com",
   }: Props = $props()
 
   // Ensure title has site name
   let fullTitle = $state(
-    title.includes("Chris J Mears") ? title : `${title} | Chris J Mears`,
+    title.includes("Chris J Mears") ? title : `${title} | Chris J Mears`
   )
 </script>
 
@@ -33,12 +33,6 @@
   <meta property="og:title" content={fullTitle} />
   <meta property="og:description" content={description} />
   <meta property="og:image" content={image} />
-
-  <!-- Twitter -->
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content={fullTitle} />
-  <meta name="twitter:description" content={description} />
-  <meta name="twitter:image" content={image} />
 
   <!-- Canonical URL -->
   <link rel="canonical" href={canonicalUrl} />
@@ -54,7 +48,7 @@
       "description": description,
       "sameAs": [
         "https://github.com/chrisjm",
-        "https://linkedin.com/in/chrisjm"
+        "https://linkedin.com/in/chrisjm80"
       ]
     })}
   </script>

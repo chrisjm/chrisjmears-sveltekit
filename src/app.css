@@ -2,7 +2,7 @@
 @import "./prismjs-nightowl.css";
 
 a {
-  @apply underline;
+  @apply hover:underline;
 }
 
 .lead-magnet-content p,
@@ -115,4 +115,9 @@ header .expanded a {
 
 p {
   @apply leading-6;
+}
+
+.btn,
+a.btn {
+  @apply no-underline bg-sky-900 border-2 border-white hover:bg-sky-500 text-white font-semibold py-2 px-4 rounded shadow-md hover:shadow-none text-xl;
 }

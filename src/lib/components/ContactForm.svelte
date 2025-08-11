@@ -3,10 +3,6 @@
   let botField: string = $state('');
   let email: string = $state('');
   let message: string = $state('');
-
-  function handleSubmit(event: Event) {
-    console.log(event);
-  }
 </script>
 
 <div class="contact-form w-full mx-auto my-6 max-w-lg p-3">
@@ -14,7 +10,9 @@
   <form
     name="contact"
     method="post"
-    onsubmit={handleSubmit}
+    action="/contact"
+    data-netlify="true"
+    data-netlify-honeypot="bot-field"
   >
     <!-- The `form-name` hidden field is required to support form submissions without JavaScript -->
     <input type="hidden" name="form-name" value="contact" />

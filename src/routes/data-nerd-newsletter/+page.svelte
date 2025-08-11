@@ -14,4 +14,3 @@
   <h1 class="text-4xl mb-6">Data Nerd Newsletter Archive</h1>
   <NewsletterList posts={data.allPosts} />
 </Section>
-<NewsletterSignup />

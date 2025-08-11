@@ -1,11 +1,11 @@
 <script lang="ts">
   interface Props {
-    backgroundColor: string;
-    textColor: string;
-    mobileMenuTextColor: string;
+    backgroundColor: string
+    textColor: string
+    mobileMenuTextColor: string
   }
 
-  let { backgroundColor, textColor, mobileMenuTextColor }: Props = $props();
+  let { backgroundColor, textColor, mobileMenuTextColor }: Props = $props()
 
   let isExpanded = $state(false)
 </script>

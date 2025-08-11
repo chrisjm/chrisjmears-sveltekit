@@ -1,25 +1,18 @@
 <script lang="ts">
   interface Props {
-    title: string;
-    description: string;
-    tags: string[];
-    imageUrl: string;
-    imageAlt: string;
-    links: { url: string; text: string }[];
+    title: string
+    description: string
+    tags: string[]
+    imageUrl: string
+    imageAlt: string
+    links: { url: string; text: string }[]
   }
 
-  let {
-    title,
-    description,
-    tags,
-    imageUrl,
-    imageAlt,
-    links
-  }: Props = $props();
+  let { title, description, tags, imageUrl, imageAlt, links }: Props = $props()
 </script>
 
 <div
-  class="rounded overflow-hidden shadow-lg hover:shadow-md mx-4 my-3"
+  class="rounded overflow-hidden shadow-xl border-1 border-gray-300 hover:shadow-sm mx-4 my-3 transition-all duration-300"
 >
   <img class="w-full h-48 object-cover" src={imageUrl} alt={imageAlt} />
   <div class="px-6 py-4">
