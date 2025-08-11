@@ -1,9 +1,5 @@
 <script lang="ts">
-  interface Props {
-    posts: any[];
-  }
-
-  let { posts }: Props = $props();
+  let { posts } = $props()
 </script>
 
 <ul class="post-list mt-12">

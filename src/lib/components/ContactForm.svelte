@@ -1,10 +1,10 @@
 <script lang="ts">
-  let fullName: string = $state();
-  let botField: string = $state();
-  let email: string = $state();
-  let message: string = $state();
+  let fullName: string = $state('');
+  let botField: string = $state('');
+  let email: string = $state('');
+  let message: string = $state('');
 
-  function handleSubmit(event: CustomEvent) {
+  function handleSubmit(event: Event) {
     console.log(event);
   }
 </script>
