@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "./prismjs-nightowl.css";
 
 a {
   @apply underline;
