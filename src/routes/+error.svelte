@@ -1,9 +1,16 @@
 <script lang="ts">
-  import { page } from '$app/stores';
+  import { page } from "$app/state"
   import abductionIllustration from "$lib/images/abduction-illustration.svg"
+  import SEO from "$lib/components/SEO.svelte"
 </script>
 
-{#if $page.status === 404}
+<SEO
+  title="Error - Chris J Mears"
+  description="Something went wrong."
+  type="website"
+/>
+
+{#if page.status === 404}
   <div>
     <img
       src={abductionIllustration}
@@ -15,5 +22,5 @@
     </h2>
   </div>
 {:else}
-  <h1>{$page.status} {$page.error?.message}</h1>
+  <h1>{page.status} {page.error?.message}</h1>
 {/if}

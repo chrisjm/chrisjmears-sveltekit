@@ -1,7 +1,6 @@
 <script lang="ts">
   import type { PageData } from "./$types"
   import Section from "$lib/components/Section.svelte"
-  import NewsletterSignup from "$lib/components/NewsletterSignup.svelte"
   import SEO from "$lib/components/SEO.svelte"
   let { data }: { data: PageData } = $props()
 </script>
@@ -32,7 +31,7 @@
     <div class="text-center mt-6">
       <a
         href="/contact"
-        class="js-event-track bg-sky-900 border-2 border-white hover:bg-sky-500 text-white font-semibold py-2 px-3 rounded shadow-md hover:shadow-none inline-block no-underline text-xl"
+        class="bg-sky-900 border-2 border-white hover:bg-sky-500 text-white font-semibold py-2 px-3 rounded shadow-md hover:shadow-none inline-block no-underline text-xl"
       >
         Let's Chat!
       </a>

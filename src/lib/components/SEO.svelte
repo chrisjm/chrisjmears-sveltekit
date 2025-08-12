@@ -8,18 +8,27 @@
     canonicalUrl?: string
   }
 
+  import { page } from "$app/state"
+
   let {
     title = "Chris J Mears",
     description = "Senior-level Software Engineer and aspiring Machine Learning Engineer with experience in Python, SQL, JavaScript/TypeScript, Data Analysis, Machine Learning, and AI.",
     keywords = "software engineer, machine learning engineer, analytics engineer, data analyst, data engineer, svelte, python, sql, javascript, typescript, data analysis, machine learning, ai",
     image = "https://res.cloudinary.com/wanderingleafstudios/image/upload/c_scale,w_512/v1543031975/chrisjmears.com/chris-mears-aug-2024_ncnshm.jpg",
     type = "website",
-    canonicalUrl = "https://chrisjmears.com",
+    canonicalUrl,
   }: Props = $props()
 
   // Ensure title has site name
-  let fullTitle = $state(
-    title.includes("Chris J Mears") ? title : `${title} | Chris J Mears`
+  let fullTitle = $derived(
+    title && title.includes("Chris J Mears")
+      ? title
+      : `${title} | Chris J Mears`
+  )
+
+  // Compute canonical from current page if not provided
+  let canonical = $derived(
+    canonicalUrl ?? `${page.url.origin}${page.url.pathname}`
   )
 </script>
 
@@ -33,9 +42,10 @@
   <meta property="og:title" content={fullTitle} />
   <meta property="og:description" content={description} />
   <meta property="og:image" content={image} />
+  <meta property="og:url" content={canonical} />
 
   <!-- Canonical URL -->
-  <link rel="canonical" href={canonicalUrl} />
+  <link rel="canonical" href={canonical} />
 
   <!-- Schema.org structured data -->
   <script type="application/ld+json">
