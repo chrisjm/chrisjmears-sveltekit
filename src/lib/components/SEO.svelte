@@ -14,7 +14,7 @@
     title = "Chris J Mears",
     description = "Senior-level Software Engineer and aspiring Machine Learning Engineer with experience in Python, SQL, JavaScript/TypeScript, Data Analysis, Machine Learning, and AI.",
     keywords = "software engineer, machine learning engineer, analytics engineer, data analyst, data engineer, svelte, python, sql, javascript, typescript, data analysis, machine learning, ai",
-    image = "https://res.cloudinary.com/wanderingleafstudios/image/upload/c_scale,w_512/v1543031975/chrisjmears.com/chris-mears-aug-2024_ncnshm.jpg",
+    image = "https://res.cloudinary.com/wanderingleafstudios/image/upload/w_1200,h_630,c_fill/v1754957957/cjm-opengraph-20250811.jpg",
     type = "website",
     canonicalUrl,
   }: Props = $props()
