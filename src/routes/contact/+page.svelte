@@ -9,4 +9,4 @@
   type="website"
 />
 
-<ContactForm />
+<ContactForm url="https://ne74wug0vi.execute-api.us-east-1.amazonaws.com/prod/" />
