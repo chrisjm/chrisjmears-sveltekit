@@ -46,20 +46,4 @@
 
   <!-- Canonical URL -->
   <link rel="canonical" href={canonical} />
-
-  <!-- Schema.org structured data -->
-  <script type="application/ld+json">
-    {JSON.stringify({
-      "@context": "https://schema.org",
-      "@type": "Person",
-      "name": "Chris J Mears",
-      "url": "https://chrisjmears.com",
-      "image": image,
-      "description": description,
-      "sameAs": [
-        "https://github.com/chrisjm",
-        "https://linkedin.com/in/chrisjm80"
-      ]
-    })}
-  </script>
 </svelte:head>

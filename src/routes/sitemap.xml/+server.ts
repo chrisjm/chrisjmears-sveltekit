@@ -32,7 +32,7 @@ export const GET: RequestHandler = async ({ url }) => {
       const slug = slugFromPath(path);
       if (!slug) continue;
       const date = mod?.metadata?.date as string | undefined;
-      entries.push({ loc: `${origin}${basePath}/${slug}`, lastmod: date });
+      entries.push({ loc: `${origin}${basePath}/${slug}/`, lastmod: date });
     }
     return entries;
   };
