@@ -18,6 +18,7 @@
     "@sveltejs/adapter-auto": "^3.3.1",
     "@sveltejs/kit": "^2.27.3",
     "@sveltejs/vite-plugin-svelte": "^6.1.1",
+    "@tailwindcss/vite": "^4.1.11",
     "@typescript-eslint/eslint-plugin": "^8.39.0",
     "@typescript-eslint/parser": "^8.39.0",
     "autoprefixer": "^10.4.21",
@@ -39,9 +40,10 @@
     "tailwindcss": "^4.1.11",
     "tslib": "^2.8.1",
     "typescript": "^5.9.2",
-    "vite": "^7.1.1",
-    "@tailwindcss/vite": "^4.1.11"
+    "vite": "^7.1.1"
   },
   "type": "module",
-  "dependencies": {}
+  "dependencies": {
+    "@plausible-analytics/tracker": "^0.4.0"
+  }
 }

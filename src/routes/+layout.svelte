@@ -4,6 +4,14 @@
   import SEO from "$lib/components/SEO.svelte"
   import "../app.css"
   import { page } from "$app/state"
+
+  // Plausible Analytics
+  import { init } from "@plausible-analytics/tracker"
+  init({
+    domain: "chrisjmears.com",
+    formSubmissions: true,
+  })
+
   interface Props {
     children?: import("svelte").Snippet
   }
