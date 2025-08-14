@@ -3,14 +3,14 @@
   import Footer from "$lib/components/Footer.svelte"
   import SEO from "$lib/components/SEO.svelte"
   import "../app.css"
-  import { page } from "$app/stores"
+  import { page } from "$app/state"
   interface Props {
     children?: import("svelte").Snippet
   }
 
   let { children }: Props = $props()
 
-  let routeId = $derived($page.route.id)
+  let routeId = $derived(page.route.id)
   let isHome = $derived(routeId === "/")
 </script>
 
