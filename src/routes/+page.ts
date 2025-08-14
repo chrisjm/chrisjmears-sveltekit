@@ -1,6 +1,7 @@
 import type { PageLoad } from "./$types";
 import { sorter } from "sorters";
 import { slugFromPath } from "$lib/slugFromPath";
+import type { PostSummary } from "$lib/content/types";
 
 export const load: PageLoad = async ({ params }) => {
   const posts = import.meta.glob(`/src/posts/blog/*.{md,svx,svelte.md}`);
@@ -15,7 +16,7 @@ export const load: PageLoad = async ({ params }) => {
     }
   }
 
-  const recentPosts = allPosts
+  const recentPosts: PostSummary[] = allPosts
     .sort(
       sorter({
         value: (v) => new Date(v.resolvedPost.metadata.date),
@@ -24,12 +25,14 @@ export const load: PageLoad = async ({ params }) => {
     )
     .slice(0, 3)
     .map((p) => {
+      const slug = slugFromPath(p.path);
+      if (!slug) return null;
       return {
-        component: p.resolvedPost.default,
         frontmatter: p.resolvedPost.metadata,
-        slug: slugFromPath(p.path),
-      };
-    });
+        slug,
+      } as PostSummary;
+    })
+    .filter((p): p is PostSummary => p !== null);
 
   return { recentPosts };
 };

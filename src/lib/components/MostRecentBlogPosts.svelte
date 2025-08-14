@@ -1,10 +1,10 @@
 <script lang="ts">
   import Section from "$lib/components/Section.svelte"
   import Header2 from "$lib/components/Heading2.svelte"
+  import type { PostSummary } from "$lib/content/types"
 
   interface Props {
-    // TODO: Replace `any`
-    posts: any[]
+    posts: PostSummary[]
   }
 
   let { posts }: Props = $props()
