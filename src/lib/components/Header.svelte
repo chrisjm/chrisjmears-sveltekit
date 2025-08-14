@@ -5,12 +5,19 @@
     mobileMenuTextColor: string
   }
 
+  import { afterNavigate } from "$app/navigation"
+
   let { backgroundColor, textColor, mobileMenuTextColor }: Props = $props()
 
   let isExpanded = $state(false)
+
+  // Auto-close the mobile menu after client-side navigation
+  afterNavigate(() => {
+    isExpanded = false
+  })
 </script>
 
-<header class="bg-{backgroundColor} text-{textColor}">
+<header class="bg-{backgroundColor} text-{textColor} sticky top-0 z-50">
   <div class="container mx-auto p-8 md:px-16">
     <div class="flex flex-row justify-between items-center">
       <div class="flex-1 text-3xl md:text-4xl font-black">
@@ -19,10 +26,12 @@
           <span class="inline md:hidden lg:inline">Chris J Mears</span>
         </a>
       </div>
-      <div class="md:text-right">
+      <div class="md:text-right relative">
         <div class="flex flex-wrap items-center justify-end">
           <button
             class="block md:hidden border flex items-center px-3 py-2 rounded border-{textColor} text-{textColor}"
+            aria-expanded={isExpanded}
+            aria-controls="primary-menu"
             onclick={() => (isExpanded = !isExpanded)}
           >
             <svg
@@ -36,6 +45,7 @@
           </button>
         </div>
         <div
+          id="primary-menu"
           class="md:block md:flex md:items-center md:w-auto {isExpanded
             ? `expanded bg-white absolute right-0 mr-5 mt-2 text-${mobileMenuTextColor}`
             : `hidden`}"
@@ -46,6 +56,7 @@
             <li class="md:inline-block md:mr-2 mb-0">
               <a
                 class="no-underline antialiased px-5 py-3 block hover:bg-gray-200 active:bg-gray-300 md:hover:bg-transparent"
+                onclick={() => (isExpanded = false)}
                 href="/about"
               >
                 About
@@ -54,6 +65,7 @@
             <li class="md:inline-block md:mr-2 mb-0">
               <a
                 class="no-underline antialiased px-5 py-3 block hover:bg-gray-200 active:bg-gray-300 md:hover:bg-transparent"
+                onclick={() => (isExpanded = false)}
                 href="/blog"
               >
                 Blog
@@ -62,6 +74,7 @@
             <li class="md:inline-block md:mr-2 mb-0">
               <a
                 class="no-underline antialiased px-5 py-3 block hover:bg-gray-200 active:bg-gray-300 md:hover:bg-transparent"
+                onclick={() => (isExpanded = false)}
                 href="/resume"
               >
                 Resume
@@ -70,6 +83,7 @@
             <li class="md:inline-block md:mr-2 mb-0">
               <a
                 class="no-underline antialiased px-5 py-3 block hover:bg-gray-200 active:bg-gray-300 md:hover:bg-transparent"
+                onclick={() => (isExpanded = false)}
                 href="/archives"
               >
                 Archives
@@ -78,6 +92,7 @@
             <li class="md:inline-block md:mr-2 mb-0">
               <a
                 class="no-underline antialiased px-5 py-3 block hover:bg-gray-200 active:bg-gray-300 md:hover:bg-transparent"
+                onclick={() => (isExpanded = false)}
                 href="/contact"
               >
                 Contact
