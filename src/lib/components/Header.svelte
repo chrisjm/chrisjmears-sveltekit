@@ -11,13 +11,22 @@
 
   let isExpanded = $state(false)
 
-  // Auto-close the mobile menu after client-side navigation
+  let isLightHeader = $derived(
+    backgroundColor === "white" && textColor === "gray-900"
+  )
+
   afterNavigate(() => {
     isExpanded = false
   })
 </script>
 
-<header class="bg-{backgroundColor} text-{textColor} sticky top-0 z-50">
+<header
+  class="sticky top-0 z-50"
+  class:bg-white={isLightHeader}
+  class:text-gray-900={isLightHeader}
+  class:bg-sky-700={!isLightHeader}
+  class:text-white={!isLightHeader}
+>
   <div class="container mx-auto p-8 md:px-16">
     <div class="flex flex-row justify-between items-center">
       <div class="flex-1 text-3xl md:text-4xl font-black">
@@ -29,7 +38,11 @@
       <div class="md:text-right relative">
         <div class="flex flex-wrap items-center justify-end">
           <button
-            class="block md:hidden border flex items-center px-3 py-2 rounded border-{textColor} text-{textColor}"
+            class="block md:hidden border flex items-center px-3 py-2 rounded"
+            class:border-gray-900={isLightHeader}
+            class:text-gray-900={isLightHeader}
+            class:border-white={!isLightHeader}
+            class:text-white={!isLightHeader}
             aria-expanded={isExpanded}
             aria-controls="primary-menu"
             onclick={() => (isExpanded = !isExpanded)}
@@ -46,9 +59,16 @@
         </div>
         <div
           id="primary-menu"
-          class="md:block md:flex md:items-center md:w-auto {isExpanded
-            ? `expanded bg-white absolute right-0 mr-5 mt-2 text-${mobileMenuTextColor}`
-            : `hidden`}"
+          class="md:block md:flex md:items-center md:w-auto"
+          class:hidden={!isExpanded}
+          class:expanded={isExpanded}
+          class:bg-white={isExpanded}
+          class:absolute={isExpanded}
+          class:right-0={isExpanded}
+          class:mr-5={isExpanded}
+          class:mt-2={isExpanded}
+          class:text-black={isExpanded && mobileMenuTextColor === "black"}
+          class:text-sky-700={isExpanded && mobileMenuTextColor === "sky-700"}
         >
           <ul
             class="list-none flex flex-col shadow md:inline-block md:shadow-none md:p-0 font-black"
