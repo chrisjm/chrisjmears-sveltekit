@@ -70,10 +70,9 @@
             <li class="md:inline-block md:mr-2 mb-0">
               <a
                 class="no-underline antialiased px-5 py-3 block hover:bg-gray-200 active:bg-gray-300 md:hover:bg-transparent"
-                href="/data-nerd-newsletter"
+                href="/archives"
               >
-                <span class="lg:hidden">Newsletter</span>
-                <span class="hidden lg:inline">Data Nerd Newsletter</span>
+                Archives
               </a>
             </li>
             <li class="md:inline-block md:mr-2 mb-0">

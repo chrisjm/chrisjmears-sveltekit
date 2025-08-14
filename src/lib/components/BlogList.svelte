@@ -19,7 +19,11 @@
         </h3>
       </a>
       <div class="mt-2 block text-sm text-gray-700">
-        {post.data.metadata.date}
+        {new Intl.DateTimeFormat("en-US", {
+          month: "long",
+          day: "numeric",
+          year: "numeric",
+        }).format(new Date(post.data.metadata.date))}
       </div>
       {#if post.data.metadata.header.teaser}
         <div class="mt-2 shadow-lg border-1 border-gray-300">

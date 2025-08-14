@@ -13,7 +13,11 @@
         <h3 class="text-lg md:text-xl">{title}</h3>
       </a>
       <div class="mt-1 text-sm text-gray-500">
-        {node.data.metadata.date}
+        {new Intl.DateTimeFormat("en-US", {
+          month: "long",
+          day: "numeric",
+          year: "numeric",
+        }).format(new Date(node.data.metadata.date))}
       </div>
       <div class="mt-1 text-gray-700">
         {node.data.metadata.description}

@@ -14,6 +14,7 @@ export const GET: RequestHandler = async ({ url }) => {
     "/blog",
     "/contact",
     "/resume",
+    "/archives",
     "/data-nerd-newsletter",
   ];
 
