@@ -29,10 +29,12 @@
             {post.frontmatter.title}
           </div>
         </a>
-        <i class="block mt-2"
-          >{new Intl.DateTimeFormat("en-US").format(
-            new Date(post.frontmatter.date)
-          )}</i
+        <i class="block mt-1 text-sm text-blue-200"
+          >{new Intl.DateTimeFormat("en-US", {
+            month: "long",
+            day: "numeric",
+            year: "numeric",
+          }).format(new Date(post.frontmatter.date))}</i
         >
       </li>
     {/each}

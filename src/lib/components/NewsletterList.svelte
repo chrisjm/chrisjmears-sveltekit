@@ -7,7 +7,7 @@
     {@const title = node.data.metadata.title || node.data.metadata.slug}
     <li class="mt-6">
       <a
-        class="underline hover:text-black text-sky-500"
+        class="underline hover:text-black text-blue-500"
         href={node.data.metadata.slug}
       >
         <h3 class="text-lg md:text-xl">{title}</h3>

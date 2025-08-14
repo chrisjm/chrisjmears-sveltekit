@@ -5,10 +5,10 @@
   import "../app.css"
   import { page } from "$app/stores"
   interface Props {
-    children?: import('svelte').Snippet;
+    children?: import("svelte").Snippet
   }
 
-  let { children }: Props = $props();
+  let { children }: Props = $props()
 
   let routeId = $derived($page.route.id)
   let isHome = $derived(routeId === "/")
@@ -20,7 +20,7 @@
   <Header
     backgroundColor={isHome ? "white" : "sky-700"}
     mobileMenuTextColor={isHome ? "black" : "sky-700"}
-    textColor={isHome ? "sky-700" : "white"}
+    textColor={isHome ? "gray-900" : "white"}
   />
 
   <main class="flex flex-col flex-1 md:justify-center">

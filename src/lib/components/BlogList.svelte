@@ -11,7 +11,7 @@
   {#each posts as post (post.id)}
     <div class="mb-10 leading-normal">
       <a
-        class="underline hover:text-black text-sky-500 block"
+        class="underline hover:text-black text-blue-500 block"
         href="/blog/{post.id}"
       >
         <h3 class="text-2xl md:text-3xl">
