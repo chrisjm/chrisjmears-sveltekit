@@ -20,7 +20,7 @@ export const load: PageLoad = async ({ params }) => {
       sorter({
         value: (v) => new Date(v.resolvedPost.metadata.date),
         descending: true,
-      })
+      }),
     )
     .slice(0, 3)
     .map((p) => {

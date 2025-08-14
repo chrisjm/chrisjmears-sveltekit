@@ -3,7 +3,8 @@ import { slugFromPath } from "$lib/slugFromPath";
 
 export const prerender = true;
 
-const encode = (s: string) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+const encode = (s: string) =>
+  s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 
 export const GET: RequestHandler = async ({ url }) => {
   const origin = url.origin;
@@ -20,12 +21,12 @@ export const GET: RequestHandler = async ({ url }) => {
 
   const blogModules = import.meta.glob("/src/posts/blog/*.{md,svx,svelte.md}");
   const newsletterModules = import.meta.glob(
-    "/src/posts/data-nerd-newsletter/*.{md,svx,svelte.md}"
+    "/src/posts/data-nerd-newsletter/*.{md,svx,svelte.md}",
   );
 
   const loadEntries = async (
     modules: Record<string, () => Promise<any>>,
-    basePath: string
+    basePath: string,
   ) => {
     const entries: { loc: string; lastmod?: string }[] = [];
     for (const [path, resolver] of Object.entries(modules)) {
@@ -49,7 +50,8 @@ export const GET: RequestHandler = async ({ url }) => {
     ...newsletterEntries,
   ];
 
-  const xml = `<?xml version="1.0" encoding="UTF-8"?>\n` +
+  const xml =
+    `<?xml version="1.0" encoding="UTF-8"?>\n` +
     `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n` +
     urls
       .map((u) => {

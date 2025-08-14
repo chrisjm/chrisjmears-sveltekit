@@ -17,7 +17,7 @@ export const load: PageLoad = async ({ params }) => {
 
   return {
     allPosts: allPosts.sort(
-      sorter({ value: (v) => v.data.metadata.date, descending: true })
+      sorter({ value: (v) => v.data.metadata.date, descending: true }),
     ),
   };
 };
