@@ -1,7 +1,7 @@
 import type { PageLoad } from "./$types";
-import { listAllPostsRaw } from "$lib/content/posts";
 
+// Client-side universal loader intentionally returns nothing.
+// Server-only loader in `+page.server.ts` provides the data.
 export const load: PageLoad = async () => {
-  const allPosts = await listAllPostsRaw();
-  return { allPosts };
+  return {};
 };
