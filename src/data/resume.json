@@ -3,8 +3,6 @@
     "name": "Chris J Mears",
     "label": "Senior Software Engineer",
     "image": "",
-    "email": "chris.mears@gmail.com",
-    "phone": "(415) 830-5258",
     "url": "https://chrisjmears.com",
     "summary": "Senior software engineer with over ten years of experience in full-stack web engineering, specializing in TypeScript, Node.js, Python, and SQL. Enhanced data accessibility by transforming billions of claims data into BigQuery for analytics and architected robust pipeline systems that improved operational efficiency while managing cloud services across AWS and Google Cloud platforms.",
     "location": {
@@ -34,18 +32,18 @@
       "url": "https://www.definitivehc.com/carevoyance",
       "startDate": "2024-01-01",
       "endDate": "2024-07-19",
-      "summary": "Something about being acquired and part of the acquisition team and working as an alternate Data Engineer for integrating the data.",
+      "summary": "Implemented and scheduled Node.js data pipelines to transform billions of Medicare and proprietary claims into BigQuery and import curated datasets into PostgreSQL for analytics and in‑product use.",
       "highlights": [
         "Implemented data pipelines to transform billions of Medicare and proprietary claims data, load into BigQuery, and import into PostgreSQL via scheduled Node.js scripts, enhancing data accessibility for analytics and in-product usage."
       ]
     },
     {
-      "name": "Definitive Healthcare / Carevoyance",
+      "name": "H1 / Carevoyance",
       "position": "Senior Software Engineer",
       "url": "https://www.definitivehc.com/carevoyance",
       "startDate": "2021-10-01",
-      "endDate": "2023-12-31",
-      "summary": "Something about getting acquired by H1 and transitioning positions from a front-end software engineer to more back-end software engineer.",
+      "endDate": "2024-01-01",
+      "summary": "Built Svelte reporting UIs and Express.js APIs that delivered executive‑level healthcare analytics; extended a Python/TypeScript PowerPoint generation system with data‑driven charts; managed Elasticsearch and a custom graph database while overseeing AWS and GCP services.",
       "highlights": [
         "Generated comprehensive reports using Svelte and an Express.js API server on key healthcare business metrics, including Total ROI, Readmissions, and procedure referrals analysis, providing critical insights that informed strategic initiatives that increased customer usage by 20%.",
         "Developed new features for a custom PowerPoint generation system using Python and TypeScript, implementing data-generated charts, enabling customers to generate accurate, real-time embedded charts that saved an average of 10 hours each week per user.",
@@ -57,7 +55,7 @@
       "position": "Senior Software Engineer",
       "url": "https://www.definitivehc.com/carevoyance",
       "startDate": "2021-02-01",
-      "endDate": "2021-09-30",
+      "endDate": "2021-10-31",
       "summary": "Early engineering hire at a twice-acquired healthcare claims analytics startup, contributing to the development of innovative solutions through data visualization, UI architecture, and data pipeline integration.",
       "highlights": [
         "Collaborated on a small engineering team within an enterprise-level monolithic platform, focusing on feature building, data architecture, and system design principles to ensure scalability, security, and performance.",
@@ -71,7 +69,7 @@
       "position": "Owner / Software Engineer / Data Engineer / Data Analyst",
       "url": "https://wanderingleafstudios.com",
       "startDate": "2014-01-01",
-      "endDate": "2021-01-31",
+      "endDate": "2021-02-01",
       "summary": "Established a consulting business that empowers clients to discover hidden data insights, increasing actionable strategies by 30% through tailored analytics and technology solutions.",
       "highlights": [
         "Increased online sales by over $200k in six months by enhancing a brewery’s Shopify eCommerce solution, configuring data analytics to collect relevant customer data for email marketing, and collaborating on creative solutions for shipping and logistics problems.",
@@ -181,10 +179,10 @@
       "area": "Analytics (OMSA) Computational Data Analytics Track",
       "studyType": "Online Master of Science",
       "startDate": "2024-08-01",
-      "endDate": "2028-06-01",
+      "endDate": "Present",
       "courses": [
         "Computing for Data Analysis (Python, Pandas, SQLite, NumPy, scikit-learn)",
-        "Business Fundamentals for Analytics: Accounting, Supply Chain, Finance Management, Marketing, Business Strategy"
+        "Business Fundamentals for Analytics: Accounting, Supply Chain, Financing, Marketing, Strategy"
       ]
     },
     {

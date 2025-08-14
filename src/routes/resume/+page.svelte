@@ -3,6 +3,37 @@
   import Section from "$lib/components/Section.svelte"
   import SEO from "$lib/components/SEO.svelte"
   let { data }: { data: PageData } = $props()
+
+  // Format ISO dates (YYYY-MM-DD) to "Month D, YYYY" and handle "Present"
+  const formatDate = (value: string): string => {
+    if (!value) return ""
+    const lower = value.toLowerCase?.()
+    if (lower === "present") return "Present"
+    // Parse as UTC to avoid TZ off-by-one issues for date-only strings
+    const parts = value.split("-")
+    const y = Number(parts[0])
+    const m = Number(parts[1] || 1)
+    const d = Number(parts[2] || 1)
+    if (!Number.isNaN(y)) {
+      const date = new Date(Date.UTC(y, (m || 1) - 1, d || 1))
+      return new Intl.DateTimeFormat("en-US", {
+        timeZone: "UTC",
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      }).format(date)
+    }
+    // Fallback
+    const fallback = new Date(value)
+    if (!Number.isNaN(fallback.getTime())) {
+      return new Intl.DateTimeFormat("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      }).format(fallback)
+    }
+    return value
+  }
 </script>
 
 <SEO
@@ -16,13 +47,13 @@
   <h1 class="text-5xl text-center">{data.resume.basics.name}</h1>
 
   <div
-    class="text-center mt-10 border-8 rounded p-8 mt-10 border-sky-500 bg-sky-700 text-white border-radius rounded-lg"
+    class="text-center mt-10 border-8 p-8 border-sky-500 bg-sky-700 text-white rounded-lg"
   >
     <div class="flex justify-center">
-      <div>
+      <div class="mb-8">
         <img
           class="w-48 h-48 rounded-full shadow-lg border-4 border-white"
-          src="https://res.cloudinary.com/wanderingleafstudios/image/upload/c_scale,w_512/v1543031975/chrisjmears.com/chris-mears-profile-2018.jpg"
+          src="https://res.cloudinary.com/wanderingleafstudios/image/upload/c_scale,w_512/v1754953399/chris-mears-aug-2024_ncnshm.jpg"
           alt="Chris J Mears"
         />
       </div>
@@ -33,7 +64,7 @@
         href="/contact"
         class="bg-sky-900 border-2 border-white hover:bg-sky-500 text-white font-semibold py-2 px-3 rounded shadow-md hover:shadow-none inline-block no-underline text-xl"
       >
-        Let's Chat!
+        Let's Work Together!
       </a>
     </div>
   </div>
@@ -58,7 +89,9 @@
         <h3 class="text-xl font-bold">{experience.position}</h3>
         <div class="location-date mt-1">
           {experience.name}
-          ({experience.startDate} to {experience.endDate})
+          ({formatDate(experience.startDate)} to {experience.endDate
+            ? formatDate(experience.endDate)
+            : "Present"})
         </div>
         <ul class="accomplishments-list list-disc pl-6 mt-1">
           {#each experience.highlights as accomplishment}
