@@ -75,7 +75,7 @@
         "A checklist for machine learning projects based on <em><a href='https://homl.info/' target='_blank' rel='noopener noreferrer'>Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow</a></em> by Aurélien Géron.",
       tags: ["svelte", "machine learning"],
       imageUrl:
-        "https://res.cloudinary.com/wanderingleafstudios/image/upload/w_1000,ar_1:1,c_fill,g_auto,e_art:hokusai/v1755136452/chrisjmears.com/ml-project-checklist-ai.jpg",
+        "https://res.cloudinary.com/wanderingleafstudios/image/upload/w_1000,ar_1:1,c_fill,g_auto,e_art:hokusai/v1755146140/chrisjmears.com/dog-checklist-computer.jpg",
       imageAlt: "Machine Learning Project Checklist",
       links: [
         {
