@@ -2,13 +2,12 @@
   import Section from "$lib/components/Section.svelte"
   import Header2 from "$lib/components/Heading2.svelte"
 
-  
   interface Props {
     // TODO: Replace `any`
-    posts: any[];
+    posts: any[]
   }
 
-  let { posts }: Props = $props();
+  let { posts }: Props = $props()
 </script>
 
 <Section sectionClasses="bg-sky-800 text-white">
@@ -30,7 +29,11 @@
             {post.frontmatter.title}
           </div>
         </a>
-        <i class="block mt-2">{post.frontmatter.date}</i>
+        <i class="block mt-2"
+          >{new Intl.DateTimeFormat("en-US").format(
+            new Date(post.frontmatter.date)
+          )}</i
+        >
       </li>
     {/each}
   </ul>

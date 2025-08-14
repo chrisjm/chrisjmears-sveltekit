@@ -69,34 +69,22 @@
       ],
     },
     {
-      id: "data-nerd-newsletter",
-      title: "Data Nerd Newsletter",
+      id: "ml-project-checklist",
+      title: "Machine Learning Project Checklist",
       description:
-        "The archives for my weekly newsletter where I breakdown data and machine learning topics.",
-      tags: ["newsletter"],
+        "A checklist for machine learning projects based on <em><a href='https://homl.info/' target='_blank' rel='noopener noreferrer'>Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow</a></em> by Aurélien Géron.",
+      tags: ["svelte", "machine learning"],
       imageUrl:
-        "https://res.cloudinary.com/wanderingleafstudios/image/upload/v1587682706/chrisjmears.com/data-nerd-newsletter-og.jpg",
-      imageAlt: "Data Nerd Newsletter",
+        "https://res.cloudinary.com/wanderingleafstudios/image/upload/w_1000,ar_1:1,c_fill,g_auto,e_art:hokusai/v1755136452/chrisjmears.com/ml-project-checklist-ai.jpg",
+      imageAlt: "Machine Learning Project Checklist",
       links: [
         {
-          text: "View Archives",
-          url: "/data-nerd-newsletter",
+          text: "View Project",
+          url: "https://ml-project-checklist.chrisjmears.com/",
         },
-      ],
-    },
-    {
-      id: "tea-quiz",
-      title: "Tea Quiz",
-      description:
-        "A small project to demonstrate a simple web-based ReactJS quiz app to collect data.",
-      tags: ["reactjs"],
-      imageUrl:
-        "https://res.cloudinary.com/wanderingleafstudios/image/upload/v1576648921/chrisjmears.com/christine-wehrmeier-l4MCijLHc0Q-unsplash.jpg",
-      imageAlt: "Tea field",
-      links: [
         {
-          text: "Take Quiz",
-          url: "https://tea-quiz.wanderingleafstudios.com/",
+          text: "View Source",
+          url: "https://github.com/chrisjm/ml-project-checklist",
         },
       ],
     },
@@ -105,7 +93,7 @@
 
 <Section>
   <Heading2 title="Projects" />
-  <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-3">
+  <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-2 gap-3">
     {#each projects as project (project.id)}
       <ProjectCard {...project} />
     {/each}
