@@ -15,8 +15,6 @@
   let isHome = $derived(routeId === "/")
 </script>
 
-<SEO />
-
 <div class="flex flex-col min-h-screen text-gray-900">
   <Header
     backgroundColor={isHome ? "white" : "sky-700"}
