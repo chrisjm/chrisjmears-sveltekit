@@ -1,4 +1,4 @@
-import { slugFromPath } from "$lib/slugFromPath";
+import { slugFromPath } from "$lib/slugify";
 import { sorter } from "sorters";
 import type { PostSummary } from "$lib/content/types";
 

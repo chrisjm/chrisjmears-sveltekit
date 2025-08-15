@@ -9,6 +9,9 @@ export interface Frontmatter {
   description?: string;
   excerpt?: string;
   header?: HeaderMeta;
+  // Blog taxonomy
+  categories?: string | string[];
+  tags?: string[];
 }
 
 export interface PostSummary {

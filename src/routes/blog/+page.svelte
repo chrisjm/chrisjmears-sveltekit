@@ -18,5 +18,38 @@
 
 <Section>
   <h1 class="text-4xl mb-6">Blog Archive</h1>
+  {#if data.categories?.length}
+    <div class="mb-8">
+      <h2 class="text-xl font-semibold mb-2">Browse by Category</h2>
+      <ul class="flex flex-wrap gap-2">
+        {#each data.categories as c (c.slug)}
+          <li>
+            <a
+              class="inline-block rounded-full border px-3 py-1 text-sm hover:bg-gray-100"
+              href="/blog/category/{c.slug}"
+              >{c.name} <span class="opacity-60">({c.count})</span></a
+            >
+          </li>
+        {/each}
+      </ul>
+    </div>
+  {/if}
+
+  {#if data.tags?.length}
+    <div class="mb-8">
+      <h2 class="text-xl font-semibold mb-2">Browse by Tag</h2>
+      <ul class="flex flex-wrap gap-2">
+        {#each data.tags as t (t.slug)}
+          <li>
+            <a
+              class="inline-block rounded-full border px-3 py-1 text-sm hover:bg-gray-100"
+              href="/blog/tag/{t.slug}"
+              >{t.name} <span class="opacity-60">({t.count})</span></a
+            >
+          </li>
+        {/each}
+      </ul>
+    </div>
+  {/if}
   <BlogList posts={data.allPosts} />
 </Section>

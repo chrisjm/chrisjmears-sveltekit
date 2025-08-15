@@ -1,5 +1,5 @@
 import type { PageLoad } from "./$types";
-import { slugFromPath } from "$lib/slugFromPath";
+import { slugFromPath } from "$lib/slugify";
 import { error } from "@sveltejs/kit";
 
 export const load: PageLoad = async ({ params }) => {

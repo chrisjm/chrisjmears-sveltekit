@@ -1,5 +1,5 @@
 import type { RequestHandler } from "@sveltejs/kit";
-import { slugFromPath } from "$lib/slugFromPath";
+import { slugFromPath } from "$lib/slugify";
 
 export const prerender = true;
 
@@ -56,9 +56,8 @@ export const GET: RequestHandler = async ({ url }) => {
     urls
       .map((u) => {
         const lastmod = u.lastmod ? new Date(u.lastmod).toISOString() : "";
-        return `  <url>\n    <loc>${encode(u.loc)}</loc>\n${
-          lastmod ? `    <lastmod>${lastmod}</lastmod>\n` : ""
-        }  </url>`;
+        return `  <url>\n    <loc>${encode(u.loc)}</loc>\n${lastmod ? `    <lastmod>${lastmod}</lastmod>\n` : ""
+          }  </url>`;
       })
       .join("\n") +
     `\n</urlset>\n`;
