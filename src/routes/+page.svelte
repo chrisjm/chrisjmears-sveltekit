@@ -14,11 +14,7 @@
   let { data }: Props = $props()
 </script>
 
-<SEO
-  title="Chris J Mears"
-  description="Senior Software Engineer focused on JavaScript/TypeScript, data, and AI. Projects, writing, and ways to get in touch."
-  type="website"
-/>
+<SEO />
 
 <Hero />
 <Projects />
