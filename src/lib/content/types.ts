@@ -6,6 +6,7 @@ export interface HeaderMeta {
 export interface Frontmatter {
   title: string;
   date: string; // ISO string preferred
+  updated?: string; // ISO string preferred
   description?: string;
   excerpt?: string;
   header?: HeaderMeta;

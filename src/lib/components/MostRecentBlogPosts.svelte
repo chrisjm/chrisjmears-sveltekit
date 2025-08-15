@@ -29,13 +29,22 @@
             {post.frontmatter.title}
           </div>
         </a>
-        <i class="block mt-1 text-sm text-blue-200"
-          >{new Intl.DateTimeFormat("en-US", {
+        <i class="block mt-1 text-sm text-sky-200">
+          {new Intl.DateTimeFormat("en-US", {
             month: "long",
             day: "numeric",
             year: "numeric",
-          }).format(new Date(post.frontmatter.date))}</i
-        >
+          }).format(new Date(post.frontmatter.date))}
+          {#if post.frontmatter.updated}
+            <span class="text-xs text-sky-300">
+              (Updated: {new Intl.DateTimeFormat("en-US", {
+                month: "long",
+                day: "numeric",
+                year: "numeric",
+              }).format(new Date(post.frontmatter.updated))})
+            </span>
+          {/if}
+        </i>
       </li>
     {/each}
   </ul>

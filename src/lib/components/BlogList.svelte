@@ -24,6 +24,16 @@
           day: "numeric",
           year: "numeric",
         }).format(new Date(post.data.metadata.date))}
+
+        {#if post.data.metadata.updated}
+          <span class="text-xs text-gray-400">
+            (Updated: {new Intl.DateTimeFormat("en-US", {
+              month: "long",
+              day: "numeric",
+              year: "numeric",
+            }).format(new Date(post.data.metadata.updated))})
+          </span>
+        {/if}
       </div>
       {#if post.data.metadata.header.teaser}
         <div class="mt-2 shadow-lg border-1 border-gray-300">
