@@ -1,10 +1,10 @@
 ---
 layout: post
 date: "2020-03-12"
-title: 'Conduct life design interviews to answer the question, "What should I do with my life?"'
-description: "Do you love cooking shows but are tired of the repetitive television formulas? I took a deep-dive into the alternative cooking world of YouTube to find the best channels and shows."
-categories: personal
-tags: ["youtube", "cooking", "recommendation"]
+title: "How Life Design Interviews Can Help You Find Your Passion"
+description: "Learn how to prototype your career with life design interviews. This guide explains how to find and conduct informational interviews with professionals in your desired field to make informed decisions about your career path."
+categories: career
+tags: ["life design", "professional development", "career change"]
 header:
   cloudinaryPublicId: "chrisjmears.com/blog/Interviews_-_Phone_Call_on_Mobile.jpg"
   teaser: "https://res.cloudinary.com/wanderingleafstudios/image/upload/b_auto,c_pad,g_center,h_630,w_1200/v1537890988/chrisjmears.com/blog/Interviews_-_Phone_Call_on_Mobile.jpg"
