@@ -38,8 +38,7 @@
 
 <SEO
   title="Resume - Chris J Mears"
-  description="Professional resume and work experience of Chris J Mears - Full Stack Developer with expertise in JavaScript, TypeScript, React, and Node.js"
-  keywords="resume, work experience, full stack developer, javascript, typescript, react, node.js"
+  description={data.resume.basics.summary}
   type="profile"
 />
 
