@@ -3,7 +3,7 @@
   import Section from "$lib/components/Section.svelte"
 </script>
 
-<Section>
+<Section sectionClasses="bg-sky-100">
   <Heading2 title="About Me" />
   <div class="flex flex-col lg:flex-row">
     <div class="mb-5 md:mr-5 text-center">

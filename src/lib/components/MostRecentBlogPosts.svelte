@@ -10,7 +10,7 @@
   let { posts }: Props = $props()
 </script>
 
-<Section sectionClasses="bg-sky-800 text-white">
+<Section sectionClasses="bg-sky-700 text-white">
   <Header2 title="Most Recent Posts" />
   <ul class="flex flex-col md:flex-row">
     {#each posts as post (post.slug)}

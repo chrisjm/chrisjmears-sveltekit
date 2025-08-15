@@ -2,6 +2,7 @@
   import Hero from "$lib/components/Hero.svelte"
   import Projects from "$lib/components/Projects.svelte"
   import AboutMe from "$lib/components/AboutMe.svelte"
+  import BlueskyFeed from "$lib/components/BlueskyFeed.svelte"
 
   import type { PageData } from "./$types"
   import MostRecentBlogPosts from "$lib/components/MostRecentBlogPosts.svelte"
@@ -19,4 +20,5 @@
 <Hero />
 <Projects />
 <AboutMe />
+<BlueskyFeed />
 <MostRecentBlogPosts posts={data.recentPosts} />
