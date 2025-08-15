@@ -13,7 +13,7 @@ header:
 
 ![man on mobile phone video chat](https://res.cloudinary.com/wanderingleafstudios/image/upload/v1584053386/chrisjmears.com/blog/Interviews_-_Phone_Call_on_Mobile.jpg)
 
-_Update: There is a five-year follow-up to this post, [Life Design Interviews Part 2 - A Five-Year Update](/blog/conduct-life-design-interviews-part-2)._
+_Update: There is a five-year follow-up to this post, [The Power of "No": How Life Design Interviews Shaped My Career Over 5 Years](/blog/the-power-of-no-how-life-design-interviews-shaped-my-career)._
 
 When I decided I needed to make a career change, I panicked a little. What should I do? Should I go back to school? Should I take a boot camp workshop? Should I sell everything and move to remote Alaska with my dog?
 

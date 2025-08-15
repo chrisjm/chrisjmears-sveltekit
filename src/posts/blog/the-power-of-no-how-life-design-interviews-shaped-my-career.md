@@ -11,7 +11,7 @@ header:
 
 ![winding road with a lot of branching paths with x's and one goal](https://res.cloudinary.com/wanderingleafstudios/image/upload/v1755289734/chrisjmears.com/blog/power-of-no.jpg)
 
-<div class="text-right text-gray-500 text-sm mb-6">
+<div class="text-right text-gray-400 text-sm mb-6">
   <em>Photo by Google Gemini</em>
 </div>
 
