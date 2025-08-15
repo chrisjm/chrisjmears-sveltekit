@@ -1,7 +1,7 @@
 ---
 layout: post
 date: "2020-03-12"
-title: "How Life Design Interviews Can Help You Find Your Passion"
+title: "Conduct Life Design Interviews: How Life Design Interviews Can Help You Find Your Passion"
 description: "Learn how to prototype your career with life design interviews. This guide explains how to find and conduct informational interviews with professionals in your desired field to make informed decisions about your career path."
 categories: career
 tags: ["life design", "professional development", "career change"]
