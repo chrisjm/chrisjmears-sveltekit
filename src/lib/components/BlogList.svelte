@@ -7,7 +7,7 @@
   let { posts }: Props = $props()
 </script>
 
-<div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
   {#each posts as post (post.id)}
     <div class="mb-10 leading-normal">
       <a
@@ -49,7 +49,7 @@
         </div>
       {/if}
       <div class="mt-2">
-        <p class="text-lg">
+        <p class="text-lg truncate">
           {post.data.metadata.description || post.data.metadata.excerpt}
         </p>
         <p class="text-body mt-1">
