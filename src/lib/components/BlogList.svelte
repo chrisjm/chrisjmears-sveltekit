@@ -35,13 +35,13 @@
           </span>
         {/if}
       </div>
-      {#if post.data.metadata.header.teaser}
-        <div class="mt-2 shadow-lg border-1 border-gray-300">
+      {#if post.data.metadata.header?.teaser}
+        <div class="mt-2">
           <a href="/blog/{post.id}">
             {#if post.data.metadata.header.cloudinaryPublicId}
               <CldImage
                 config={{ cloud: { cloudName: "wanderingleafstudios" } }}
-                class="w-full h-48 object-cover"
+                class="hidden sm:block w-full h-24 md:h-28 object-cover rounded"
                 src={post.data.metadata.header.cloudinaryPublicId}
                 width={1408}
                 height={192}
@@ -50,7 +50,7 @@
               />
             {:else}
               <img
-                class="w-full h-48 object-cover"
+                class="hidden sm:block w-full h-24 md:h-28 object-cover rounded"
                 src={post.data.metadata.header.teaser}
                 alt={`Featured`}
               />
