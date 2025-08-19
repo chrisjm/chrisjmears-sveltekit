@@ -2,6 +2,7 @@
   import Section from "$lib/components/Section.svelte"
   import Header2 from "$lib/components/Heading2.svelte"
   import type { PostSummary } from "$lib/content/types"
+  import { slugify } from "$lib/slugify"
 
   interface Props {
     posts: PostSummary[]
@@ -20,15 +21,30 @@
           rel="prev"
           class="hover:text-sky-200 hover:no-underline"
         >
-          {#if post.frontmatter.header}
-            <div class="mb-2">
-              <img src={post.frontmatter.header.teaser} alt="Featured" />
-            </div>
-          {/if}
           <div class="text-lg leading-tight">
             {post.frontmatter.title}
           </div>
         </a>
+        <div class="mt-2 flex flex-wrap gap-2">
+          {#if post.frontmatter.categories}
+            {#each (Array.isArray(post.frontmatter.categories)
+              ? post.frontmatter.categories
+              : [post.frontmatter.categories]) as cat}
+              <a
+                href="/blog/category/{slugify(cat)}"
+                class="rounded-full border border-sky-300/70 px-2 py-0.5 text-xs text-sky-100 hover:bg-sky-600/30"
+              >{cat}</a>
+            {/each}
+          {/if}
+          {#if Array.isArray(post.frontmatter.tags) && post.frontmatter.tags.length}
+            {#each post.frontmatter.tags as tag}
+              <a
+                href="/blog/tag/{slugify(tag)}"
+                class="rounded-full bg-sky-600 px-2 py-0.5 text-xs text-white hover:bg-sky-500"
+              >#{tag}</a>
+            {/each}
+          {/if}
+        </div>
         <i class="block mt-1 text-sm text-sky-200">
           {new Intl.DateTimeFormat("en-US", {
             month: "long",

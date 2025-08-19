@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { CldImage } from "svelte-cloudinary"
+  import { slugify } from "$lib/slugify"
   interface Props {
     posts: any[]
   }
@@ -7,7 +7,7 @@
   let { posts }: Props = $props()
 </script>
 
-<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="grid grid-cols-1 gap-6">
   {#each posts as post (post.id)}
     <div class="mb-10 leading-normal">
       <a
@@ -35,33 +35,33 @@
           </span>
         {/if}
       </div>
-      {#if post.data.metadata.header?.teaser}
-        <div class="mt-2">
-          <a href="/blog/{post.id}">
-            {#if post.data.metadata.header.cloudinaryPublicId}
-              <CldImage
-                config={{ cloud: { cloudName: "wanderingleafstudios" } }}
-                class="hidden sm:block w-full h-24 md:h-28 object-cover rounded"
-                src={post.data.metadata.header.cloudinaryPublicId}
-                width={1408}
-                height={192}
-                gravity="auto"
-                crop="fill"
-              />
-            {:else}
-              <img
-                class="hidden sm:block w-full h-24 md:h-28 object-cover rounded"
-                src={post.data.metadata.header.teaser}
-                alt={`Featured`}
-              />
-            {/if}
-          </a>
-        </div>
+      {#if false}
+        <!-- Teaser image intentionally suppressed for text-first design -->
       {/if}
       <div class="mt-2">
-        <p class="text-lg truncate">
+        <p class="text-base md:text-lg leading-relaxed">
           {post.data.metadata.description || post.data.metadata.excerpt}
         </p>
+        <div class="mt-2 flex flex-wrap gap-2">
+          {#if post.data.metadata.categories}
+            {#each (Array.isArray(post.data.metadata.categories)
+              ? post.data.metadata.categories
+              : [post.data.metadata.categories]) as cat}
+              <a
+                href="/blog/category/{slugify(cat)}"
+                class="rounded-full border border-gray-300 px-2 py-0.5 text-xs text-gray-700 hover:bg-gray-50"
+              >{cat}</a>
+            {/each}
+          {/if}
+          {#if Array.isArray(post.data.metadata.tags) && post.data.metadata.tags.length}
+            {#each post.data.metadata.tags as tag}
+              <a
+                href="/blog/tag/{slugify(tag)}"
+                class="rounded-full bg-gray-100 px-2 py-0.5 text-xs text-gray-700 hover:bg-gray-200"
+              >#{tag}</a>
+            {/each}
+          {/if}
+        </div>
         <p class="text-body mt-1">
           <a href="/blog/{post.id}">Read more.</a>
         </p>
