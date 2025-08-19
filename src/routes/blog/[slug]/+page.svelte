@@ -17,9 +17,7 @@
   title={data.frontmatter.title + " - Chris J Mears"}
   description={data.frontmatter.description}
   type="website"
-  image={data.frontmatter.header.teaser
-    ? data.frontmatter.header.teaser
-    : undefined}
+  image={data.frontmatter.header?.teaser}
 />
 
 <Section containerClasses="container mx-auto max-w-3xl p-5 md:pt-10">
