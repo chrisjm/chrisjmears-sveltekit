@@ -3,8 +3,8 @@ layout: post
 date: "2020-03-10"
 title: "The 3 Best YouTube Cooking Channels"
 description: "Do you love cooking shows but are tired of the repetitive television formulas? I took a deep-dive into the alternative cooking world of YouTube to find the best channels and shows."
-categories: personal
-tags: ["youtube", "cooking", "recommendation"]
+categories: Personal
+tags: ["youtube", "cooking"]
 header:
   cloudinaryPublicId: "chrisjmears.com/blog/christian-wiediger-usWE9pOuTfE-unsplash.jpg"
   teaser: "https://res.cloudinary.com/wanderingleafstudios/image/upload/b_auto,c_pad,g_center,h_630,w_1200/v1537890988/chrisjmears.com/blog/christian-wiediger-usWE9pOuTfE-unsplash.jpg"

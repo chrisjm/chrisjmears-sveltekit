@@ -2,8 +2,8 @@
 layout: post
 date: "2012-12-09"
 title: TextMate How-to Book
-categories: general
-tags: ["self-promotion"]
+categories: Personal
+tags: ["announcement", "book", "web-development", "tools"]
 header:
   teaser: "https://res.cloudinary.com/wanderingleafstudios/image/upload/b_auto,c_pad,g_center,h_630,w_1200/v1537457980/chrisjmears.com/blog/3981OT_TextMateHow-to_cov.png"
 ---

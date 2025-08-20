@@ -2,8 +2,8 @@
 layout: post
 date: "2009-02-21"
 title: Setting Themes for Terminal in Mac OS X
-categories: tips and tricks
-tags: ["osx", "terminal"]
+categories: Technology
+tags: ["mac-os-x", "terminal", "command-line", "productivity"]
 header:
   teaser: ""
 ---

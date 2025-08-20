@@ -3,8 +3,8 @@ layout: post
 date: "2018-11-27"
 title: "How to find a web developer you won't hate 😅"
 description: "Looking for web site help, we often find ourselves in the same predicament as someone who is inexperienced with cars searching for a new mechanic. Here are some tips you can use to find a web developer you won't hate."
-categories: technology
-tags: ["hiring"]
+categories: Business
+tags: ["web-development", "small-business"]
 header:
   teaser: "https://res.cloudinary.com/wanderingleafstudios/image/upload/b_auto,c_pad,g_center,h_630,w_1200/v1537890988/chrisjmears.com/blog/rawpixel-699806-unsplash.jpg"
 ---

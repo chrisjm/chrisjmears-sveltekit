@@ -3,8 +3,8 @@ layout: post
 date: "2018-09-25"
 title: "My Solopreneur Toolkit: Part 1 - Project Management & Productivity"
 description: "Freelancers and solopreneurs need a toolkit they use daily to make their business and personal lives more manageable. Doing everything solely in spreadsheets and many Word documents can only get you so far. The easy-win automation provided in existing services is beneficial if a solo business owner is going to have a maintainable work/life balance."
-categories: productivity
-tags: ["tools", "project-management"]
+categories: Business
+tags: ["tools", "project-management", "productivity"]
 header:
   teaser: "https://res.cloudinary.com/wanderingleafstudios/image/upload/b_auto,c_pad,g_center,h_630,w_1200/v1537890988/chrisjmears.com/blog/daria-nepriakhina-474036-unsplash.jpg"
 ---

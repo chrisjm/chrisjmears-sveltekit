@@ -2,8 +2,8 @@
 date: "2025-08-18"
 title: "Kicking Off the Fall Semester 2025 at Georgia Tech"
 description: "Today marks the first day of the Fall 2025 semester at Georgia Institute of Technology, and the start of my sixth class in the Online Master of Science in Analytics (OMSA) program! This semester, I'm taking the last of my foundational courses: CSE 6242, Data and Visual Analytics."
-categories: ["data science", "analytics", "Georgia Tech"]
-tags: ["data science", "analytics", "Georgia Tech"]
+categories: "Career Development"
+tags: ["data-science", "analytics", "georgia-tech", "online-learning"]
 ---
 
 Today is the first day of the Fall 2025 semester at Georgia Institute of Technology, and the start of my sixth class in the [Online Master of Science in Analytics (OMSA)](https://pe.gatech.edu/degrees/analytics) program! This semester, I'm taking the last of my foundational courses: [CSE 6242, Data and Visual Analytics](https://poloclub.github.io/cse6242-2025fall-online/).

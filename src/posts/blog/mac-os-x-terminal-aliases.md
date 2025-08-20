@@ -2,8 +2,8 @@
 layout: post
 date: "2009-05-21"
 title: Mac OS X Terminal Aliases
-categories: tips and tricks
-tags: ["osx", "terminal"]
+categories: Technology
+tags: ["mac-os-x", "terminal", "command-line", "productivity"]
 header:
   teaser: ""
 ---

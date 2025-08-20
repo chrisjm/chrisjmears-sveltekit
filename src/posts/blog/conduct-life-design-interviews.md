@@ -4,8 +4,8 @@ date: "2020-03-12"
 updated: "2025-08-15"
 title: "Conduct Life Design Interviews: How Life Design Interviews Can Help You Find Your Passion"
 description: "Learn how to prototype your career with life design interviews. This guide explains how to find and conduct informational interviews with professionals in your desired field to make informed decisions about your career path."
-categories: career
-tags: ["life design", "professional development", "career change"]
+categories: "Career Development"
+tags: ["life-design", "informational-interviews", "career-change"]
 header:
   cloudinaryPublicId: "chrisjmears.com/blog/Interviews_-_Phone_Call_on_Mobile.jpg"
   teaser: "https://res.cloudinary.com/wanderingleafstudios/image/upload/b_auto,c_pad,g_center,h_630,w_1200/v1537890988/chrisjmears.com/blog/Interviews_-_Phone_Call_on_Mobile.jpg"

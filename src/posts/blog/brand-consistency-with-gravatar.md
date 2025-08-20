@@ -3,8 +3,8 @@ layout: post
 date: "2018-10-23"
 title: "Brand consistency with Gravatar 🦖"
 description: "It's time-consuming keeping up with brand consistency when you're a solopreneur. Gravatar (Globally Recognized Avatar) is a free service maintained by Automattic, the company behind WordPress. In the simplest terms, it links email addresses to profile images."
-categories: marketing
-tags: ["branding"]
+categories: Business
+tags: ["branding", "online-presence", "social-media", "solopreneurship"]
 header:
   teaser: "https://res.cloudinary.com/wanderingleafstudios/image/upload/b_auto,c_pad,g_center,h_630,w_1200/v1537890988/chrisjmears.com/blog/brett-meliti-784109-unsplash.jpg"
 ---
