@@ -88,6 +88,36 @@
         },
       ],
     },
+    {
+      id: "kirtan-kriya-timer",
+      title: "Kirtan Kriya Timer",
+      description:
+        "A meditation timer for practicing Kirtan Kriya, a meditation technique from the Kundalini yoga tradition.",
+      tags: ["meditation", "timer"],
+      imageUrl: "/images/kirtan-kriya-timer-og-bg.jpg",
+      imageAlt: "Kirtan Kriya Timer",
+      links: [
+        {
+          text: "View Website",
+          url: "https://www.kirtan-kriya-timer.com/",
+        },
+      ],
+    },
+    {
+      id: "meditation-timer",
+      title: "Meditation Timer",
+      description:
+        "A simple meditation timer to enhance your practice with gentle interval bells and healing solfeggio frequencies.",
+      tags: ["meditation", "timer", "solfeggio"],
+      imageUrl: "/images/og-bg-v3-dark.png",
+      imageAlt: "Meditation Timer",
+      links: [
+        {
+          text: "View Website",
+          url: "https://meditation.wanderingleafstudios.com/",
+        },
+      ],
+    },
   ]
 </script>
 
