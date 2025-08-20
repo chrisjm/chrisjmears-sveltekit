@@ -1,7 +1,9 @@
 import remarkGithub from "remark-github";
 import remarkAbbr from "remark-abbr";
+import remarkMath from "remark-math";
 import rehypeSlug from "rehype-slug";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
+import rehypeKatexSvelte from "rehype-katex-svelte";
 import { defineMDSveXConfig as defineConfig } from "mdsvex";
 
 // Rehype plugin: set target="_blank" and safe rel on all anchors generated from Markdown
@@ -47,6 +49,7 @@ const config = defineConfig({
       },
     ],
     remarkAbbr,
+    remarkMath,
   ],
   rehypePlugins: [
     rehypeSlug,
@@ -57,6 +60,7 @@ const config = defineConfig({
       },
     ],
     rehypeTargetBlankAllLinks,
+    rehypeKatexSvelte,
   ],
 });
 
