@@ -17,6 +17,9 @@
     processTimeMin: number
     processTimeMode: number
     processTimeMax: number
+    distribution?: "triangular" | "normal"
+    processTimeMean?: number
+    processTimeStdDev?: number
   }
 
   interface SimulationConfig {
@@ -74,14 +77,15 @@
         name: "Intake",
         workers: 2,
         costPerHour: 50,
-        processTimeMin: 5,
-        processTimeMode: 5,
-        processTimeMax: 10,
+        distribution: "normal",
+        processTimeMean: 7,
+        processTimeStdDev: 2,
       },
       {
         name: "Digitization",
         workers: 3,
         costPerHour: 25,
+        distribution: "triangular",
         processTimeMin: 8,
         processTimeMode: 10,
         processTimeMax: 15,
@@ -90,6 +94,7 @@
         name: "QA",
         workers: 2,
         costPerHour: 50,
+        distribution: "triangular",
         processTimeMin: 5,
         processTimeMode: 15,
         processTimeMax: 30,
@@ -143,9 +148,12 @@
         name: s.name,
         workers: s.workers,
         costPerHour: s.costPerHour,
+        distribution: s.distribution ?? "triangular",
         processTimeMin: s.processTimeMin,
         processTimeMode: s.processTimeMode,
         processTimeMax: s.processTimeMax,
+        processTimeMean: s.processTimeMean,
+        processTimeStdDev: s.processTimeStdDev,
       })),
     })
   )
@@ -286,6 +294,53 @@
     return Math.round((value / m) * 100)
   }
 
+  function ensureDistributionDefaults(station: StationConfig) {
+    if (station.distribution === "normal") {
+      if (station.processTimeMean == null) {
+        station.processTimeMean =
+          station.processTimeMode ??
+          (station.processTimeMin + station.processTimeMax) / 2
+      }
+      if (station.processTimeStdDev == null) {
+        const span = Math.max(
+          0,
+          station.processTimeMax - station.processTimeMin
+        )
+        station.processTimeStdDev = Math.max(0.1, span / 6)
+      }
+    } else {
+      if (station.processTimeMode == null) {
+        station.processTimeMode = station.processTimeMean ?? 5
+      }
+      if (station.processTimeMin == null || station.processTimeMax == null) {
+        const mean = station.processTimeMean ?? station.processTimeMode
+        const std = station.processTimeStdDev ?? 1
+        station.processTimeMin = Math.max(0.1, mean - 2 * std)
+        station.processTimeMax = Math.max(
+          station.processTimeMin + 0.1,
+          mean + 2 * std
+        )
+      }
+      normalizeStationTimes(station)
+    }
+  }
+
+  function getProcessingTime(cfg: StationConfig): number {
+    if ((cfg.distribution ?? "triangular") === "normal") {
+      const mean = cfg.processTimeMean ?? cfg.processTimeMode
+      const stdDev = Math.max(
+        0.01,
+        cfg.processTimeStdDev ?? (cfg.processTimeMax - cfg.processTimeMin) / 6
+      )
+      return generateNormalRandom(mean, stdDev)
+    }
+    return generateTriangularRandom(
+      cfg.processTimeMin,
+      cfg.processTimeMode,
+      cfg.processTimeMax
+    )
+  }
+
   function advanceSimulation(deltaTime: number) {
     const timeStep = (deltaTime * simulationConfig.simulationSpeed) / 60
     simulationState.simulationTime += timeStep
@@ -320,11 +375,7 @@
       for (let i = 0; i < station.activeWorkers.length; i++) {
         if (station.activeWorkers[i] === null && station.queue.length > 0) {
           const fileToProcess = station.queue.shift()!
-          const processTime = generateTriangularRandom(
-            station.config.processTimeMin,
-            station.config.processTimeMode,
-            station.config.processTimeMax
-          )
+          const processTime = getProcessingTime(station.config)
           station.activeWorkers[i] = {
             file: fileToProcess,
             completionTime: simulationState.simulationTime + processTime,
@@ -610,47 +661,85 @@
               />
             </label>
             <label class="block text-sm text-gray-600">
-              Min Time ({station.processTimeMin.toFixed(1)}m, {percentOfMax(
-                station.processTimeMin,
-                station.processTimeMax
-              )}%)
-              <input
-                type="range"
-                bind:value={station.processTimeMin}
-                class="mt-1 w-full"
-                min="0.1"
-                max={station.processTimeMax}
-                step="0.1"
-                oninput={() => normalizeStationTimes(station)}
-              />
+              Distribution
+              <select
+                bind:value={station.distribution}
+                class="mt-1 w-full p-1 border rounded bg-white"
+                onchange={() => ensureDistributionDefaults(station)}
+              >
+                <option value="triangular">Triangular (min/mode/max)</option>
+                <option value="normal">Normal (mean/std dev)</option>
+              </select>
             </label>
-            <label class="block text-sm text-gray-600">
-              Mode Time ({station.processTimeMode.toFixed(1)}m, {percentOfMax(
-                station.processTimeMode,
-                station.processTimeMax
-              )}%)
-              <input
-                type="range"
-                bind:value={station.processTimeMode}
-                class="mt-1 w-full"
-                min={station.processTimeMin}
-                max={station.processTimeMax}
-                step="0.1"
-                oninput={() => normalizeStationTimes(station)}
-              />
-            </label>
-            <label class="block text-sm text-gray-600">
-              Max Time ({station.processTimeMax.toFixed(1)}m, 100%)
-              <input
-                type="range"
-                bind:value={station.processTimeMax}
-                class="mt-1 w-full"
-                min={station.processTimeMode}
-                max="60"
-                step="0.1"
-                oninput={() => normalizeStationTimes(station)}
-              />
-            </label>
+            {#if (station.distribution ?? "triangular") === "triangular"}
+              <label class="block text-sm text-gray-600">
+                Min Time ({station.processTimeMin.toFixed(1)}m, {percentOfMax(
+                  station.processTimeMin,
+                  station.processTimeMax
+                )}%)
+                <input
+                  type="range"
+                  bind:value={station.processTimeMin}
+                  class="mt-1 w-full"
+                  min="0.1"
+                  max={station.processTimeMax}
+                  step="0.1"
+                  oninput={() => normalizeStationTimes(station)}
+                />
+              </label>
+              <label class="block text-sm text-gray-600">
+                Mode Time ({station.processTimeMode.toFixed(1)}m, {percentOfMax(
+                  station.processTimeMode,
+                  station.processTimeMax
+                )}%)
+                <input
+                  type="range"
+                  bind:value={station.processTimeMode}
+                  class="mt-1 w-full"
+                  min={station.processTimeMin}
+                  max={station.processTimeMax}
+                  step="0.1"
+                  oninput={() => normalizeStationTimes(station)}
+                />
+              </label>
+              <label class="block text-sm text-gray-600">
+                Max Time ({station.processTimeMax.toFixed(1)}m, 100%)
+                <input
+                  type="range"
+                  bind:value={station.processTimeMax}
+                  class="mt-1 w-full"
+                  min={station.processTimeMode}
+                  max="60"
+                  step="0.1"
+                  oninput={() => normalizeStationTimes(station)}
+                />
+              </label>
+            {:else}
+              <label class="block text-sm text-gray-600">
+                Mean Time ({(station.processTimeMean ?? 0).toFixed(1)}m)
+                <input
+                  type="range"
+                  bind:value={station.processTimeMean}
+                  class="mt-1 w-full"
+                  min="0.1"
+                  max="60"
+                  step="0.1"
+                  oninput={() => ensureDistributionDefaults(station)}
+                />
+              </label>
+              <label class="block text-sm text-gray-600">
+                Std Dev ({(station.processTimeStdDev ?? 0).toFixed(1)}m)
+                <input
+                  type="range"
+                  bind:value={station.processTimeStdDev}
+                  class="mt-1 w-full"
+                  min="0.1"
+                  max="20"
+                  step="0.1"
+                  oninput={() => ensureDistributionDefaults(station)}
+                />
+              </label>
+            {/if}
           </div>
         {/each}
       </div>
