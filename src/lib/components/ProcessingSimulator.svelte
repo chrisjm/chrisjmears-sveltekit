@@ -10,13 +10,69 @@
     [key: string]: number | undefined
   }
 
+  async function monteCarloRun() {
+    if (mcRunning) return
+    simulationState.isRunning = false
+    chartMode = "single"
+    fitToWidth = false
+    aggregateBins = []
+    runCompletionTimes = []
+    mcCurrentRun = 0
+    mcRunning = true
+
+    try {
+      for (let r = 0; r < runsToExecute; r++) {
+        mcCurrentRun = r + 1
+        reset()
+        mcLastBin = -1
+        let iterations = 0
+        const yieldEvery = 300
+        const done = () => completedFiles.length === simulationConfig.totalFiles
+        while (!done()) {
+          let deltas: number[] = []
+          if (simulationState.filesCreated < simulationConfig.totalFiles) {
+            deltas.push(Math.max(0, simulationState.timeToNextFile))
+          }
+          for (const station of stationStates) {
+            for (const worker of station.activeWorkers) {
+              if (worker) {
+                const remaining =
+                  worker.completionTime - simulationState.simulationTime
+                deltas.push(Math.max(0, remaining))
+              }
+            }
+          }
+          let deltaMinutes = deltas.length > 0 ? Math.min(...deltas) : 0
+          if (!isFinite(deltaMinutes)) deltaMinutes = 0
+          const deltaSeconds =
+            (deltaMinutes * 60) / simulationConfig.simulationSpeed
+          advanceSimulation(deltaSeconds)
+          iterations++
+          if (iterations % yieldEvery === 0) {
+            await new Promise((r) => setTimeout(r, 0))
+          }
+        }
+        runCompletionTimes.push(simulationState.simulationTime)
+      }
+    } finally {
+      mcRunning = false
+      chartMode = "average"
+      fitToWidth = true
+      if (svg) updateChart()
+    }
+  }
+
+  $effect(() => {
+    simulationConfig.stations.forEach((s) => ensureDistributionDefaults(s))
+  })
+
   interface StationConfig {
     name: string
     workers: number
     costPerHour: number
-    processTimeMin: number
-    processTimeMode: number
-    processTimeMax: number
+    processTimeMin?: number
+    processTimeMode?: number
+    processTimeMax?: number
     distribution?: "triangular" | "normal"
     processTimeMean?: number
     processTimeStdDev?: number
@@ -128,6 +184,18 @@
   let lastSampledTime = $state(0)
   let fitToWidth = $state(true)
 
+  let chartMode = $state<"single" | "average">("single")
+  let metricMode = $state<"queues" | "cost">("queues")
+  let mcRunning = $state(false)
+  let runsToExecute = $state(10)
+  let aggInterval = $state(0.5)
+  let mcCurrentRun = $state(0)
+  let mcLastBin = $state(-1)
+  let aggregateBins = $state<
+    { t: number; sumQueues: number[]; sumCost: number[]; count: number }[]
+  >([])
+  let runCompletionTimes = $state<number[]>([])
+
   const totalCost = $derived(
     simulationConfig.stations.reduce(
       (total, station) => total + station.workers * station.costPerHour,
@@ -179,8 +247,29 @@
     const containerWidth = container?.clientWidth ?? 800
     const svgHeight = svgElement.clientHeight || 256
     const innerHeight = svgHeight - margin.top - margin.bottom
-    const t0 = timeSeries.length ? timeSeries[0].t : 0
-    const t1raw = timeSeries.length ? timeSeries[timeSeries.length - 1].t : 1
+    const avgQueues = aggregateBins
+      .filter((b) => b && b.count > 0)
+      .map((b) => ({ t: b.t, queues: b.sumQueues.map((s) => s / b.count) }))
+    const avgCost = aggregateBins
+      .filter((b) => b && b.count > 0)
+      .map((b) => ({ t: b.t, queues: b.sumCost.map((s) => s / b.count) }))
+
+    const singleCost = timeSeries.map((d) => ({
+      t: d.t,
+      queues: simulationConfig.stations.map(
+        (s) => s.workers * s.costPerHour * (d.t / 60)
+      ),
+    }))
+
+    let series: { t: number; queues: number[] }[]
+    if (chartMode === "average") {
+      series = metricMode === "cost" ? avgCost : avgQueues
+    } else {
+      series = metricMode === "cost" ? singleCost : timeSeries
+    }
+
+    const t0 = series.length ? series[0].t : 0
+    const t1raw = series.length ? series[series.length - 1].t : 1
     const t1 = t1raw > t0 ? t1raw : t0 + 1
     const baseWidth = containerWidth - margin.left - margin.right
     const timeWidth = fitToWidth
@@ -189,7 +278,7 @@
 
     svg.attr("width", timeWidth + margin.left + margin.right)
 
-    const maxY = d3.max(timeSeries, (d) => d3.max(d.queues, (q) => q) ?? 0) ?? 0
+    const maxY = d3.max(series, (d) => d3.max(d.queues, (q) => q) ?? 0) ?? 0
     const yMax = Math.max(5, maxY + 1)
 
     const xScale = d3.scaleLinear().domain([t0, t1]).range([0, timeWidth])
@@ -225,7 +314,7 @@
 
     stationNames.forEach((name, i) => {
       g.append("path")
-        .datum(timeSeries)
+        .datum(series)
         .attr("fill", "none")
         .attr("stroke", color(name))
         .attr("stroke-width", 2)
@@ -264,6 +353,8 @@
 
   $effect(() => {
     fitToWidth
+    chartMode
+    metricMode
     if (svg) updateChart()
   })
 
@@ -275,9 +366,37 @@
       lastSampledTime = t
       if (svg) updateChart()
     }
+    if (mcRunning) {
+      const idx = Math.floor(t / aggInterval)
+      if (idx !== mcLastBin) {
+        if (!aggregateBins[idx]) {
+          aggregateBins[idx] = {
+            t: idx * aggInterval,
+            sumQueues: Array(simulationConfig.stations.length).fill(0),
+            sumCost: Array(simulationConfig.stations.length).fill(0),
+            count: 0,
+          }
+        }
+        const bin = aggregateBins[idx]
+        for (let i = 0; i < simulationConfig.stations.length; i++) {
+          bin.sumQueues[i] += stationStates[i]?.queue.length ?? 0
+          const s = simulationConfig.stations[i]
+          bin.sumCost[i] += s.workers * s.costPerHour * (t / 60)
+        }
+        bin.count += 1
+        mcLastBin = idx
+      }
+    }
   }
 
   function normalizeStationTimes(station: StationConfig) {
+    if (
+      station.processTimeMin == null ||
+      station.processTimeMode == null ||
+      station.processTimeMax == null
+    ) {
+      return
+    }
     if (station.processTimeMin > station.processTimeMode) {
       station.processTimeMode = station.processTimeMin
     }
@@ -294,18 +413,58 @@
     return Math.round((value / m) * 100)
   }
 
+  function getStationValidationMessages(station: StationConfig): string[] {
+    const msgs: string[] = []
+    const dist = station.distribution ?? "triangular"
+    if (dist === "triangular") {
+      const {
+        processTimeMin: min,
+        processTimeMode: mode,
+        processTimeMax: max,
+      } = station
+      if (min == null || mode == null || max == null) {
+        msgs.push("Provide min, mode and max for triangular distribution.")
+        return msgs
+      }
+      if (min < 0.1) msgs.push("Min must be ≥ 0.1 minutes.")
+      if (max <= min) msgs.push("Max must be greater than Min.")
+      if (mode < min || mode > max)
+        msgs.push("Mode must be between Min and Max.")
+    } else {
+      const mean = station.processTimeMean
+      const std = station.processTimeStdDev
+      if (mean == null || mean <= 0) msgs.push("Mean must be > 0 minutes.")
+      if (std == null || std <= 0) msgs.push("Std Dev must be > 0 minutes.")
+    }
+    return msgs
+  }
+
+  function distributionInfo(station: StationConfig): string {
+    const dist = station.distribution ?? "triangular"
+    if (dist === "triangular") {
+      return "Triangular(min, mode, max): Most likely time = mode; min and max bound the range. Good when you have optimistic/most-likely/pessimistic estimates."
+    }
+    return "Normal(mean, std dev): Times vary around mean with bell curve. Good when process times cluster around an average with symmetric variability."
+  }
+
+  const hasValidationErrors = $derived(
+    simulationConfig.stations.some(
+      (s) => getStationValidationMessages(s).length > 0
+    )
+  )
+
   function ensureDistributionDefaults(station: StationConfig) {
     if (station.distribution === "normal") {
+      const fallbackMean = station.processTimeMean ?? station.processTimeMode
+      const min =
+        station.processTimeMin ?? Math.max(0.1, (fallbackMean ?? 1) / 2)
+      const max =
+        station.processTimeMax ?? Math.max(min + 0.1, (fallbackMean ?? 1) * 1.5)
       if (station.processTimeMean == null) {
-        station.processTimeMean =
-          station.processTimeMode ??
-          (station.processTimeMin + station.processTimeMax) / 2
+        station.processTimeMean = fallbackMean ?? (min + max) / 2
       }
       if (station.processTimeStdDev == null) {
-        const span = Math.max(
-          0,
-          station.processTimeMax - station.processTimeMin
-        )
+        const span = Math.max(0, max - min)
         station.processTimeStdDev = Math.max(0.1, span / 6)
       }
     } else {
@@ -327,18 +486,25 @@
 
   function getProcessingTime(cfg: StationConfig): number {
     if ((cfg.distribution ?? "triangular") === "normal") {
-      const mean = cfg.processTimeMean ?? cfg.processTimeMode
-      const stdDev = Math.max(
-        0.01,
-        cfg.processTimeStdDev ?? (cfg.processTimeMax - cfg.processTimeMin) / 6
-      )
+      const mean = cfg.processTimeMean ?? cfg.processTimeMode ?? 1
+      let stdDev = cfg.processTimeStdDev
+      if (stdDev == null) {
+        if (cfg.processTimeMin != null && cfg.processTimeMax != null) {
+          stdDev = (cfg.processTimeMax - cfg.processTimeMin) / 6
+        } else {
+          stdDev = Math.max(0.1, mean / 6)
+        }
+      }
+      stdDev = Math.max(0.01, stdDev)
       return generateNormalRandom(mean, stdDev)
     }
-    return generateTriangularRandom(
-      cfg.processTimeMin,
-      cfg.processTimeMode,
-      cfg.processTimeMax
-    )
+    const mean = cfg.processTimeMean ?? cfg.processTimeMode ?? 1
+    let min = cfg.processTimeMin ?? Math.max(0.1, mean / 2)
+    let mode = cfg.processTimeMode ?? mean
+    let max = cfg.processTimeMax ?? Math.max(min + 0.1, mean * 1.5)
+    if (min > mode) mode = min
+    if (mode > max) max = mode
+    return generateTriangularRandom(min, mode, max)
   }
 
   function advanceSimulation(deltaTime: number) {
@@ -413,7 +579,6 @@
 
   function start() {
     simulationState.isRunning = true
-    // Ensure an immediate visual update
     sampleQueues()
     if (svg) updateChart()
   }
@@ -489,7 +654,7 @@
   }
 
   $effect(() => {
-    if (batchRunning) return
+    if (batchRunning || mcRunning) return
     if (lastConfigSignature === null) {
       lastConfigSignature = configSignature
       return
@@ -519,28 +684,61 @@
     <div class="controls mt-2 sm:mt-0">
       <button
         onclick={start}
-        disabled={simulationState.isRunning || batchRunning}
+        disabled={simulationState.isRunning ||
+          batchRunning ||
+          mcRunning ||
+          hasValidationErrors}
         class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 disabled:bg-blue-300 disabled:cursor-not-allowed"
         >Start</button
       >
       <button
         onclick={pause}
-        disabled={!simulationState.isRunning || batchRunning}
+        disabled={!simulationState.isRunning || batchRunning || mcRunning}
         class="ml-2 px-4 py-2 text-sm font-medium text-gray-700 bg-white border rounded-md hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
         >Pause</button
       >
       <button
         onclick={reset}
-        disabled={batchRunning}
+        disabled={batchRunning || mcRunning}
         class="ml-2 px-4 py-2 text-sm font-medium text-gray-700 bg-white border rounded-md hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
         >Reset</button
       >
       <button
         onclick={batchRun}
-        disabled={batchRunning}
+        disabled={batchRunning || mcRunning || hasValidationErrors}
         class="ml-2 px-4 py-2 text-sm font-medium text-white bg-purple-600 rounded-md hover:bg-purple-700 disabled:bg-purple-300 disabled:cursor-not-allowed"
         >Batch Run</button
       >
+      <div class="inline-flex items-center ml-3 gap-2 align-middle">
+        <label class="text-xs text-gray-600"
+          >Runs
+          <input
+            type="number"
+            bind:value={runsToExecute}
+            min="2"
+            max="200"
+            step="1"
+            class="ml-1 w-16 p-1 border rounded"
+          />
+        </label>
+        <label class="text-xs text-gray-600"
+          >Bin (m)
+          <input
+            type="number"
+            bind:value={aggInterval}
+            min="0.1"
+            max="10"
+            step="0.1"
+            class="ml-1 w-20 p-1 border rounded"
+          />
+        </label>
+        <button
+          onclick={monteCarloRun}
+          disabled={mcRunning || batchRunning || hasValidationErrors}
+          class="px-3 py-2 text-sm font-medium text-white bg-emerald-600 rounded-md hover:bg-emerald-700 disabled:bg-emerald-300 disabled:cursor-not-allowed"
+          >MC Run</button
+        >
+      </div>
       {#if batchRunning}
         <span class="ml-3 inline-flex items-center text-sm text-gray-600">
           <svg
@@ -565,6 +763,32 @@
             ></path>
           </svg>
           Running...
+        </span>
+      {/if}
+      {#if mcRunning}
+        <span class="ml-3 inline-flex items-center text-sm text-gray-600">
+          <svg
+            class="animate-spin -ml-1 mr-2 h-4 w-4 text-emerald-600"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+          >
+            <circle
+              class="opacity-25"
+              cx="12"
+              cy="12"
+              r="10"
+              stroke="currentColor"
+              stroke-width="4"
+            ></circle>
+            <path
+              class="opacity-75"
+              fill="currentColor"
+              d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+            ></path>
+          </svg>
+          MC: {mcCurrentRun}/{runsToExecute}
         </span>
       {/if}
     </div>
@@ -670,50 +894,70 @@
                 <option value="triangular">Triangular (min/mode/max)</option>
                 <option value="normal">Normal (mean/std dev)</option>
               </select>
+              <span
+                class="ml-1 inline-block align-middle text-gray-400"
+                title={distributionInfo(station)}>ⓘ</span
+              >
             </label>
             {#if (station.distribution ?? "triangular") === "triangular"}
               <label class="block text-sm text-gray-600">
-                Min Time ({station.processTimeMin.toFixed(1)}m, {percentOfMax(
-                  station.processTimeMin,
-                  station.processTimeMax
+                Min Time ({(station.processTimeMin ?? 0.1).toFixed(1)}m, {percentOfMax(
+                  station.processTimeMin ?? 0.1,
+                  station.processTimeMax ?? 1
                 )}%)
                 <input
                   type="range"
-                  bind:value={station.processTimeMin}
+                  bind:value={station.processTimeMin!}
                   class="mt-1 w-full"
                   min="0.1"
-                  max={station.processTimeMax}
+                  max={station.processTimeMax ?? 60}
                   step="0.1"
                   oninput={() => normalizeStationTimes(station)}
                 />
               </label>
               <label class="block text-sm text-gray-600">
-                Mode Time ({station.processTimeMode.toFixed(1)}m, {percentOfMax(
-                  station.processTimeMode,
-                  station.processTimeMax
+                Mode Time ({(
+                  station.processTimeMode ??
+                  station.processTimeMin ??
+                  0.1
+                ).toFixed(1)}m, {percentOfMax(
+                  station.processTimeMode ?? station.processTimeMin ?? 0.1,
+                  station.processTimeMax ?? 1
                 )}%)
                 <input
                   type="range"
-                  bind:value={station.processTimeMode}
+                  bind:value={station.processTimeMode!}
                   class="mt-1 w-full"
-                  min={station.processTimeMin}
-                  max={station.processTimeMax}
+                  min={station.processTimeMin ?? 0.1}
+                  max={station.processTimeMax ?? 60}
                   step="0.1"
                   oninput={() => normalizeStationTimes(station)}
                 />
               </label>
               <label class="block text-sm text-gray-600">
-                Max Time ({station.processTimeMax.toFixed(1)}m, 100%)
+                Max Time ({(
+                  station.processTimeMax ??
+                  station.processTimeMode ??
+                  station.processTimeMin ??
+                  0.1
+                ).toFixed(1)}m, 100%)
                 <input
                   type="range"
-                  bind:value={station.processTimeMax}
+                  bind:value={station.processTimeMax!}
                   class="mt-1 w-full"
-                  min={station.processTimeMode}
+                  min={station.processTimeMode ?? station.processTimeMin ?? 0.1}
                   max="60"
                   step="0.1"
                   oninput={() => normalizeStationTimes(station)}
                 />
               </label>
+              {#if getStationValidationMessages(station).length > 0}
+                <ul class="mt-1 text-xs text-red-600 list-disc pl-5">
+                  {#each getStationValidationMessages(station) as m}
+                    <li>{m}</li>
+                  {/each}
+                </ul>
+              {/if}
             {:else}
               <label class="block text-sm text-gray-600">
                 Mean Time ({(station.processTimeMean ?? 0).toFixed(1)}m)
@@ -739,6 +983,13 @@
                   oninput={() => ensureDistributionDefaults(station)}
                 />
               </label>
+              {#if getStationValidationMessages(station).length > 0}
+                <ul class="mt-1 text-xs text-red-600 list-disc pl-5">
+                  {#each getStationValidationMessages(station) as m}
+                    <li>{m}</li>
+                  {/each}
+                </ul>
+              {/if}
             {/if}
           </div>
         {/each}
@@ -772,8 +1023,42 @@
 
     <div class="visualization mt-6">
       <div class="flex items-center justify-between mb-2">
-        <h3 class="text-lg font-semibold text-gray-800">Queue Lengths</h3>
+        <h3 class="text-lg font-semibold text-gray-800">Timeline</h3>
         <div class="flex items-center gap-2 text-xs text-gray-600">
+          <span>Series</span>
+          <button
+            onclick={() => {
+              chartMode = "single"
+              if (svg) updateChart()
+            }}
+            class={`px-2 py-1 rounded border ${chartMode === "single" ? "bg-gray-800 text-white border-gray-800" : "bg-white hover:bg-gray-50"}`}
+            aria-pressed={chartMode === "single"}>Single</button
+          >
+          <button
+            onclick={() => {
+              chartMode = "average"
+              if (svg) updateChart()
+            }}
+            class={`px-2 py-1 rounded border ${chartMode === "average" ? "bg-gray-800 text-white border-gray-800" : "bg-white hover:bg-gray-50"}`}
+            aria-pressed={chartMode === "average"}>Average</button
+          >
+          <span class="ml-3">Metric</span>
+          <button
+            onclick={() => {
+              metricMode = "queues"
+              if (svg) updateChart()
+            }}
+            class={`px-2 py-1 rounded border ${metricMode === "queues" ? "bg-gray-800 text-white border-gray-800" : "bg-white hover:bg-gray-50"}`}
+            aria-pressed={metricMode === "queues"}>Queues</button
+          >
+          <button
+            onclick={() => {
+              metricMode = "cost"
+              if (svg) updateChart()
+            }}
+            class={`px-2 py-1 rounded border ${metricMode === "cost" ? "bg-gray-800 text-white border-gray-800" : "bg-white hover:bg-gray-50"}`}
+            aria-pressed={metricMode === "cost"}>Cost</button
+          >
           <span>View</span>
           <button
             onclick={() => {
