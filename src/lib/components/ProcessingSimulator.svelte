@@ -6,6 +6,7 @@
   interface FileEntity {
     id: number
     createdAt: number
+    completionTime?: number
     [key: string]: number | undefined
   }
 
@@ -20,26 +21,29 @@
   interface SimulationConfig {
     totalFiles: number
     stations: StationConfig[]
+    simulationSpeed: number
+    fileArrivalInterval: number
   }
 
   interface StationState {
     id: number
     config: StationConfig
     queue: FileEntity[]
-    activeWorkers: (FileEntity | null)[]
+    activeWorkers: ({ file: FileEntity; completionTime: number } | null)[]
   }
 
   interface SimulationState {
     isRunning: boolean
     simulationTime: number
     filesCreated: number
+    timeToNextFile: number
   }
 
   function generateNormalRandom(mean: number, stdDev: number): number {
     let u1 = Math.random()
     let u2 = Math.random()
     let z0 = Math.sqrt(-2.0 * Math.log(u1)) * Math.cos(2.0 * Math.PI * u2)
-    return Math.max(0, z0 * stdDev + mean)
+    return Math.max(1, z0 * stdDev + mean)
   }
 
   function createFileEntity(id: number, time: number): FileEntity {
@@ -48,6 +52,8 @@
 
   let simulationConfig = $state<SimulationConfig>({
     totalFiles: 100,
+    simulationSpeed: 10,
+    fileArrivalInterval: 10,
     stations: [
       {
         name: "Intake",
@@ -77,6 +83,7 @@
     isRunning: false,
     simulationTime: 0,
     filesCreated: 0,
+    timeToNextFile: 0,
   })
 
   let stationStates = $state<StationState[]>(
@@ -90,7 +97,14 @@
 
   let completedFiles = $state<FileEntity[]>([])
 
-  const totalCost = $derived(0)
+  const totalCost = $derived(
+    (simulationConfig.stations.reduce(
+      (total, station) => total + station.workers * station.costPerHour,
+      0
+    ) *
+      simulationState.simulationTime) /
+      3600
+  )
   const totalQueued = $derived(
     stationStates.reduce((sum, station) => sum + station.queue.length, 0)
   )
@@ -114,6 +128,79 @@
     console.log("D3 Chart Update Triggered. Queue lengths:", queueLengths)
   }
 
+  function advanceSimulation(deltaTime: number) {
+    const timeStep = deltaTime * simulationConfig.simulationSpeed
+    simulationState.simulationTime += timeStep
+
+    simulationState.timeToNextFile -= timeStep
+    if (
+      simulationState.timeToNextFile <= 0 &&
+      simulationState.filesCreated < simulationConfig.totalFiles
+    ) {
+      const newFile = createFileEntity(
+        simulationState.filesCreated,
+        simulationState.simulationTime
+      )
+      stationStates[0].queue.push(newFile)
+      simulationState.filesCreated++
+      simulationState.timeToNextFile = simulationConfig.fileArrivalInterval
+    }
+    for (const station of stationStates) {
+      for (let i = 0; i < station.activeWorkers.length; i++) {
+        const worker = station.activeWorkers[i]
+        if (worker && simulationState.simulationTime >= worker.completionTime) {
+          const finishedFile = worker.file
+          const nextStationIndex = station.id + 1
+
+          if (nextStationIndex < stationStates.length) {
+            stationStates[nextStationIndex].queue.push(finishedFile)
+          } else {
+            completedFiles.push(finishedFile)
+          }
+          station.activeWorkers[i] = null
+        }
+      }
+      for (let i = 0; i < station.activeWorkers.length; i++) {
+        if (station.activeWorkers[i] === null && station.queue.length > 0) {
+          const fileToProcess = station.queue.shift()!
+          const processTime = generateNormalRandom(
+            station.config.processTimeMean,
+            station.config.processTimeStdDev
+          )
+          station.activeWorkers[i] = {
+            file: fileToProcess,
+            completionTime: simulationState.simulationTime + processTime,
+          }
+        }
+      }
+    }
+    if (completedFiles.length === simulationConfig.totalFiles) {
+      simulationState.isRunning = false
+    }
+  }
+
+  $effect(() => {
+    if (!simulationState.isRunning) return
+
+    let frameId: number
+    let lastTime = performance.now()
+
+    const frame = (currentTime: number) => {
+      const deltaTime = (currentTime - lastTime) / 1000
+      lastTime = currentTime
+
+      advanceSimulation(deltaTime)
+
+      if (simulationState.isRunning) {
+        frameId = requestAnimationFrame(frame)
+      }
+    }
+    frameId = requestAnimationFrame(frame)
+    return () => {
+      cancelAnimationFrame(frameId)
+    }
+  })
+
   function start() {
     simulationState.isRunning = true
   }
@@ -126,6 +213,7 @@
     simulationState.isRunning = false
     simulationState.simulationTime = 0
     simulationState.filesCreated = 0
+    simulationState.timeToNextFile = 0
     completedFiles = []
     stationStates = simulationConfig.stations.map((config, index) => ({
       id: index,
