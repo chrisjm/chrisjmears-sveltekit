@@ -90,9 +90,9 @@
         name: "QA",
         workers: 2,
         costPerHour: 50,
-        processTimeMin: 10,
-        processTimeMode: 10,
-        processTimeMax: 15,
+        processTimeMin: 5,
+        processTimeMode: 15,
+        processTimeMax: 30,
       },
     ],
   })
@@ -114,6 +114,9 @@
   )
 
   let completedFiles = $state<FileEntity[]>([])
+
+  // Batch run mode flag
+  let batchRunning = $state(false)
 
   const simulationHours = $derived(simulationState.simulationTime / 60)
 
@@ -196,6 +199,24 @@
       .attr("y", (d) => yScale(d.queueLength))
       .attr("height", (d) => height - yScale(d.queueLength))
       .attr("fill", "steelblue")
+  }
+
+  function normalizeStationTimes(station: StationConfig) {
+    // Ensure ordering: min <= mode <= max
+    if (station.processTimeMin > station.processTimeMode) {
+      station.processTimeMode = station.processTimeMin
+    }
+    if (station.processTimeMode > station.processTimeMax) {
+      station.processTimeMax = station.processTimeMode
+    }
+    if (station.processTimeMin > station.processTimeMax) {
+      station.processTimeMin = station.processTimeMax
+    }
+  }
+
+  function percentOfMax(value: number, max: number) {
+    const m = max > 0 ? max : 1
+    return Math.round((value / m) * 100)
   }
 
   function advanceSimulation(deltaTime: number) {
@@ -296,7 +317,60 @@
     }
   }
 
+  async function batchRun() {
+    if (batchRunning) return
+    // Ensure animation is stopped
+    simulationState.isRunning = false
+    // Always start batch from a clean state for determinism
+    reset()
+    batchRunning = true
+
+    try {
+      let iterations = 0
+      const yieldEvery = 200
+
+      const done = () => completedFiles.length === simulationConfig.totalFiles
+
+      while (!done()) {
+        // Compute the next event delta in MINUTES
+        let deltas: number[] = []
+        if (simulationState.filesCreated < simulationConfig.totalFiles) {
+          deltas.push(Math.max(0, simulationState.timeToNextFile))
+        }
+        for (const station of stationStates) {
+          for (const worker of station.activeWorkers) {
+            if (worker) {
+              const remaining = worker.completionTime - simulationState.simulationTime
+              deltas.push(Math.max(0, remaining))
+            }
+          }
+        }
+
+        let deltaMinutes = deltas.length > 0 ? Math.min(...deltas) : 0
+        // If there are no deltas (nothing scheduled), we still need to allow arrivals
+        if (!isFinite(deltaMinutes)) deltaMinutes = 0
+
+        // Convert desired simulated MINUTES to deltaTime SECONDS for advanceSimulation
+        const deltaSeconds = (deltaMinutes * 60) / simulationConfig.simulationSpeed
+
+        // Advance; when delta is 0, this processes immediate events (arrivals/completions at current time)
+        advanceSimulation(deltaSeconds)
+
+        iterations++
+        if (iterations % yieldEvery === 0) {
+          // Yield to the browser to keep UI responsive (show spinner)
+          await new Promise((r) => setTimeout(r, 0))
+        }
+      }
+    } finally {
+      batchRunning = false
+      // Render final state
+      if (svg) updateChart()
+    }
+  }
+
   $effect(() => {
+    if (batchRunning) return
     if (lastConfigSignature === null) {
       lastConfigSignature = configSignature
       return
@@ -326,21 +400,37 @@
     <div class="controls mt-2 sm:mt-0">
       <button
         onclick={start}
-        disabled={simulationState.isRunning}
+        disabled={simulationState.isRunning || batchRunning}
         class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 disabled:bg-blue-300 disabled:cursor-not-allowed"
         >Start</button
       >
       <button
         onclick={pause}
-        disabled={!simulationState.isRunning}
+        disabled={!simulationState.isRunning || batchRunning}
         class="ml-2 px-4 py-2 text-sm font-medium text-gray-700 bg-white border rounded-md hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
         >Pause</button
       >
       <button
         onclick={reset}
-        class="ml-2 px-4 py-2 text-sm font-medium text-gray-700 bg-white border rounded-md hover:bg-gray-50"
+        disabled={batchRunning}
+        class="ml-2 px-4 py-2 text-sm font-medium text-gray-700 bg-white border rounded-md hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
         >Reset</button
       >
+      <button
+        onclick={batchRun}
+        disabled={batchRunning}
+        class="ml-2 px-4 py-2 text-sm font-medium text-white bg-purple-600 rounded-md hover:bg-purple-700 disabled:bg-purple-300 disabled:cursor-not-allowed"
+        >Batch Run</button
+      >
+      {#if batchRunning}
+        <span class="ml-3 inline-flex items-center text-sm text-gray-600">
+          <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-purple-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" aria-hidden="true">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+          </svg>
+          Running...
+        </span>
+      {/if}
     </div>
   </header>
 
@@ -435,36 +525,45 @@
               />
             </label>
             <label class="block text-sm text-gray-600">
-              Min Time ({station.processTimeMin.toFixed(1)}m)
+              Min Time ({station.processTimeMin.toFixed(1)}m, {percentOfMax(
+                station.processTimeMin,
+                station.processTimeMax
+              )}%)
               <input
                 type="range"
                 bind:value={station.processTimeMin}
                 class="mt-1 w-full"
                 min="0.1"
-                max="10"
+                max={station.processTimeMax}
                 step="0.1"
+                oninput={() => normalizeStationTimes(station)}
               />
             </label>
             <label class="block text-sm text-gray-600">
-              Mode Time ({station.processTimeMode.toFixed(1)}m)
+              Mode Time ({station.processTimeMode.toFixed(1)}m, {percentOfMax(
+                station.processTimeMode,
+                station.processTimeMax
+              )}%)
               <input
                 type="range"
                 bind:value={station.processTimeMode}
                 class="mt-1 w-full"
-                min="0.1"
-                max="10"
+                min={station.processTimeMin}
+                max={station.processTimeMax}
                 step="0.1"
+                oninput={() => normalizeStationTimes(station)}
               />
             </label>
             <label class="block text-sm text-gray-600">
-              Max Time ({station.processTimeMax.toFixed(1)}m)
+              Max Time ({station.processTimeMax.toFixed(1)}m, 100%)
               <input
                 type="range"
                 bind:value={station.processTimeMax}
                 class="mt-1 w-full"
-                min="0.1"
-                max="10"
+                min={station.processTimeMode}
+                max="60"
                 step="0.1"
+                oninput={() => normalizeStationTimes(station)}
               />
             </label>
           </div>
