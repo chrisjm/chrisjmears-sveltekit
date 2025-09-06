@@ -1,0 +1,17 @@
+---
+layout: post
+date: "2025-09-08"
+title: Simulator for File Processing Temp Job
+categories: Technology
+tags: ["simulation", "svelte"]
+header:
+  teaser: ""
+---
+
+<script lang="ts">
+  import ProcessingSimulator from "$lib/components/ProcessingSimulator.svelte"
+</script>
+
+Here is the simulator:
+
+<ProcessingSimulator />
