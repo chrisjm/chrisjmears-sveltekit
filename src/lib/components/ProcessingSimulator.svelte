@@ -49,8 +49,8 @@
 
   function generateTriangularRandom(
     min: number,
-    max: number,
-    mode: number
+    mode: number,
+    max: number
   ): number {
     const u = Math.random()
     const f = (mode - min) / (max - min)
@@ -68,7 +68,7 @@
   let simulationConfig = $state<SimulationConfig>({
     totalFiles: 100,
     simulationSpeed: 500,
-    fileArrivalInterval: 60,
+    fileArrivalInterval: 0.2,
     stations: [
       {
         name: "Intake",
@@ -199,8 +199,7 @@
   }
 
   function advanceSimulation(deltaTime: number) {
-    // Convert real time seconds to simulated minutes, scaled by simulationSpeed
-    const timeStep = (deltaTime / 60) * simulationConfig.simulationSpeed
+    const timeStep = (deltaTime * simulationConfig.simulationSpeed) / 60
     simulationState.simulationTime += timeStep
 
     simulationState.timeToNextFile -= timeStep
@@ -222,7 +221,6 @@
         if (worker && simulationState.simulationTime >= worker.completionTime) {
           const finishedFile = worker.file
           const nextStationIndex = station.id + 1
-
           if (nextStationIndex < stationStates.length) {
             stationStates[nextStationIndex].queue.push(finishedFile)
           } else {
@@ -234,11 +232,6 @@
       for (let i = 0; i < station.activeWorkers.length; i++) {
         if (station.activeWorkers[i] === null && station.queue.length > 0) {
           const fileToProcess = station.queue.shift()!
-          // NOTE: Keep the following just in case we want to switch back to normal distribution
-          // const processTime = generateNormalRandom(
-          //   station.config.processTimeMean,
-          //   station.config.processTimeStdDev
-          // )
           const processTime = generateTriangularRandom(
             station.config.processTimeMin,
             station.config.processTimeMode,
@@ -253,9 +246,6 @@
     }
     if (completedFiles.length === simulationConfig.totalFiles) {
       simulationState.isRunning = false
-    }
-    if (svg) {
-      updateChart()
     }
   }
 
