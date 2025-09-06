@@ -14,8 +14,9 @@
     name: string
     workers: number
     costPerHour: number
-    processTimeMean: number
-    processTimeStdDev: number
+    processTimeMin: number
+    processTimeMode: number
+    processTimeMax: number
   }
 
   interface SimulationConfig {
@@ -46,35 +47,52 @@
     return Math.max(1, z0 * stdDev + mean)
   }
 
+  function generateTriangularRandom(
+    min: number,
+    max: number,
+    mode: number
+  ): number {
+    const u = Math.random()
+    const f = (mode - min) / (max - min)
+    if (u < f) {
+      return min + Math.sqrt(u * (max - min) * (mode - min))
+    } else {
+      return max - Math.sqrt((1 - u) * (max - min) * (max - mode))
+    }
+  }
+
   function createFileEntity(id: number, time: number): FileEntity {
     return { id, createdAt: time }
   }
 
   let simulationConfig = $state<SimulationConfig>({
     totalFiles: 100,
-    simulationSpeed: 200,
-    fileArrivalInterval: 2,
+    simulationSpeed: 500,
+    fileArrivalInterval: 60,
     stations: [
       {
         name: "Intake",
         workers: 2,
-        costPerHour: 20,
-        processTimeMean: 60,
-        processTimeStdDev: 15,
+        costPerHour: 50,
+        processTimeMin: 5,
+        processTimeMode: 5,
+        processTimeMax: 10,
       },
       {
         name: "Digitization",
-        workers: 5,
+        workers: 3,
         costPerHour: 25,
-        processTimeMean: 180,
-        processTimeStdDev: 45,
+        processTimeMin: 8,
+        processTimeMode: 10,
+        processTimeMax: 15,
       },
       {
         name: "QA",
-        workers: 3,
-        costPerHour: 30,
-        processTimeMean: 90,
-        processTimeStdDev: 30,
+        workers: 2,
+        costPerHour: 50,
+        processTimeMin: 10,
+        processTimeMode: 10,
+        processTimeMax: 15,
       },
     ],
   })
@@ -98,16 +116,34 @@
   let completedFiles = $state<FileEntity[]>([])
 
   const totalCost = $derived(
-    (simulationConfig.stations.reduce(
+    simulationConfig.stations.reduce(
       (total, station) => total + station.workers * station.costPerHour,
       0
     ) *
-      simulationState.simulationTime) /
-      3600
+      (simulationState.simulationTime / 60)
   )
+
   const totalQueued = $derived(
     stationStates.reduce((sum, station) => sum + station.queue.length, 0)
   )
+
+  // Track configuration changes to reset simulation only when config changes
+  const configSignature = $derived(
+    JSON.stringify({
+      totalFiles: simulationConfig.totalFiles,
+      simulationSpeed: simulationConfig.simulationSpeed,
+      fileArrivalInterval: simulationConfig.fileArrivalInterval,
+      stations: simulationConfig.stations.map((s) => ({
+        name: s.name,
+        workers: s.workers,
+        costPerHour: s.costPerHour,
+        processTimeMin: s.processTimeMin,
+        processTimeMode: s.processTimeMode,
+        processTimeMax: s.processTimeMax,
+      })),
+    })
+  )
+  let lastConfigSignature = $state<string | null>(null)
 
   let svgElement: SVGSVGElement
   let svg: Selection<SVGSVGElement, unknown, null, undefined>
@@ -197,9 +233,14 @@
       for (let i = 0; i < station.activeWorkers.length; i++) {
         if (station.activeWorkers[i] === null && station.queue.length > 0) {
           const fileToProcess = station.queue.shift()!
-          const processTime = generateNormalRandom(
-            station.config.processTimeMean,
-            station.config.processTimeStdDev
+          // const processTime = generateNormalRandom(
+          //   station.config.processTimeMean,
+          //   station.config.processTimeStdDev
+          // )
+          const processTime = generateTriangularRandom(
+            station.config.processTimeMin,
+            station.config.processTimeMode,
+            station.config.processTimeMax
           )
           station.activeWorkers[i] = {
             file: fileToProcess,
@@ -210,6 +251,10 @@
     }
     if (completedFiles.length === simulationConfig.totalFiles) {
       simulationState.isRunning = false
+    }
+    // Update visualization each simulation step
+    if (svg) {
+      updateChart()
     }
   }
 
@@ -255,7 +300,32 @@
       queue: [],
       activeWorkers: Array(config.workers).fill(null),
     }))
+    // Refresh visualization after reset
+    if (svg) {
+      updateChart()
+    }
   }
+
+  $effect(() => {
+    // Initialize signature on first run
+    if (lastConfigSignature === null) {
+      lastConfigSignature = configSignature
+      return
+    }
+
+    // When config changes, reset if the simulation has progressed
+    if (configSignature !== lastConfigSignature) {
+      const hasProgress =
+        simulationState.simulationTime > 0 ||
+        simulationState.filesCreated > 0 ||
+        completedFiles.length > 0
+
+      if (hasProgress) {
+        reset()
+      }
+      lastConfigSignature = configSignature
+    }
+  })
 </script>
 
 <div
@@ -294,7 +364,7 @@
         <div>
           <div class="text-xs text-gray-500 uppercase">Time</div>
           <div class="text-xl font-semibold text-gray-800">
-            {simulationState.simulationTime.toFixed(0)}s
+            {simulationState.simulationTime.toFixed(1)}m
           </div>
         </div>
         <div>
@@ -314,37 +384,133 @@
           </div>
         </div>
       </div>
+    </div>
 
-      <div class="stations grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-        {#each stationStates as station (station.id)}
-          <div class="border rounded-lg p-4 bg-white shadow-sm flex flex-col">
-            <h3 class="font-semibold text-lg text-gray-800 mb-3">
-              {station.config.name}
-            </h3>
-            <div class="flex-grow space-y-2 text-sm">
-              <div class="flex justify-between">
-                <span class="text-gray-600">In Queue:</span>
-                <span class="font-mono bg-gray-100 px-2 py-0.5 rounded"
-                  >{station.queue.length}</span
-                >
-              </div>
-              <div class="flex justify-between">
-                <span class="text-gray-600">Active Workers:</span>
-                <span class="font-mono bg-gray-100 px-2 py-0.5 rounded"
-                  >{station.activeWorkers.filter((w) => w !== null).length} / {station
-                    .config.workers}</span
-                >
-              </div>
-            </div>
+    <details class="bg-white border rounded-lg p-4 mb-6 shadow-sm">
+      <summary class="font-semibold text-lg cursor-pointer"
+        >Configuration</summary
+      >
+      <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="border rounded-md p-4">
+          <h4 class="font-medium mb-3">Global Settings</h4>
+          <label class="block text-sm text-gray-600">
+            Total Documents
+            <input
+              type="number"
+              bind:value={simulationConfig.totalFiles}
+              class="mt-1 w-full p-1 border rounded"
+              min="10"
+              max="5000"
+            />
+          </label>
+        </div>
+        <div class="border rounded-md p-4">
+          <h4 class="font-medium mb-3">Simulation Speed</h4>
+          <label class="block text-sm text-gray-600">
+            Speed Multiplier ({simulationConfig.simulationSpeed}x)
+            <input
+              type="range"
+              bind:value={simulationConfig.simulationSpeed}
+              class="mt-1 w-full"
+              min="1"
+              max="2000"
+              step="1"
+            />
+          </label>
+        </div>
+      </div>
+
+      <div class="mt-4 grid grid-cols-1 md:grid-cols-3 gap-6">
+        {#each simulationConfig.stations as station (station.name)}
+          <div class="border rounded-md p-4 space-y-3">
+            <h4 class="font-medium">{station.name}</h4>
+            <label class="block text-sm text-gray-600">
+              Workers ({station.workers})
+              <input
+                type="range"
+                bind:value={station.workers}
+                class="mt-1 w-full"
+                min="1"
+                max="15"
+              />
+            </label>
+            <label class="block text-sm text-gray-600">
+              Cost per Hour (${station.costPerHour})
+              <input
+                type="range"
+                bind:value={station.costPerHour}
+                class="mt-1 w-full"
+                min="10"
+                max="100"
+              />
+            </label>
+            <label class="block text-sm text-gray-600">
+              Min Time ({station.processTimeMin.toFixed(1)}m)
+              <input
+                type="range"
+                bind:value={station.processTimeMin}
+                class="mt-1 w-full"
+                min="0.1"
+                max="10"
+                step="0.1"
+              />
+            </label>
+            <label class="block text-sm text-gray-600">
+              Mode Time ({station.processTimeMode.toFixed(1)}m)
+              <input
+                type="range"
+                bind:value={station.processTimeMode}
+                class="mt-1 w-full"
+                min="0.1"
+                max="10"
+                step="0.1"
+              />
+            </label>
+            <label class="block text-sm text-gray-600">
+              Max Time ({station.processTimeMax.toFixed(1)}m)
+              <input
+                type="range"
+                bind:value={station.processTimeMax}
+                class="mt-1 w-full"
+                min="0.1"
+                max="10"
+                step="0.1"
+              />
+            </label>
           </div>
         {/each}
       </div>
+    </details>
 
-      <div class="visualization mt-6">
-        <h3 class="text-lg font-semibold text-gray-800 mb-2">Queue Lengths</h3>
-        <div class="w-full bg-white p-2 border rounded-lg shadow-sm">
-          <svg bind:this={svgElement} class="w-full h-64"></svg>
+    <div class="stations grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+      {#each stationStates as station (station.id)}
+        <div class="border rounded-lg p-4 bg-white shadow-sm flex flex-col">
+          <h3 class="font-semibold text-lg text-gray-800 mb-3">
+            {station.config.name}
+          </h3>
+          <div class="flex-grow space-y-2 text-sm">
+            <div class="flex justify-between">
+              <span class="text-gray-600">In Queue:</span>
+              <span class="font-mono bg-gray-100 px-2 py-0.5 rounded"
+                >{station.queue.length}</span
+              >
+            </div>
+            <div class="flex justify-between">
+              <span class="text-gray-600">Active Workers:</span>
+              <span class="font-mono bg-gray-100 px-2 py-0.5 rounded"
+                >{station.activeWorkers.filter((w) => w !== null).length} / {station
+                  .config.workers}</span
+              >
+            </div>
+          </div>
         </div>
+      {/each}
+    </div>
+
+    <div class="visualization mt-6">
+      <h3 class="text-lg font-semibold text-gray-800 mb-2">Queue Lengths</h3>
+      <div class="w-full bg-white p-2 border rounded-lg shadow-sm">
+        <svg bind:this={svgElement} class="w-full h-64"></svg>
       </div>
     </div>
   </main>
