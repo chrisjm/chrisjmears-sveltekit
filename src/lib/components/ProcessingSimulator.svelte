@@ -52,8 +52,8 @@
 
   let simulationConfig = $state<SimulationConfig>({
     totalFiles: 100,
-    simulationSpeed: 10,
-    fileArrivalInterval: 10,
+    simulationSpeed: 200,
+    fileArrivalInterval: 2,
     stations: [
       {
         name: "Intake",
@@ -124,8 +124,42 @@
   })
 
   function updateChart() {
-    const queueLengths = stationStates.map((s) => s.queue.length)
-    console.log("D3 Chart Update Triggered. Queue lengths:", queueLengths)
+    const margin = { top: 20, right: 20, bottom: 30, left: 40 }
+    const width = svgElement.clientWidth - margin.left - margin.right
+    const height = svgElement.clientHeight - margin.top - margin.bottom
+
+    const chartData = stationStates.map((s) => ({
+      name: s.config.name,
+      queueLength: s.queue.length,
+    }))
+
+    svg.selectAll("*").remove()
+
+    const g = svg
+      .append("g")
+      .attr("transform", `translate(${margin.left},${margin.top})`)
+    const xScale = d3
+      .scaleBand()
+      .domain(chartData.map((d) => d.name))
+      .range([0, width])
+      .padding(0.4)
+
+    const maxQueue = d3.max(chartData, (d) => d.queueLength) || 10
+    const yScale = d3.scaleLinear().domain([0, maxQueue]).range([height, 0])
+
+    g.append("g")
+      .attr("transform", `translate(0,${height})`)
+      .call(d3.axisBottom(xScale))
+    g.append("g").call(d3.axisLeft(yScale))
+    g.selectAll(".bar")
+      .data(chartData)
+      .join("rect")
+      .attr("class", "bar")
+      .attr("x", (d) => xScale(d.name)!)
+      .attr("width", xScale.bandwidth())
+      .attr("y", (d) => yScale(d.queueLength))
+      .attr("height", (d) => height - yScale(d.queueLength))
+      .attr("fill", "steelblue")
   }
 
   function advanceSimulation(deltaTime: number) {
