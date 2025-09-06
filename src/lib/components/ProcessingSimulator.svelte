@@ -113,12 +113,15 @@
     }))
   )
 
-  let completedFiles = $state<FileEntity[]>([])
-
-  // Batch run mode flag
-  let batchRunning = $state(false)
-
+  const samplingInterval = 0.1
+  const pixelsPerMinute = 80
   const simulationHours = $derived(simulationState.simulationTime / 60)
+
+  let batchRunning = $state(false)
+  let completedFiles = $state<FileEntity[]>([])
+  let timeSeries = $state<{ t: number; queues: number[] }[]>([])
+  let lastSampledTime = $state(0)
+  let fitToWidth = $state(false)
 
   const totalCost = $derived(
     simulationConfig.stations.reduce(
@@ -163,46 +166,109 @@
   })
 
   function updateChart() {
-    const margin = { top: 20, right: 20, bottom: 30, left: 40 }
-    const width = svgElement.clientWidth - margin.left - margin.right
-    const height = svgElement.clientHeight - margin.top - margin.bottom
+    const margin = { top: 16, right: 24, bottom: 24, left: 40 }
+    const container = svgElement.parentElement as HTMLElement | null
+    const containerWidth = container?.clientWidth ?? 800
+    const svgHeight = svgElement.clientHeight || 256
+    const innerHeight = svgHeight - margin.top - margin.bottom
+    const t0 = timeSeries.length ? timeSeries[0].t : 0
+    const t1raw = timeSeries.length ? timeSeries[timeSeries.length - 1].t : 1
+    const t1 = t1raw > t0 ? t1raw : t0 + 1
+    const baseWidth = containerWidth - margin.left - margin.right
+    const timeWidth = fitToWidth
+      ? baseWidth
+      : Math.max(baseWidth, (t1 - t0) * pixelsPerMinute)
 
-    const chartData = stationStates.map((s) => ({
-      name: s.config.name,
-      queueLength: s.queue.length,
-    }))
+    svg.attr("width", timeWidth + margin.left + margin.right)
+
+    const maxY = d3.max(timeSeries, (d) => d3.max(d.queues, (q) => q) ?? 0) ?? 0
+    const yMax = Math.max(5, maxY + 1)
+
+    const xScale = d3.scaleLinear().domain([t0, t1]).range([0, timeWidth])
+    const yScale = d3.scaleLinear().domain([0, yMax]).range([innerHeight, 0])
 
     svg.selectAll("*").remove()
 
     const g = svg
       .append("g")
       .attr("transform", `translate(${margin.left},${margin.top})`)
-    const xScale = d3
-      .scaleBand()
-      .domain(chartData.map((d) => d.name))
-      .range([0, width])
-      .padding(0.4)
-
-    const maxQueue = d3.max(chartData, (d) => d.queueLength) || 10
-    const yScale = d3.scaleLinear().domain([0, maxQueue]).range([height, 0])
 
     g.append("g")
-      .attr("transform", `translate(0,${height})`)
-      .call(d3.axisBottom(xScale))
+      .attr("transform", `translate(0,${innerHeight})`)
+      .call(
+        d3
+          .axisBottom(xScale)
+          .ticks(10)
+          .tickFormat((d) => `${d}m` as any)
+      )
     g.append("g").call(d3.axisLeft(yScale))
-    g.selectAll(".bar")
-      .data(chartData)
-      .join("rect")
-      .attr("class", "bar")
-      .attr("x", (d) => xScale(d.name)!)
-      .attr("width", xScale.bandwidth())
-      .attr("y", (d) => yScale(d.queueLength))
-      .attr("height", (d) => height - yScale(d.queueLength))
-      .attr("fill", "steelblue")
+
+    const stationNames = simulationConfig.stations.map((s) => s.name)
+    const color = d3
+      .scaleOrdinal<string, string>(d3.schemeCategory10)
+      .domain(stationNames)
+
+    const lineGen = (idx: number) =>
+      d3
+        .line<{ t: number; queues: number[] }>()
+        .x((d) => xScale(d.t))
+        .y((d) => yScale(d.queues[idx]))
+        .curve(d3.curveMonotoneX)
+
+    stationNames.forEach((name, i) => {
+      g.append("path")
+        .datum(timeSeries)
+        .attr("fill", "none")
+        .attr("stroke", color(name))
+        .attr("stroke-width", 2)
+        .attr("d", lineGen(i))
+    })
+
+    const legend = g
+      .append("g")
+      .attr("transform", `translate(${timeWidth - 120},0)`)
+    stationNames.forEach((name, i) => {
+      const row = legend
+        .append("g")
+        .attr("transform", `translate(0, ${i * 16})`)
+      row
+        .append("rect")
+        .attr("width", 12)
+        .attr("height", 12)
+        .attr("fill", color(name))
+      row
+        .append("text")
+        .attr("x", 16)
+        .attr("y", 10)
+        .attr("fill", "#334155")
+        .attr("font-size", 12)
+        .text(name)
+    })
+
+    if (
+      container &&
+      (simulationState.isRunning || batchRunning) &&
+      !fitToWidth
+    ) {
+      container.scrollLeft = container.scrollWidth
+    }
+  }
+
+  $effect(() => {
+    if (svg) updateChart()
+  })
+
+  function sampleQueues() {
+    const t = simulationState.simulationTime
+    if (timeSeries.length === 0 || t - lastSampledTime >= samplingInterval) {
+      const queues = stationStates.map((s) => s.queue.length)
+      timeSeries.push({ t, queues })
+      lastSampledTime = t
+      if (svg) updateChart()
+    }
   }
 
   function normalizeStationTimes(station: StationConfig) {
-    // Ensure ordering: min <= mode <= max
     if (station.processTimeMin > station.processTimeMode) {
       station.processTimeMode = station.processTimeMin
     }
@@ -268,6 +334,7 @@
     if (completedFiles.length === simulationConfig.totalFiles) {
       simulationState.isRunning = false
     }
+    sampleQueues()
   }
 
   $effect(() => {
@@ -306,6 +373,8 @@
     simulationState.filesCreated = 0
     simulationState.timeToNextFile = 0
     completedFiles = []
+    timeSeries = []
+    lastSampledTime = 0
     stationStates = simulationConfig.stations.map((config, index) => ({
       id: index,
       config: config,
@@ -319,10 +388,9 @@
 
   async function batchRun() {
     if (batchRunning) return
-    // Ensure animation is stopped
     simulationState.isRunning = false
-    // Always start batch from a clean state for determinism
     reset()
+    fitToWidth = false
     batchRunning = true
 
     try {
@@ -332,7 +400,6 @@
       const done = () => completedFiles.length === simulationConfig.totalFiles
 
       while (!done()) {
-        // Compute the next event delta in MINUTES
         let deltas: number[] = []
         if (simulationState.filesCreated < simulationConfig.totalFiles) {
           deltas.push(Math.max(0, simulationState.timeToNextFile))
@@ -340,31 +407,29 @@
         for (const station of stationStates) {
           for (const worker of station.activeWorkers) {
             if (worker) {
-              const remaining = worker.completionTime - simulationState.simulationTime
+              const remaining =
+                worker.completionTime - simulationState.simulationTime
               deltas.push(Math.max(0, remaining))
             }
           }
         }
 
         let deltaMinutes = deltas.length > 0 ? Math.min(...deltas) : 0
-        // If there are no deltas (nothing scheduled), we still need to allow arrivals
         if (!isFinite(deltaMinutes)) deltaMinutes = 0
 
-        // Convert desired simulated MINUTES to deltaTime SECONDS for advanceSimulation
-        const deltaSeconds = (deltaMinutes * 60) / simulationConfig.simulationSpeed
+        const deltaSeconds =
+          (deltaMinutes * 60) / simulationConfig.simulationSpeed
 
-        // Advance; when delta is 0, this processes immediate events (arrivals/completions at current time)
         advanceSimulation(deltaSeconds)
 
         iterations++
         if (iterations % yieldEvery === 0) {
-          // Yield to the browser to keep UI responsive (show spinner)
           await new Promise((r) => setTimeout(r, 0))
         }
       }
     } finally {
       batchRunning = false
-      // Render final state
+      fitToWidth = true
       if (svg) updateChart()
     }
   }
@@ -424,9 +489,26 @@
       >
       {#if batchRunning}
         <span class="ml-3 inline-flex items-center text-sm text-gray-600">
-          <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-purple-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" aria-hidden="true">
-            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+          <svg
+            class="animate-spin -ml-1 mr-2 h-4 w-4 text-purple-600"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+          >
+            <circle
+              class="opacity-25"
+              cx="12"
+              cy="12"
+              r="10"
+              stroke="currentColor"
+              stroke-width="4"
+            ></circle>
+            <path
+              class="opacity-75"
+              fill="currentColor"
+              d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+            ></path>
           </svg>
           Running...
         </span>
@@ -598,8 +680,10 @@
 
     <div class="visualization mt-6">
       <h3 class="text-lg font-semibold text-gray-800 mb-2">Queue Lengths</h3>
-      <div class="w-full bg-white p-2 border rounded-lg shadow-sm">
-        <svg bind:this={svgElement} class="w-full h-64"></svg>
+      <div
+        class="w-full overflow-x-auto bg-white p-2 border rounded-lg shadow-sm"
+      >
+        <svg bind:this={svgElement} class="h-64"></svg>
       </div>
     </div>
   </main>
