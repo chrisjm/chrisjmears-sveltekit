@@ -121,7 +121,7 @@
   let completedFiles = $state<FileEntity[]>([])
   let timeSeries = $state<{ t: number; queues: number[] }[]>([])
   let lastSampledTime = $state(0)
-  let fitToWidth = $state(false)
+  let fitToWidth = $state(true)
 
   const totalCost = $derived(
     simulationConfig.stations.reduce(
@@ -255,6 +255,7 @@
   }
 
   $effect(() => {
+    fitToWidth
     if (svg) updateChart()
   })
 
@@ -361,6 +362,9 @@
 
   function start() {
     simulationState.isRunning = true
+    // Ensure an immediate visual update
+    sampleQueues()
+    if (svg) updateChart()
   }
 
   function pause() {
@@ -381,9 +385,8 @@
       queue: [],
       activeWorkers: Array(config.workers).fill(null),
     }))
-    if (svg) {
-      updateChart()
-    }
+    sampleQueues()
+    if (svg) updateChart()
   }
 
   async function batchRun() {
@@ -679,7 +682,28 @@
     </div>
 
     <div class="visualization mt-6">
-      <h3 class="text-lg font-semibold text-gray-800 mb-2">Queue Lengths</h3>
+      <div class="flex items-center justify-between mb-2">
+        <h3 class="text-lg font-semibold text-gray-800">Queue Lengths</h3>
+        <div class="flex items-center gap-2 text-xs text-gray-600">
+          <span>View</span>
+          <button
+            onclick={() => {
+              fitToWidth = true
+              if (svg) updateChart()
+            }}
+            class={`px-2 py-1 rounded border ${fitToWidth ? "bg-gray-800 text-white border-gray-800" : "bg-white hover:bg-gray-50"}`}
+            aria-pressed={fitToWidth}>Fit</button
+          >
+          <button
+            onclick={() => {
+              fitToWidth = false
+              if (svg) updateChart()
+            }}
+            class={`px-2 py-1 rounded border ${!fitToWidth ? "bg-gray-800 text-white border-gray-800" : "bg-white hover:bg-gray-50"}`}
+            aria-pressed={!fitToWidth}>Follow</button
+          >
+        </div>
+      </div>
       <div
         class="w-full overflow-x-auto bg-white p-2 border rounded-lg shadow-sm"
       >
