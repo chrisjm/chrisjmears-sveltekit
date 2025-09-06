@@ -115,19 +115,19 @@
 
   let completedFiles = $state<FileEntity[]>([])
 
+  const simulationHours = $derived(simulationState.simulationTime / 60)
+
   const totalCost = $derived(
     simulationConfig.stations.reduce(
       (total, station) => total + station.workers * station.costPerHour,
       0
-    ) *
-      (simulationState.simulationTime / 60)
+    ) * simulationHours
   )
 
   const totalQueued = $derived(
     stationStates.reduce((sum, station) => sum + station.queue.length, 0)
   )
 
-  // Track configuration changes to reset simulation only when config changes
   const configSignature = $derived(
     JSON.stringify({
       totalFiles: simulationConfig.totalFiles,
@@ -199,7 +199,8 @@
   }
 
   function advanceSimulation(deltaTime: number) {
-    const timeStep = deltaTime * simulationConfig.simulationSpeed
+    // Convert real time seconds to simulated minutes, scaled by simulationSpeed
+    const timeStep = (deltaTime / 60) * simulationConfig.simulationSpeed
     simulationState.simulationTime += timeStep
 
     simulationState.timeToNextFile -= timeStep
@@ -233,6 +234,7 @@
       for (let i = 0; i < station.activeWorkers.length; i++) {
         if (station.activeWorkers[i] === null && station.queue.length > 0) {
           const fileToProcess = station.queue.shift()!
+          // NOTE: Keep the following just in case we want to switch back to normal distribution
           // const processTime = generateNormalRandom(
           //   station.config.processTimeMean,
           //   station.config.processTimeStdDev
@@ -252,7 +254,6 @@
     if (completedFiles.length === simulationConfig.totalFiles) {
       simulationState.isRunning = false
     }
-    // Update visualization each simulation step
     if (svg) {
       updateChart()
     }
@@ -300,20 +301,17 @@
       queue: [],
       activeWorkers: Array(config.workers).fill(null),
     }))
-    // Refresh visualization after reset
     if (svg) {
       updateChart()
     }
   }
 
   $effect(() => {
-    // Initialize signature on first run
     if (lastConfigSignature === null) {
       lastConfigSignature = configSignature
       return
     }
 
-    // When config changes, reset if the simulation has progressed
     if (configSignature !== lastConfigSignature) {
       const hasProgress =
         simulationState.simulationTime > 0 ||
@@ -364,7 +362,9 @@
         <div>
           <div class="text-xs text-gray-500 uppercase">Time</div>
           <div class="text-xl font-semibold text-gray-800">
-            {simulationState.simulationTime.toFixed(1)}m
+            {simulationState.simulationTime.toFixed(1)}m ({simulationHours.toFixed(
+              2
+            )}h)
           </div>
         </div>
         <div>
