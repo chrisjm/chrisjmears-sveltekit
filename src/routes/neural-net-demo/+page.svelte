@@ -1,0 +1,505 @@
+<script lang="ts">
+  import { onMount } from "svelte"
+
+  let canvasEl: HTMLCanvasElement | null = null
+  let mod: any = null
+  let ready = $state(false)
+
+  // Simple state you can bind to controls
+  let loss = $state(0)
+  let accuracy = $state(0)
+  let epoch = $state(0)
+  let learningRate = $state(0.1)
+  let batchSize = $state(64)
+  let autoTrain = $state(false)
+  let datasetIndex = $state(0)
+  let numPoints = $state(1000)
+  let spread = $state(1)
+  let pointSize = $state(3)
+  let autoMaxEpochs = $state(0)
+  let autoTargetLoss = $state(0.1)
+  let useTargetLossStop = $state(false)
+  let optimizer = $state(0)
+  let momentum = $state(0.9)
+  let adamBeta1 = $state(0.9)
+  let adamBeta2 = $state(0.999)
+  let adamEps = $state(1e-8)
+  let initMode = $state(0)
+  let maxPoints = $state(1000)
+
+  const datasetLabels = [
+    "Two blobs",
+    "Concentric circles",
+    "Two moons",
+    "XOR quads",
+    "Spirals",
+  ] as const
+
+  const optimizerLabels = ["SGD", "SGD Momentum", "Adam"] as const
+
+  const initModeLabels = ["Zero", "He Uniform", "He Normal"] as const
+
+  async function initWasm() {
+    const createModule = (await import("./NeuralNetDemo.js")).default
+
+    mod = await createModule({
+      canvas: canvasEl,
+      locateFile: (path: string) => `/${path}`,
+    })
+
+    // Initialize UI state from C++ side
+    learningRate = mod._nn_get_learning_rate()
+    batchSize = mod._nn_get_batch_size()
+    autoTrain = !!mod._nn_get_auto_train()
+    datasetIndex = mod._nn_get_dataset_index()
+    numPoints = mod._nn_get_num_points()
+    spread = mod._nn_get_spread()
+    pointSize = mod._nn_get_point_size()
+    autoMaxEpochs = mod._nn_get_auto_max_epochs()
+    autoTargetLoss = mod._nn_get_auto_target_loss()
+    useTargetLossStop = !!mod._nn_get_use_target_loss_stop()
+    optimizer = mod._nn_get_optimizer()
+    momentum = mod._nn_get_momentum()
+    adamBeta1 = mod._nn_get_adam_beta1()
+    adamBeta2 = mod._nn_get_adam_beta2()
+    adamEps = mod._nn_get_adam_eps()
+    initMode = mod._nn_get_init_mode()
+    maxPoints = mod._nn_get_max_points()
+
+    ready = true
+  }
+
+  function pollState() {
+    if (!mod) return
+    loss = mod._nn_get_last_loss()
+    accuracy = mod._nn_get_last_accuracy()
+    epoch = mod._nn_get_step_count()
+    datasetIndex = mod._nn_get_dataset_index()
+    optimizer = mod._nn_get_optimizer()
+    initMode = mod._nn_get_init_mode()
+  }
+
+  onMount(() => {
+    initWasm()
+
+    const id = setInterval(pollState, 250)
+    return () => clearInterval(id)
+  })
+
+  // ----- control handlers -----
+
+  function setDataset(index: number, numPoints: number, spread: number) {
+    if (!mod) return
+    mod._nn_set_dataset(index, numPoints, spread)
+  }
+
+  function onDatasetIndexChange(v: number) {
+    datasetIndex = v | 0
+    setDataset(datasetIndex, numPoints, spread)
+  }
+
+  function onNumPointsChange(v: number) {
+    numPoints = v | 0
+    setDataset(datasetIndex, numPoints, spread)
+  }
+
+  function onSpreadChange(v: number) {
+    spread = v
+    setDataset(datasetIndex, numPoints, spread)
+  }
+
+  function onLearningRateChange(v: number) {
+    learningRate = v
+    if (!mod) return
+    mod._nn_set_learning_rate(v)
+  }
+
+  function onBatchSizeChange(v: number) {
+    batchSize = v
+    if (!mod) return
+    mod._nn_set_batch_size(v | 0)
+  }
+
+  function onAutoTrainToggle(value: boolean) {
+    autoTrain = value
+    if (!mod) return
+    mod._nn_set_auto_train(value ? 1 : 0)
+  }
+
+  function onPointSizeChange(v: number) {
+    pointSize = v
+    if (!mod) return
+    mod._nn_set_point_size(v)
+  }
+
+  function onAutoMaxEpochsChange(v: number) {
+    autoMaxEpochs = v | 0
+    if (!mod) return
+    mod._nn_set_auto_max_epochs(autoMaxEpochs)
+  }
+
+  function onAutoTargetLossChange(v: number) {
+    autoTargetLoss = v
+    if (!mod) return
+    mod._nn_set_auto_target_loss(v)
+  }
+
+  function onUseTargetLossStopToggle(value: boolean) {
+    useTargetLossStop = value
+    if (!mod) return
+    mod._nn_set_use_target_loss_stop(value ? 1 : 0)
+  }
+
+  function onOptimizerChange(v: number) {
+    optimizer = v | 0
+    if (!mod) return
+    mod._nn_set_optimizer(optimizer)
+  }
+
+  function onMomentumChange(v: number) {
+    momentum = v
+    if (!mod) return
+    mod._nn_set_momentum(v)
+  }
+
+  function onAdamBeta1Change(v: number) {
+    adamBeta1 = v
+    if (!mod) return
+    mod._nn_set_adam_beta1(v)
+  }
+
+  function onAdamBeta2Change(v: number) {
+    adamBeta2 = v
+    if (!mod) return
+    mod._nn_set_adam_beta2(v)
+  }
+
+  function onAdamEpsChange(v: number) {
+    adamEps = v
+    if (!mod) return
+    mod._nn_set_adam_eps(v)
+  }
+
+  function onInitModeChange(v: number) {
+    initMode = v | 0
+    if (!mod) return
+    mod._nn_set_init_mode(initMode)
+  }
+
+  function trainOneEpoch() {
+    if (!mod) return
+    mod._nn_step_train()
+    pollState()
+  }
+
+  function setProbeFromClick(ev: MouseEvent) {
+    if (!mod || !canvasEl) return
+    const rect = canvasEl.getBoundingClientRect()
+    const x = ((ev.clientX - rect.left) / rect.width) * 2 - 1
+    const y = 1 - ((ev.clientY - rect.top) / rect.height) * 2
+    mod._nn_set_probe_enabled(1)
+    mod._nn_set_probe_position(x, y)
+  }
+</script>
+
+<div class="min-h-screen flex items-center justify-center px-4 py-6">
+  <div class="flex w-full max-w-6xl flex-col gap-6 md:flex-row md:items-start">
+    <div class="flex flex-1 items-center justify-center">
+      <div class="relative w-full max-w-[800px] aspect-[4/3]">
+        <canvas
+          bind:this={canvasEl}
+          width="800"
+          height="600"
+          onclick={setProbeFromClick}
+          class="block h-full w-full rounded-lg border border-slate-700 bg-black"
+        ></canvas>
+
+        {#if !ready}
+          <div
+            class="absolute inset-0 flex items-center justify-center rounded-lg bg-black/40 text-sm text-white md:text-base"
+          >
+            Loading neural net...
+          </div>
+        {/if}
+      </div>
+    </div>
+
+    <div class="w-full md:w-80 space-y-4">
+      <div class="space-y-2">
+        <h2 class="text-lg font-semibold">Training</h2>
+        <button
+          onclick={trainOneEpoch}
+          disabled={!ready}
+          class="inline-flex items-center justify-center rounded-md border border-slate-300 bg-slate-100 px-3 py-1.5 text-sm font-medium text-slate-900 hover:bg-slate-200 disabled:cursor-not-allowed disabled:opacity-60"
+        >
+          Train Epoch
+        </button>
+      </div>
+
+      <label class="flex items-center gap-2 text-sm">
+        <input
+          type="checkbox"
+          bind:checked={autoTrain}
+          onchange={(e) => onAutoTrainToggle(e.currentTarget.checked)}
+          disabled={!ready}
+          class="h-4 w-4 rounded border-slate-300 text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-500 disabled:cursor-not-allowed disabled:opacity-60"
+        />
+        <span>Auto Train</span>
+      </label>
+
+      <div class="space-y-2 text-sm">
+        <label class="flex flex-col gap-1">
+          <span>Learning rate</span>
+          <input
+            type="range"
+            min="0.0001"
+            max="0.2"
+            step="0.0001"
+            bind:value={learningRate}
+            oninput={(e) => onLearningRateChange(+e.currentTarget.value)}
+            disabled={!ready}
+            class="w-full accent-slate-900 disabled:cursor-not-allowed disabled:opacity-60"
+          />
+          <span class="font-mono text-xs text-slate-600"
+            >{learningRate.toFixed(5)}</span
+          >
+        </label>
+
+        <label class="flex flex-col gap-1">
+          <span>Batch size</span>
+          <input
+            type="range"
+            min="1"
+            max="512"
+            step="1"
+            bind:value={batchSize}
+            oninput={(e) => onBatchSizeChange(+e.currentTarget.value)}
+            disabled={!ready}
+            class="w-full accent-slate-900 disabled:cursor-not-allowed disabled:opacity-60"
+          />
+          <span class="font-mono text-xs text-slate-600">{batchSize}</span>
+        </label>
+      </div>
+
+      <div class="space-y-2 text-sm">
+        <h2 class="text-lg font-semibold">Dataset</h2>
+        <label class="flex flex-col gap-1">
+          <span>Dataset</span>
+          <select
+            bind:value={datasetIndex}
+            onchange={(e) => onDatasetIndexChange(+e.currentTarget.value)}
+            disabled={!ready}
+            class="w-full rounded-md border border-slate-300 bg-white px-2 py-1 text-sm text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-500 disabled:cursor-not-allowed disabled:opacity-60"
+          >
+            <option value="0">Two blobs</option>
+            <option value="1">Concentric circles</option>
+            <option value="2">Two moons</option>
+            <option value="3">XOR quads</option>
+            <option value="4">Spirals</option>
+          </select>
+        </label>
+
+        <label class="flex flex-col gap-1">
+          <span>Num points</span>
+          <input
+            type="range"
+            min="10"
+            max={maxPoints}
+            step="10"
+            bind:value={numPoints}
+            oninput={(e) => onNumPointsChange(+e.currentTarget.value)}
+            disabled={!ready}
+            class="w-full accent-slate-900 disabled:cursor-not-allowed disabled:opacity-60"
+          />
+          <span class="font-mono text-xs text-slate-600">{numPoints}</span>
+        </label>
+
+        <label class="flex flex-col gap-1">
+          <span>Spread</span>
+          <input
+            type="range"
+            min="0.1"
+            max="5"
+            step="0.1"
+            bind:value={spread}
+            oninput={(e) => onSpreadChange(+e.currentTarget.value)}
+            disabled={!ready}
+            class="w-full accent-slate-900 disabled:cursor-not-allowed disabled:opacity-60"
+          />
+          <span class="font-mono text-xs text-slate-600"
+            >{spread.toFixed(2)}</span
+          >
+        </label>
+      </div>
+
+      <div class="space-y-2 text-sm">
+        <h2 class="text-lg font-semibold">Visualization</h2>
+        <label class="flex flex-col gap-1">
+          <span>Point size</span>
+          <input
+            type="range"
+            min="1"
+            max="10"
+            step="0.5"
+            bind:value={pointSize}
+            oninput={(e) => onPointSizeChange(+e.currentTarget.value)}
+            disabled={!ready}
+            class="w-full accent-slate-900 disabled:cursor-not-allowed disabled:opacity-60"
+          />
+          <span class="font-mono text-xs text-slate-600"
+            >{pointSize.toFixed(1)}</span
+          >
+        </label>
+      </div>
+
+      <div class="space-y-2 text-sm">
+        <h2 class="text-lg font-semibold">Auto stop</h2>
+        <label class="flex flex-col gap-1">
+          <span>Max epochs (auto)</span>
+          <input
+            type="number"
+            min="0"
+            step="1"
+            bind:value={autoMaxEpochs}
+            oninput={(e) => onAutoMaxEpochsChange(+e.currentTarget.value)}
+            disabled={!ready}
+            class="w-full rounded-md border border-slate-300 bg-white px-2 py-1 text-sm text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-500 disabled:cursor-not-allowed disabled:opacity-60"
+          />
+        </label>
+
+        <label class="flex flex-col gap-1">
+          <span>Target loss (auto)</span>
+          <input
+            type="number"
+            min="0"
+            step="0.0001"
+            bind:value={autoTargetLoss}
+            oninput={(e) => onAutoTargetLossChange(+e.currentTarget.value)}
+            disabled={!ready}
+            class="w-full rounded-md border border-slate-300 bg-white px-2 py-1 text-sm text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-500 disabled:cursor-not-allowed disabled:opacity-60"
+          />
+        </label>
+
+        <label class="flex items-center gap-2 text-sm">
+          <input
+            type="checkbox"
+            bind:checked={useTargetLossStop}
+            onchange={(e) => onUseTargetLossStopToggle(e.currentTarget.checked)}
+            disabled={!ready}
+            class="h-4 w-4 rounded border-slate-300 text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-500 disabled:cursor-not-allowed disabled:opacity-60"
+          />
+          <span>Use target loss stop</span>
+        </label>
+      </div>
+
+      <div class="space-y-2 text-sm">
+        <h2 class="text-lg font-semibold">Optimizer</h2>
+        <label class="flex flex-col gap-1">
+          <span>Optimizer</span>
+          <select
+            bind:value={optimizer}
+            onchange={(e) => onOptimizerChange(+e.currentTarget.value)}
+            disabled={!ready}
+            class="w-full rounded-md border border-slate-300 bg-white px-2 py-1 text-sm text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-500 disabled:cursor-not-allowed disabled:opacity-60"
+          >
+            <option value="0">SGD</option>
+            <option value="1">SGD Momentum</option>
+            <option value="2">Adam</option>
+          </select>
+        </label>
+
+        <label class="flex flex-col gap-1">
+          <span>Momentum</span>
+          <input
+            type="range"
+            min="0"
+            max="0.99"
+            step="0.01"
+            bind:value={momentum}
+            oninput={(e) => onMomentumChange(+e.currentTarget.value)}
+            disabled={!ready}
+            class="w-full accent-slate-900 disabled:cursor-not-allowed disabled:opacity-60"
+          />
+          <span class="font-mono text-xs text-slate-600"
+            >{momentum.toFixed(2)}</span
+          >
+        </label>
+
+        <label class="flex flex-col gap-1">
+          <span>Adam β₁</span>
+          <input
+            type="range"
+            min="0"
+            max="0.9999"
+            step="0.0001"
+            bind:value={adamBeta1}
+            oninput={(e) => onAdamBeta1Change(+e.currentTarget.value)}
+            disabled={!ready}
+            class="w-full accent-slate-900 disabled:cursor-not-allowed disabled:opacity-60"
+          />
+          <span class="font-mono text-xs text-slate-600"
+            >{adamBeta1.toFixed(4)}</span
+          >
+        </label>
+
+        <label class="flex flex-col gap-1">
+          <span>Adam β₂</span>
+          <input
+            type="range"
+            min="0"
+            max="0.9999"
+            step="0.0001"
+            bind:value={adamBeta2}
+            oninput={(e) => onAdamBeta2Change(+e.currentTarget.value)}
+            disabled={!ready}
+            class="w-full accent-slate-900 disabled:cursor-not-allowed disabled:opacity-60"
+          />
+          <span class="font-mono text-xs text-slate-600"
+            >{adamBeta2.toFixed(4)}</span
+          >
+        </label>
+
+        <label class="flex flex-col gap-1">
+          <span>Adam ε</span>
+          <input
+            type="range"
+            min="0.0000000001"
+            max="0.01"
+            step="0.0000000001"
+            bind:value={adamEps}
+            oninput={(e) => onAdamEpsChange(+e.currentTarget.value)}
+            disabled={!ready}
+            class="w-full accent-slate-900 disabled:cursor-not-allowed disabled:opacity-60"
+          />
+          <span class="font-mono text-xs text-slate-600"
+            >{adamEps.toExponential(2)}</span
+          >
+        </label>
+
+        <label class="flex flex-col gap-1">
+          <span>Initialization</span>
+          <select
+            bind:value={initMode}
+            onchange={(e) => onInitModeChange(+e.currentTarget.value)}
+            disabled={!ready}
+            class="w-full rounded-md border border-slate-300 bg-white px-2 py-1 text-sm text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-500 disabled:cursor-not-allowed disabled:opacity-60"
+          >
+            <option value="0">Zero</option>
+            <option value="1">HeUniform</option>
+            <option value="2">HeNormal</option>
+          </select>
+        </label>
+      </div>
+
+      <div class="space-y-1 text-sm">
+        <h2 class="text-lg font-semibold">Status</h2>
+        <p>Epoch: {epoch}</p>
+        <p>Loss: {loss.toFixed(4)}</p>
+        <p>Accuracy: {accuracy.toFixed(3)}</p>
+        <p>Dataset: {datasetLabels[datasetIndex] ?? "?"}</p>
+        <p>Optimizer: {optimizerLabels[optimizer] ?? "?"}</p>
+        <p>Init: {initModeLabels[initMode] ?? "?"}</p>
+      </div>
+    </div>
+  </div>
+</div>
