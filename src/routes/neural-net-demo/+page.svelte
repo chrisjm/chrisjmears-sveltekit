@@ -517,74 +517,77 @@
                 <option value={2}>Adam</option>
               </select>
             </label>
+            {#if optimizer === 1 || optimizer === 2}
+              <label class="flex flex-col gap-1">
+                <span>Momentum</span>
+                <input
+                  type="range"
+                  min="0"
+                  max="0.99"
+                  step="0.01"
+                  bind:value={momentum}
+                  oninput={(e) => onMomentumChange(+e.currentTarget.value)}
+                  disabled={!ready}
+                  class="w-full accent-slate-900 disabled:cursor-not-allowed disabled:opacity-60"
+                />
+                <span class="font-mono text-xs text-slate-600"
+                  >{momentum.toFixed(2)}</span
+                >
+              </label>
+            {/if}
 
-            <label class="flex flex-col gap-1">
-              <span>Momentum</span>
-              <input
-                type="range"
-                min="0"
-                max="0.99"
-                step="0.01"
-                bind:value={momentum}
-                oninput={(e) => onMomentumChange(+e.currentTarget.value)}
-                disabled={!ready}
-                class="w-full accent-slate-900 disabled:cursor-not-allowed disabled:opacity-60"
-              />
-              <span class="font-mono text-xs text-slate-600"
-                >{momentum.toFixed(2)}</span
-              >
-            </label>
+            {#if optimizer === 2}
+              <label class="flex flex-col gap-1">
+                <span>Adam β₁</span>
+                <input
+                  type="range"
+                  min="0"
+                  max="0.9999"
+                  step="0.0001"
+                  bind:value={adamBeta1}
+                  oninput={(e) => onAdamBeta1Change(+e.currentTarget.value)}
+                  disabled={!ready}
+                  class="w-full accent-slate-900 disabled:cursor-not-allowed disabled:opacity-60"
+                />
+                <span class="font-mono text-xs text-slate-600"
+                  >{adamBeta1.toFixed(4)}</span
+                >
+              </label>
 
-            <label class="flex flex-col gap-1">
-              <span>Adam β₁</span>
-              <input
-                type="range"
-                min="0"
-                max="0.9999"
-                step="0.0001"
-                bind:value={adamBeta1}
-                oninput={(e) => onAdamBeta1Change(+e.currentTarget.value)}
-                disabled={!ready}
-                class="w-full accent-slate-900 disabled:cursor-not-allowed disabled:opacity-60"
-              />
-              <span class="font-mono text-xs text-slate-600"
-                >{adamBeta1.toFixed(4)}</span
-              >
-            </label>
+              <label class="flex flex-col gap-1">
+                <span>Adam β₂</span>
+                <input
+                  type="range"
+                  min="0"
+                  max="0.9999"
+                  step="0.0001"
+                  bind:value={adamBeta2}
+                  oninput={(e) => onAdamBeta2Change(+e.currentTarget.value)}
+                  disabled={!ready}
+                  class="w-full accent-slate-900 disabled:cursor-not-allowed disabled:opacity-60"
+                />
+                <span class="font-mono text-xs text-slate-600"
+                  >{adamBeta2.toFixed(4)}</span
+                >
+              </label>
 
-            <label class="flex flex-col gap-1">
-              <span>Adam β₂</span>
-              <input
-                type="range"
-                min="0"
-                max="0.9999"
-                step="0.0001"
-                bind:value={adamBeta2}
-                oninput={(e) => onAdamBeta2Change(+e.currentTarget.value)}
-                disabled={!ready}
-                class="w-full accent-slate-900 disabled:cursor-not-allowed disabled:opacity-60"
-              />
-              <span class="font-mono text-xs text-slate-600"
-                >{adamBeta2.toFixed(4)}</span
-              >
-            </label>
-
-            <label class="flex flex-col gap-1">
-              <span>Adam ε</span>
-              <input
-                type="range"
-                min="0.0000000001"
-                max="0.01"
-                step="0.0000000001"
-                bind:value={adamEps}
-                oninput={(e) => onAdamEpsChange(+e.currentTarget.value)}
-                disabled={!ready}
-                class="w-full accent-slate-900 disabled:cursor-not-allowed disabled:opacity-60"
-              />
-              <span class="font-mono text-xs text-slate-600"
-                >{adamEps.toExponential(2)}</span
-              >
-            </label>
+              <label class="flex flex-col gap-1">
+                <span>Adam ε</span>
+                <input
+                  type="range"
+                  min="0.0000000001"
+                  max="0.01"
+                  step="0.0000000001"
+                  bind:value={adamEps}
+                  oninput={(e) => onAdamEpsChange(+e.currentTarget.value)}
+                  disabled={!ready}
+                  class="w-full accent-slate-900 disabled:cursor-not-allowed disabled:opacity-60"
+                />
+                <span class="font-mono text-xs text-slate-600"
+                  >{adamEps.toExponential(2)}</span
+                >
+              </label>
+            {/if}
           </div>
         {/if}
       </div>
