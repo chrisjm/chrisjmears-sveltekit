@@ -28,8 +28,8 @@
 
   let showTraining = $state(true)
   let showDataset = $state(true)
-  let showAutoStop = $state(true)
-  let showOptimizer = $state(true)
+  let showAutoStop = $state(false)
+  let showOptimizer = $state(false)
 
   const datasetLabels = [
     "Two blobs",
@@ -144,6 +144,12 @@
   function onUseTargetLossStopToggle(value: boolean) {
     useTargetLossStop = value
     if (!mod) return
+
+    if (value && autoTargetLoss <= 0) {
+      autoTargetLoss = 0.1
+      mod._nn_set_auto_target_loss(autoTargetLoss)
+    }
+
     mod._nn_set_use_target_loss_stop(value ? 1 : 0)
   }
 
@@ -151,6 +157,13 @@
     optimizer = v | 0
     if (!mod) return
     mod._nn_set_optimizer(optimizer)
+
+    if (optimizer === 2) {
+      if (learningRate > 0.05 || learningRate < 0.0001) {
+        learningRate = 0.01
+        mod._nn_set_learning_rate(learningRate)
+      }
+    }
   }
 
   function onMomentumChange(v: number) {
@@ -452,29 +465,6 @@
               />
             </label>
 
-            <label class="flex flex-col gap-1">
-              <span>Target loss (auto)</span>
-              <input
-                type="number"
-                min="0"
-                step="0.0001"
-                bind:value={autoTargetLoss}
-                oninput={(e) => onAutoTargetLossChange(+e.currentTarget.value)}
-                disabled={!ready}
-                class="w-full rounded-md border border-slate-300 bg-white px-2 py-1 text-sm text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-500 disabled:cursor-not-allowed disabled:opacity-60"
-              />
-              <input
-                type="range"
-                min="0"
-                max="1"
-                step="0.0001"
-                bind:value={autoTargetLoss}
-                oninput={(e) => onAutoTargetLossChange(+e.currentTarget.value)}
-                disabled={!ready}
-                class="w-full accent-slate-900 disabled:cursor-not-allowed disabled:opacity-60"
-              />
-            </label>
-
             <label class="flex items-center gap-2 text-sm">
               <input
                 type="checkbox"
@@ -486,6 +476,33 @@
               />
               <span>Use target loss stop</span>
             </label>
+
+            {#if useTargetLossStop}
+              <label class="flex flex-col gap-1">
+                <span>Target loss (auto)</span>
+                <input
+                  type="number"
+                  min="0"
+                  step="0.0001"
+                  bind:value={autoTargetLoss}
+                  oninput={(e) =>
+                    onAutoTargetLossChange(+e.currentTarget.value)}
+                  disabled={!ready}
+                  class="w-full rounded-md border border-slate-300 bg-white px-2 py-1 text-sm text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-500 disabled:cursor-not-allowed disabled:opacity-60"
+                />
+                <input
+                  type="range"
+                  min="0"
+                  max="1"
+                  step="0.0001"
+                  bind:value={autoTargetLoss}
+                  oninput={(e) =>
+                    onAutoTargetLossChange(+e.currentTarget.value)}
+                  disabled={!ready}
+                  class="w-full accent-slate-900 disabled:cursor-not-allowed disabled:opacity-60"
+                />
+              </label>
+            {/if}
           </div>
         {/if}
       </div>
