@@ -15,7 +15,6 @@
   let datasetIndex = $state(0)
   let numPoints = $state(1000)
   let spread = $state(1)
-  let pointSize = $state(3)
   let autoMaxEpochs = $state(0)
   let autoTargetLoss = $state(0.1)
   let useTargetLossStop = $state(false)
@@ -26,6 +25,11 @@
   let adamEps = $state(1e-8)
   let initMode = $state(0)
   let maxPoints = $state(1000)
+
+  let showTraining = $state(true)
+  let showDataset = $state(true)
+  let showAutoStop = $state(true)
+  let showOptimizer = $state(true)
 
   const datasetLabels = [
     "Two blobs",
@@ -54,7 +58,6 @@
     datasetIndex = mod._nn_get_dataset_index()
     numPoints = mod._nn_get_num_points()
     spread = mod._nn_get_spread()
-    pointSize = mod._nn_get_point_size()
     autoMaxEpochs = mod._nn_get_auto_max_epochs()
     autoTargetLoss = mod._nn_get_auto_target_loss()
     useTargetLossStop = !!mod._nn_get_use_target_loss_stop()
@@ -124,12 +127,6 @@
     autoTrain = value
     if (!mod) return
     mod._nn_set_auto_train(value ? 1 : 0)
-  }
-
-  function onPointSizeChange(v: number) {
-    pointSize = v
-    if (!mod) return
-    mod._nn_set_point_size(v)
   }
 
   function onAutoMaxEpochsChange(v: number) {
@@ -204,7 +201,7 @@
 
 <div class="min-h-screen flex items-center justify-center px-4 py-6">
   <div class="flex w-full max-w-6xl flex-col gap-6 md:flex-row md:items-start">
-    <div class="flex flex-1 items-center justify-center">
+    <div class="flex flex-1 flex-col items-center justify-center gap-4">
       <div class="relative w-full max-w-[800px] aspect-[4/3]">
         <canvas
           bind:this={canvasEl}
@@ -222,283 +219,374 @@
           </div>
         {/if}
       </div>
+
+      <div class="w-full max-w-[800px]">
+        <div
+          class="mx-auto mt-4 inline-flex w-full flex-wrap items-center justify-center gap-x-8 gap-y-2 rounded-lg border border-slate-700 bg-slate-900/60 px-4 py-3 text-xs text-slate-100 sm:text-sm"
+        >
+          <div class="flex flex-col items-center">
+            <span class="text-[0.65rem] uppercase tracking-wide text-slate-400"
+              >Epoch</span
+            >
+            <span class="font-mono">{epoch}</span>
+          </div>
+          <div class="flex flex-col items-center">
+            <span class="text-[0.65rem] uppercase tracking-wide text-slate-400"
+              >Loss</span
+            >
+            <span class="font-mono">{loss.toFixed(4)}</span>
+          </div>
+          <div class="flex flex-col items-center">
+            <span class="text-[0.65rem] uppercase tracking-wide text-slate-400"
+              >Accuracy</span
+            >
+            <span class="font-mono">{accuracy.toFixed(3)}</span>
+          </div>
+          <div class="flex flex-col items-center">
+            <span class="text-[0.65rem] uppercase tracking-wide text-slate-400"
+              >Dataset</span
+            >
+            <span class="font-mono">{datasetLabels[datasetIndex] ?? "?"}</span>
+          </div>
+          <div class="flex flex-col items-center">
+            <span class="text-[0.65rem] uppercase tracking-wide text-slate-400"
+              >Optimizer</span
+            >
+            <span class="font-mono">{optimizerLabels[optimizer] ?? "?"}</span>
+          </div>
+          <div class="flex flex-col items-center">
+            <span class="text-[0.65rem] uppercase tracking-wide text-slate-400"
+              >Init</span
+            >
+            <span class="font-mono">{initModeLabels[initMode] ?? "?"}</span>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div class="w-full md:w-80 space-y-4">
-      <div class="space-y-2">
-        <h2 class="text-lg font-semibold">Training</h2>
-        <button
-          onclick={trainOneEpoch}
-          disabled={!ready}
-          class="inline-flex items-center justify-center rounded-md border border-slate-300 bg-slate-100 px-3 py-1.5 text-sm font-medium text-slate-900 hover:bg-slate-200 disabled:cursor-not-allowed disabled:opacity-60"
-        >
-          Train Epoch
-        </button>
-      </div>
-
-      <label class="flex items-center gap-2 text-sm">
-        <input
-          type="checkbox"
-          bind:checked={autoTrain}
-          onchange={(e) => onAutoTrainToggle(e.currentTarget.checked)}
-          disabled={!ready}
-          class="h-4 w-4 rounded border-slate-300 text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-500 disabled:cursor-not-allowed disabled:opacity-60"
-        />
-        <span>Auto Train</span>
-      </label>
-
       <div class="space-y-2 text-sm">
-        <label class="flex flex-col gap-1">
-          <span>Learning rate</span>
-          <input
-            type="range"
-            min="0.0001"
-            max="0.2"
-            step="0.0001"
-            bind:value={learningRate}
-            oninput={(e) => onLearningRateChange(+e.currentTarget.value)}
-            disabled={!ready}
-            class="w-full accent-slate-900 disabled:cursor-not-allowed disabled:opacity-60"
-          />
-          <span class="font-mono text-xs text-slate-600"
-            >{learningRate.toFixed(5)}</span
+        <div class="flex items-center justify-between">
+          <h2 class="text-lg font-semibold">Training</h2>
+          <button
+            type="button"
+            class="text-xs text-slate-500 hover:text-slate-300"
+            onclick={() => (showTraining = !showTraining)}
           >
-        </label>
+            {showTraining ? "Hide" : "Show"}
+          </button>
+        </div>
 
-        <label class="flex flex-col gap-1">
-          <span>Batch size</span>
-          <input
-            type="range"
-            min="1"
-            max="512"
-            step="1"
-            bind:value={batchSize}
-            oninput={(e) => onBatchSizeChange(+e.currentTarget.value)}
-            disabled={!ready}
-            class="w-full accent-slate-900 disabled:cursor-not-allowed disabled:opacity-60"
-          />
-          <span class="font-mono text-xs text-slate-600">{batchSize}</span>
-        </label>
-      </div>
+        {#if showTraining}
+          <div class="space-y-3">
+            <button
+              onclick={trainOneEpoch}
+              disabled={!ready}
+              class="inline-flex items-center justify-center rounded-md border border-slate-300 bg-slate-100 px-3 py-1.5 text-sm font-medium text-slate-900 hover:bg-slate-200 disabled:cursor-not-allowed disabled:opacity-60"
+            >
+              Train Epoch
+            </button>
 
-      <div class="space-y-2 text-sm">
-        <h2 class="text-lg font-semibold">Dataset</h2>
-        <label class="flex flex-col gap-1">
-          <span>Dataset</span>
-          <select
-            bind:value={datasetIndex}
-            onchange={(e) => onDatasetIndexChange(+e.currentTarget.value)}
-            disabled={!ready}
-            class="w-full rounded-md border border-slate-300 bg-white px-2 py-1 text-sm text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-500 disabled:cursor-not-allowed disabled:opacity-60"
-          >
-            <option value="0">Two blobs</option>
-            <option value="1">Concentric circles</option>
-            <option value="2">Two moons</option>
-            <option value="3">XOR quads</option>
-            <option value="4">Spirals</option>
-          </select>
-        </label>
+            <label class="flex items-center gap-2">
+              <input
+                type="checkbox"
+                bind:checked={autoTrain}
+                onchange={(e) => onAutoTrainToggle(e.currentTarget.checked)}
+                disabled={!ready}
+                class="h-4 w-4 rounded border-slate-300 text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-500 disabled:cursor-not-allowed disabled:opacity-60"
+              />
+              <span>Auto Train</span>
+            </label>
 
-        <label class="flex flex-col gap-1">
-          <span>Num points</span>
-          <input
-            type="range"
-            min="10"
-            max={maxPoints}
-            step="10"
-            bind:value={numPoints}
-            oninput={(e) => onNumPointsChange(+e.currentTarget.value)}
-            disabled={!ready}
-            class="w-full accent-slate-900 disabled:cursor-not-allowed disabled:opacity-60"
-          />
-          <span class="font-mono text-xs text-slate-600">{numPoints}</span>
-        </label>
+            <div class="space-y-2">
+              <label class="flex flex-col gap-1">
+                <span>Learning rate</span>
+                <input
+                  type="range"
+                  min="0.0001"
+                  max="0.2"
+                  step="0.0001"
+                  bind:value={learningRate}
+                  oninput={(e) => onLearningRateChange(+e.currentTarget.value)}
+                  disabled={!ready}
+                  class="w-full accent-slate-900 disabled:cursor-not-allowed disabled:opacity-60"
+                />
+                <span class="font-mono text-xs text-slate-600"
+                  >{learningRate.toFixed(5)}</span
+                >
+              </label>
 
-        <label class="flex flex-col gap-1">
-          <span>Spread</span>
-          <input
-            type="range"
-            min="0.1"
-            max="5"
-            step="0.1"
-            bind:value={spread}
-            oninput={(e) => onSpreadChange(+e.currentTarget.value)}
-            disabled={!ready}
-            class="w-full accent-slate-900 disabled:cursor-not-allowed disabled:opacity-60"
-          />
-          <span class="font-mono text-xs text-slate-600"
-            >{spread.toFixed(2)}</span
-          >
-        </label>
+              <label class="flex flex-col gap-1">
+                <span>Batch size</span>
+                <input
+                  type="range"
+                  min="1"
+                  max="512"
+                  step="1"
+                  bind:value={batchSize}
+                  oninput={(e) => onBatchSizeChange(+e.currentTarget.value)}
+                  disabled={!ready}
+                  class="w-full accent-slate-900 disabled:cursor-not-allowed disabled:opacity-60"
+                />
+                <span class="font-mono text-xs text-slate-600">{batchSize}</span
+                >
+              </label>
+            </div>
+          </div>
+        {/if}
       </div>
 
       <div class="space-y-2 text-sm">
-        <h2 class="text-lg font-semibold">Visualization</h2>
-        <label class="flex flex-col gap-1">
-          <span>Point size</span>
-          <input
-            type="range"
-            min="1"
-            max="10"
-            step="0.5"
-            bind:value={pointSize}
-            oninput={(e) => onPointSizeChange(+e.currentTarget.value)}
-            disabled={!ready}
-            class="w-full accent-slate-900 disabled:cursor-not-allowed disabled:opacity-60"
-          />
-          <span class="font-mono text-xs text-slate-600"
-            >{pointSize.toFixed(1)}</span
+        <div class="flex items-center justify-between">
+          <h2 class="text-lg font-semibold">Dataset</h2>
+          <button
+            type="button"
+            class="text-xs text-slate-500 hover:text-slate-300"
+            onclick={() => (showDataset = !showDataset)}
           >
-        </label>
+            {showDataset ? "Hide" : "Show"}
+          </button>
+        </div>
+
+        {#if showDataset}
+          <div class="space-y-2">
+            <label class="flex flex-col gap-1">
+              <span>Dataset</span>
+              <select
+                bind:value={datasetIndex}
+                onchange={(e) => onDatasetIndexChange(+e.currentTarget.value)}
+                disabled={!ready}
+                class="w-full rounded-md border border-slate-300 bg-white px-2 py-1 text-sm text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-500 disabled:cursor-not-allowed disabled:opacity-60"
+              >
+                <option value={0}>Two blobs</option>
+                <option value={1}>Concentric circles</option>
+                <option value={2}>Two moons</option>
+                <option value={3}>XOR quads</option>
+                <option value={4}>Spirals</option>
+              </select>
+            </label>
+
+            <label class="flex flex-col gap-1">
+              <span>Num points</span>
+              <input
+                type="range"
+                min="10"
+                max={maxPoints}
+                step="10"
+                bind:value={numPoints}
+                oninput={(e) => onNumPointsChange(+e.currentTarget.value)}
+                disabled={!ready}
+                class="w-full accent-slate-900 disabled:cursor-not-allowed disabled:opacity-60"
+              />
+              <span class="font-mono text-xs text-slate-600">{numPoints}</span>
+            </label>
+
+            <label class="flex flex-col gap-1">
+              <span>Spread</span>
+              <input
+                type="range"
+                min="0.1"
+                max="5"
+                step="0.1"
+                bind:value={spread}
+                oninput={(e) => onSpreadChange(+e.currentTarget.value)}
+                disabled={!ready}
+                class="w-full accent-slate-900 disabled:cursor-not-allowed disabled:opacity-60"
+              />
+              <span class="font-mono text-xs text-slate-600"
+                >{spread.toFixed(2)}</span
+              >
+            </label>
+
+            <label class="flex flex-col gap-1">
+              <span>Initialization</span>
+              <select
+                bind:value={initMode}
+                onchange={(e) => onInitModeChange(+e.currentTarget.value)}
+                disabled={!ready}
+                class="w-full rounded-md border border-slate-300 bg-white px-2 py-1 text-sm text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-500 disabled:cursor-not-allowed disabled:opacity-60"
+              >
+                <option value={0}>Zero</option>
+                <option value={1}>HeUniform</option>
+                <option value={2}>HeNormal</option>
+              </select>
+            </label>
+          </div>
+        {/if}
       </div>
 
       <div class="space-y-2 text-sm">
-        <h2 class="text-lg font-semibold">Auto stop</h2>
-        <label class="flex flex-col gap-1">
-          <span>Max epochs (auto)</span>
-          <input
-            type="number"
-            min="0"
-            step="1"
-            bind:value={autoMaxEpochs}
-            oninput={(e) => onAutoMaxEpochsChange(+e.currentTarget.value)}
-            disabled={!ready}
-            class="w-full rounded-md border border-slate-300 bg-white px-2 py-1 text-sm text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-500 disabled:cursor-not-allowed disabled:opacity-60"
-          />
-        </label>
+        <div class="flex items-center justify-between">
+          <h2 class="text-lg font-semibold">Auto stop</h2>
+          <button
+            type="button"
+            class="text-xs text-slate-500 hover:text-slate-300"
+            onclick={() => (showAutoStop = !showAutoStop)}
+          >
+            {showAutoStop ? "Hide" : "Show"}
+          </button>
+        </div>
 
-        <label class="flex flex-col gap-1">
-          <span>Target loss (auto)</span>
-          <input
-            type="number"
-            min="0"
-            step="0.0001"
-            bind:value={autoTargetLoss}
-            oninput={(e) => onAutoTargetLossChange(+e.currentTarget.value)}
-            disabled={!ready}
-            class="w-full rounded-md border border-slate-300 bg-white px-2 py-1 text-sm text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-500 disabled:cursor-not-allowed disabled:opacity-60"
-          />
-        </label>
+        {#if showAutoStop}
+          <div class="space-y-3">
+            <label class="flex flex-col gap-1">
+              <span>Max epochs (auto)</span>
+              <input
+                type="number"
+                min="0"
+                step="1"
+                bind:value={autoMaxEpochs}
+                oninput={(e) => onAutoMaxEpochsChange(+e.currentTarget.value)}
+                disabled={!ready}
+                class="w-full rounded-md border border-slate-300 bg-white px-2 py-1 text-sm text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-500 disabled:cursor-not-allowed disabled:opacity-60"
+              />
+              <input
+                type="range"
+                min="0"
+                max="1000"
+                step="1"
+                bind:value={autoMaxEpochs}
+                oninput={(e) => onAutoMaxEpochsChange(+e.currentTarget.value)}
+                disabled={!ready}
+                class="w-full accent-slate-900 disabled:cursor-not-allowed disabled:opacity-60"
+              />
+            </label>
 
-        <label class="flex items-center gap-2 text-sm">
-          <input
-            type="checkbox"
-            bind:checked={useTargetLossStop}
-            onchange={(e) => onUseTargetLossStopToggle(e.currentTarget.checked)}
-            disabled={!ready}
-            class="h-4 w-4 rounded border-slate-300 text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-500 disabled:cursor-not-allowed disabled:opacity-60"
-          />
-          <span>Use target loss stop</span>
-        </label>
+            <label class="flex flex-col gap-1">
+              <span>Target loss (auto)</span>
+              <input
+                type="number"
+                min="0"
+                step="0.0001"
+                bind:value={autoTargetLoss}
+                oninput={(e) => onAutoTargetLossChange(+e.currentTarget.value)}
+                disabled={!ready}
+                class="w-full rounded-md border border-slate-300 bg-white px-2 py-1 text-sm text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-500 disabled:cursor-not-allowed disabled:opacity-60"
+              />
+              <input
+                type="range"
+                min="0"
+                max="1"
+                step="0.0001"
+                bind:value={autoTargetLoss}
+                oninput={(e) => onAutoTargetLossChange(+e.currentTarget.value)}
+                disabled={!ready}
+                class="w-full accent-slate-900 disabled:cursor-not-allowed disabled:opacity-60"
+              />
+            </label>
+
+            <label class="flex items-center gap-2 text-sm">
+              <input
+                type="checkbox"
+                bind:checked={useTargetLossStop}
+                onchange={(e) =>
+                  onUseTargetLossStopToggle(e.currentTarget.checked)}
+                disabled={!ready}
+                class="h-4 w-4 rounded border-slate-300 text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-500 disabled:cursor-not-allowed disabled:opacity-60"
+              />
+              <span>Use target loss stop</span>
+            </label>
+          </div>
+        {/if}
       </div>
 
       <div class="space-y-2 text-sm">
-        <h2 class="text-lg font-semibold">Optimizer</h2>
-        <label class="flex flex-col gap-1">
-          <span>Optimizer</span>
-          <select
-            bind:value={optimizer}
-            onchange={(e) => onOptimizerChange(+e.currentTarget.value)}
-            disabled={!ready}
-            class="w-full rounded-md border border-slate-300 bg-white px-2 py-1 text-sm text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-500 disabled:cursor-not-allowed disabled:opacity-60"
+        <div class="flex items-center justify-between">
+          <h2 class="text-lg font-semibold">Optimizer</h2>
+          <button
+            type="button"
+            class="text-xs text-slate-500 hover:text-slate-300"
+            onclick={() => (showOptimizer = !showOptimizer)}
           >
-            <option value="0">SGD</option>
-            <option value="1">SGD Momentum</option>
-            <option value="2">Adam</option>
-          </select>
-        </label>
+            {showOptimizer ? "Hide" : "Show"}
+          </button>
+        </div>
 
-        <label class="flex flex-col gap-1">
-          <span>Momentum</span>
-          <input
-            type="range"
-            min="0"
-            max="0.99"
-            step="0.01"
-            bind:value={momentum}
-            oninput={(e) => onMomentumChange(+e.currentTarget.value)}
-            disabled={!ready}
-            class="w-full accent-slate-900 disabled:cursor-not-allowed disabled:opacity-60"
-          />
-          <span class="font-mono text-xs text-slate-600"
-            >{momentum.toFixed(2)}</span
-          >
-        </label>
+        {#if showOptimizer}
+          <div class="space-y-2">
+            <label class="flex flex-col gap-1">
+              <span>Optimizer</span>
+              <select
+                bind:value={optimizer}
+                onchange={(e) => onOptimizerChange(+e.currentTarget.value)}
+                disabled={!ready}
+                class="w-full rounded-md border border-slate-300 bg-white px-2 py-1 text-sm text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-500 disabled:cursor-not-allowed disabled:opacity-60"
+              >
+                <option value={0}>SGD</option>
+                <option value={1}>SGD Momentum</option>
+                <option value={2}>Adam</option>
+              </select>
+            </label>
 
-        <label class="flex flex-col gap-1">
-          <span>Adam β₁</span>
-          <input
-            type="range"
-            min="0"
-            max="0.9999"
-            step="0.0001"
-            bind:value={adamBeta1}
-            oninput={(e) => onAdamBeta1Change(+e.currentTarget.value)}
-            disabled={!ready}
-            class="w-full accent-slate-900 disabled:cursor-not-allowed disabled:opacity-60"
-          />
-          <span class="font-mono text-xs text-slate-600"
-            >{adamBeta1.toFixed(4)}</span
-          >
-        </label>
+            <label class="flex flex-col gap-1">
+              <span>Momentum</span>
+              <input
+                type="range"
+                min="0"
+                max="0.99"
+                step="0.01"
+                bind:value={momentum}
+                oninput={(e) => onMomentumChange(+e.currentTarget.value)}
+                disabled={!ready}
+                class="w-full accent-slate-900 disabled:cursor-not-allowed disabled:opacity-60"
+              />
+              <span class="font-mono text-xs text-slate-600"
+                >{momentum.toFixed(2)}</span
+              >
+            </label>
 
-        <label class="flex flex-col gap-1">
-          <span>Adam β₂</span>
-          <input
-            type="range"
-            min="0"
-            max="0.9999"
-            step="0.0001"
-            bind:value={adamBeta2}
-            oninput={(e) => onAdamBeta2Change(+e.currentTarget.value)}
-            disabled={!ready}
-            class="w-full accent-slate-900 disabled:cursor-not-allowed disabled:opacity-60"
-          />
-          <span class="font-mono text-xs text-slate-600"
-            >{adamBeta2.toFixed(4)}</span
-          >
-        </label>
+            <label class="flex flex-col gap-1">
+              <span>Adam β₁</span>
+              <input
+                type="range"
+                min="0"
+                max="0.9999"
+                step="0.0001"
+                bind:value={adamBeta1}
+                oninput={(e) => onAdamBeta1Change(+e.currentTarget.value)}
+                disabled={!ready}
+                class="w-full accent-slate-900 disabled:cursor-not-allowed disabled:opacity-60"
+              />
+              <span class="font-mono text-xs text-slate-600"
+                >{adamBeta1.toFixed(4)}</span
+              >
+            </label>
 
-        <label class="flex flex-col gap-1">
-          <span>Adam ε</span>
-          <input
-            type="range"
-            min="0.0000000001"
-            max="0.01"
-            step="0.0000000001"
-            bind:value={adamEps}
-            oninput={(e) => onAdamEpsChange(+e.currentTarget.value)}
-            disabled={!ready}
-            class="w-full accent-slate-900 disabled:cursor-not-allowed disabled:opacity-60"
-          />
-          <span class="font-mono text-xs text-slate-600"
-            >{adamEps.toExponential(2)}</span
-          >
-        </label>
+            <label class="flex flex-col gap-1">
+              <span>Adam β₂</span>
+              <input
+                type="range"
+                min="0"
+                max="0.9999"
+                step="0.0001"
+                bind:value={adamBeta2}
+                oninput={(e) => onAdamBeta2Change(+e.currentTarget.value)}
+                disabled={!ready}
+                class="w-full accent-slate-900 disabled:cursor-not-allowed disabled:opacity-60"
+              />
+              <span class="font-mono text-xs text-slate-600"
+                >{adamBeta2.toFixed(4)}</span
+              >
+            </label>
 
-        <label class="flex flex-col gap-1">
-          <span>Initialization</span>
-          <select
-            bind:value={initMode}
-            onchange={(e) => onInitModeChange(+e.currentTarget.value)}
-            disabled={!ready}
-            class="w-full rounded-md border border-slate-300 bg-white px-2 py-1 text-sm text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-500 disabled:cursor-not-allowed disabled:opacity-60"
-          >
-            <option value="0">Zero</option>
-            <option value="1">HeUniform</option>
-            <option value="2">HeNormal</option>
-          </select>
-        </label>
-      </div>
-
-      <div class="space-y-1 text-sm">
-        <h2 class="text-lg font-semibold">Status</h2>
-        <p>Epoch: {epoch}</p>
-        <p>Loss: {loss.toFixed(4)}</p>
-        <p>Accuracy: {accuracy.toFixed(3)}</p>
-        <p>Dataset: {datasetLabels[datasetIndex] ?? "?"}</p>
-        <p>Optimizer: {optimizerLabels[optimizer] ?? "?"}</p>
-        <p>Init: {initModeLabels[initMode] ?? "?"}</p>
+            <label class="flex flex-col gap-1">
+              <span>Adam ε</span>
+              <input
+                type="range"
+                min="0.0000000001"
+                max="0.01"
+                step="0.0000000001"
+                bind:value={adamEps}
+                oninput={(e) => onAdamEpsChange(+e.currentTarget.value)}
+                disabled={!ready}
+                class="w-full accent-slate-900 disabled:cursor-not-allowed disabled:opacity-60"
+              />
+              <span class="font-mono text-xs text-slate-600"
+                >{adamEps.toExponential(2)}</span
+              >
+            </label>
+          </div>
+        {/if}
       </div>
     </div>
   </div>
