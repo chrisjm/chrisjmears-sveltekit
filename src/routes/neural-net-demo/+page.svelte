@@ -60,9 +60,9 @@
 
     // If a newer init started or the component was destroyed while instantiating, shut down and abort
     if (destroyed || currentToken !== initToken) {
-      if (instance && typeof instance._nn_shutdown === "function") {
+      if (instance && typeof (instance as any)._nn_shutdown === "function") {
         try {
-          instance._nn_shutdown()
+          ;(instance as any)._nn_shutdown()
         } catch {
           // ignore shutdown errors during teardown
         }
@@ -120,9 +120,9 @@
     }
 
     if (mod) {
-      if (typeof mod._nn_shutdown === "function") {
+      if (typeof (mod as any)._nn_shutdown === "function") {
         try {
-          mod._nn_shutdown()
+          ;(mod as any)._nn_shutdown()
         } catch {
           // ignore shutdown errors during teardown
         }
@@ -268,7 +268,22 @@
   type="website"
 />
 
-<div class="flex items-center justify-center px-4 py-6">
+<div class="px-4 pt-6 pb-2 max-w-6xl mx-auto text-sm text-slate-800 space-y-2">
+  <h1 class="text-2xl font-semibold">Interactive Neural Network Demo</h1>
+  <p>
+    This is a small 2D classification demo powered by a neural network written
+    in C++ and rendered with OpenGL, compiled to WebAssembly and embedded in
+    this Svelte app.
+  </p>
+  <p>
+    The plot shows how the model separates two classes of points. The summary
+    bar tracks training progress (epoch, loss, accuracy, dataset, optimizer, and
+    weight initialization). Use the panels on the right to step training, enable
+    auto-training, change the dataset, and tweak optimization settings.
+  </p>
+</div>
+
+<div class="flex items-center justify-center px-4 pb-6">
   <div class="flex w-full max-w-6xl flex-col gap-6 md:flex-row md:items-start">
     <div class="flex flex-1 flex-col items-center justify-center gap-4">
       <div class="relative w-full max-w-[800px] aspect-[4/3]">
