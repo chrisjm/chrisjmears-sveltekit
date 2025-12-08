@@ -264,8 +264,10 @@
 
 <SEO
   title="Neural Network Demo - Chris J Mears"
-  description="A simple toy neural network demo built with C++, OpenGL, and WebAssembly."
+  description="A simple interactive 2D classification demo built with C++, OpenGL, and WebAssembly."
   type="website"
+  image="/neural-network-demo.jpg"
+  keywords="neural network, c++, opengl, webassembly, svelte, machine learning, ai"
 />
 
 <div class="px-4 pt-6 pb-2 max-w-6xl mx-auto text-sm text-slate-800 space-y-2">
