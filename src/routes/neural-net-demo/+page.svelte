@@ -2,11 +2,14 @@
   import AboutMe from "$lib/components/AboutMe.svelte"
   import CollapsibleSection from "$lib/components/CollapsibleSection.svelte"
   import SEO from "$lib/components/SEO.svelte"
-  import { onMount } from "svelte"
+  import { onDestroy, onMount } from "svelte"
 
   let canvasEl: HTMLCanvasElement | null = null
   let mod: any = null
   let ready = $state(false)
+  let pollIntervalId: number | null = null
+  let destroyed = false
+  let initToken = 0
 
   // Simple state you can bind to controls
   let loss = $state(0)
@@ -42,12 +45,32 @@
   const initModeLabels = ["Zero", "He Uniform", "He Normal"] as const
 
   async function initWasm() {
+    const currentToken = ++initToken
+    ready = false
+
     const createModule = (await import("./NeuralNetDemo.js")).default
 
-    mod = await createModule({
+    // If the component was destroyed while the module code was loading, abort
+    if (destroyed || currentToken !== initToken) return
+
+    const instance = await createModule({
       canvas: canvasEl,
       locateFile: (path: string) => `/${path}`,
     })
+
+    // If a newer init started or the component was destroyed while instantiating, shut down and abort
+    if (destroyed || currentToken !== initToken) {
+      if (instance && typeof instance._nn_shutdown === "function") {
+        try {
+          instance._nn_shutdown()
+        } catch {
+          // ignore shutdown errors during teardown
+        }
+      }
+      return
+    }
+
+    mod = instance
 
     // Initialize UI state from C++ side
     learningRate = mod._nn_get_learning_rate()
@@ -81,10 +104,39 @@
   }
 
   onMount(() => {
+    destroyed = false
     initWasm()
 
-    const id = setInterval(pollState, 250)
-    return () => clearInterval(id)
+    pollIntervalId = window.setInterval(pollState, 250)
+  })
+
+  onDestroy(() => {
+    destroyed = true
+    initToken += 1
+
+    if (pollIntervalId !== null) {
+      clearInterval(pollIntervalId)
+      pollIntervalId = null
+    }
+
+    if (mod) {
+      if (typeof mod._nn_shutdown === "function") {
+        try {
+          mod._nn_shutdown()
+        } catch {
+          // ignore shutdown errors during teardown
+        }
+      }
+      mod = null
+    }
+
+    if (canvasEl) {
+      const gl = canvasEl.getContext("webgl2") || canvasEl.getContext("webgl")
+      gl?.getExtension("WEBGL_lose_context")?.loseContext()
+      canvasEl = null
+    }
+
+    ready = false
   })
 
   // ----- control handlers -----
@@ -310,9 +362,7 @@
                   />
                   <span>Auto-train</span>
                 </span>
-                <p class="text-xs text-slate-600">
-                  Train epochs automatically
-                </p>
+                <p class="text-xs text-slate-600">Train epochs automatically</p>
               </label>
             </div>
           </div>
