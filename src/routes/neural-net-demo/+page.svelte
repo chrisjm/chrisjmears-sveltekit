@@ -1,4 +1,6 @@
 <script lang="ts">
+  import AboutMe from "$lib/components/AboutMe.svelte"
+  import SEO from "$lib/components/SEO.svelte"
   import { onMount } from "svelte"
 
   let canvasEl: HTMLCanvasElement | null = null
@@ -211,6 +213,12 @@
     mod._nn_set_probe_position(x, y)
   }
 </script>
+
+<SEO
+  title="Neural Network Demo - Chris J Mears"
+  description="A simple toy neural network demo built with C++, OpenGL, and WebAssembly."
+  type="website"
+/>
 
 <div class="min-h-screen flex items-center justify-center px-4 py-6">
   <div class="flex w-full max-w-6xl flex-col gap-6 md:flex-row md:items-start">
@@ -611,3 +619,5 @@
     </div>
   </div>
 </div>
+
+<AboutMe />
