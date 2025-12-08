@@ -266,7 +266,7 @@
   title="Neural Network Demo - Chris J Mears"
   description="A simple interactive 2D classification demo built with C++, OpenGL, and WebAssembly."
   type="website"
-  image="/neural-network-demo.jpg"
+  image="/images/neural-network-demo.jpg"
   keywords="neural network, c++, opengl, webassembly, svelte, machine learning, ai"
 />
 
