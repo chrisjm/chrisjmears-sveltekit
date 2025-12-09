@@ -263,7 +263,7 @@
 </script>
 
 <SEO
-  title="Neural Network Demo - Chris J Mears"
+  title="Interactive Neural Network Demo - Chris J Mears"
   description="A simple interactive 2D classification demo built with C++, OpenGL, and WebAssembly."
   type="website"
   image="/images/neural-network-demo.jpg"
