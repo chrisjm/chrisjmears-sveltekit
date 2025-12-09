@@ -71,13 +71,13 @@ export const GET: RequestHandler = async ({ url }) => {
     loc: string;
     lastmod?: string;
     changefreq?:
-    | "always"
-    | "hourly"
-    | "daily"
-    | "weekly"
-    | "monthly"
-    | "yearly"
-    | "never";
+      | "always"
+      | "hourly"
+      | "daily"
+      | "weekly"
+      | "monthly"
+      | "yearly"
+      | "never";
     priority?: number; // 0.0 to 1.0
   };
 

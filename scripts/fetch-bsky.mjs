@@ -5,7 +5,7 @@
 const ACTOR = process.env.BSKY_ACTOR || "chrisjmears.com";
 const LIMIT = Number(process.env.BSKY_LIMIT || 3);
 const ENDPOINT = `https://public.api.bsky.app/xrpc/app.bsky.feed.getAuthorFeed?actor=${encodeURIComponent(
-  ACTOR
+  ACTOR,
 )}&limit=${LIMIT}&filter=posts_no_replies`;
 
 const fs = await import("fs/promises");
@@ -13,18 +13,35 @@ const path = await import("path");
 
 async function main() {
   try {
-    const res = await fetch(ENDPOINT, { headers: { accept: "application/json" } });
-    if (!res.ok) throw new Error(`Fetch failed: ${res.status} ${res.statusText}`);
+    const res = await fetch(ENDPOINT, {
+      headers: { accept: "application/json" },
+    });
+    if (!res.ok)
+      throw new Error(`Fetch failed: ${res.status} ${res.statusText}`);
     const data = await res.json();
 
     const items = Array.isArray(data?.feed) ? data.feed : [];
     // Include reposts; replies already excluded via filter=posts_no_replies
-    const normalized = items.slice(0, LIMIT).map((it) => normalizeItem(it)).filter(Boolean);
+    const normalized = items
+      .slice(0, LIMIT)
+      .map((it) => normalizeItem(it))
+      .filter(Boolean);
 
     const outDir = path.resolve("static", "data");
     const outFile = path.join(outDir, "bsky.json");
     await fs.mkdir(outDir, { recursive: true });
-    await fs.writeFile(outFile, JSON.stringify({ actor: ACTOR, fetchedAt: new Date().toISOString(), items: normalized }, null, 2));
+    await fs.writeFile(
+      outFile,
+      JSON.stringify(
+        {
+          actor: ACTOR,
+          fetchedAt: new Date().toISOString(),
+          items: normalized,
+        },
+        null,
+        2,
+      ),
+    );
 
     console.log(`Wrote ${normalized.length} items to ${outFile}`);
   } catch (err) {
@@ -44,7 +61,10 @@ function normalizeItem(entry) {
     if (!uri) return null;
     const rkey = uri?.split("/").pop();
     const handle = author.handle;
-    const appUrl = handle && rkey ? `https://bsky.app/profile/${handle}/post/${rkey}` : undefined;
+    const appUrl =
+      handle && rkey
+        ? `https://bsky.app/profile/${handle}/post/${rkey}`
+        : undefined;
 
     // Basic text; you can extend for facets later
     const text = record.text || "";
@@ -61,7 +81,9 @@ function normalizeItem(entry) {
           byHandle: rep.handle,
           byDisplayName: rep.displayName,
           byAvatar: rep.avatar,
-          profileUrl: rep.handle ? `https://bsky.app/profile/${rep.handle}` : undefined,
+          profileUrl: rep.handle
+            ? `https://bsky.app/profile/${rep.handle}`
+            : undefined,
         }
       : undefined;
 
@@ -86,15 +108,35 @@ function normalizeItem(entry) {
 function summarizeEmbed(embed) {
   if (!embed || typeof embed !== "object") return null;
   const t = embed.$type;
-  if (t === "app.bsky.embed.images#view" && Array.isArray(embed.images) && embed.images.length > 0) {
+  if (
+    t === "app.bsky.embed.images#view" &&
+    Array.isArray(embed.images) &&
+    embed.images.length > 0
+  ) {
     const img = embed.images[0];
-    return { type: "image", thumb: img.thumb, fullsize: img.fullsize, alt: img.alt || "" };
+    return {
+      type: "image",
+      thumb: img.thumb,
+      fullsize: img.fullsize,
+      alt: img.alt || "",
+    };
   }
   if (t === "app.bsky.embed.external#view" && embed.external) {
-    return { type: "external", uri: embed.external.uri, title: embed.external.title, description: embed.external.description, thumb: embed.external.thumb };
+    return {
+      type: "external",
+      uri: embed.external.uri,
+      title: embed.external.title,
+      description: embed.external.description,
+      thumb: embed.external.thumb,
+    };
   }
   if (t === "app.bsky.embed.record#view" && embed.record) {
-    return { type: "record", by: embed.record.author?.handle, uri: embed.record.uri, valueType: embed.record.value?.$type };
+    return {
+      type: "record",
+      by: embed.record.author?.handle,
+      uri: embed.record.uri,
+      valueType: embed.record.value?.$type,
+    };
   }
   return null;
 }

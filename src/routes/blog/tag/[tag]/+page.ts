@@ -26,8 +26,14 @@ export const load: PageLoad = async ({ params }) => {
   if (match) display = match;
 
   // Build global categories and tags with counts for sidebar
-  const categoryMap = new Map<string, { name: string; slug: string; count: number }>();
-  const tagMap = new Map<string, { name: string; slug: string; count: number }>();
+  const categoryMap = new Map<
+    string,
+    { name: string; slug: string; count: number }
+  >();
+  const tagMap = new Map<
+    string,
+    { name: string; slug: string; count: number }
+  >();
   for (const p of allPosts) {
     const fm2 = p.data?.metadata ?? {};
     const cats2: string[] = Array.isArray(fm2.categories)
@@ -51,8 +57,17 @@ export const load: PageLoad = async ({ params }) => {
     }
   }
 
-  const categories = Array.from(categoryMap.values()).sort((a, b) => a.name.localeCompare(b.name));
-  const tagsList = Array.from(tagMap.values()).sort((a, b) => a.name.localeCompare(b.name));
+  const categories = Array.from(categoryMap.values()).sort((a, b) =>
+    a.name.localeCompare(b.name),
+  );
+  const tagsList = Array.from(tagMap.values()).sort((a, b) =>
+    a.name.localeCompare(b.name),
+  );
 
-  return { posts: filtered, tag: { slug: tag, name: display }, categories, tags: tagsList };
+  return {
+    posts: filtered,
+    tag: { slug: tag, name: display },
+    categories,
+    tags: tagsList,
+  };
 };
