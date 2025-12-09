@@ -1,38 +1,30 @@
-# create-svelte
+## chrisjmears.com
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).
+Personal site for Chris Mears – portfolio, blog, and assorted experiments – built with SvelteKit, mdsvex, Tailwind CSS, and Vite.
 
-## Creating a project
+Live site: https://chrisjmears.com
 
-If you're seeing this, you've probably already done this step. Congrats!
-
-```bash
-# create a new project in the current directory
-npm create svelte@latest
-
-# create a new project in my-app
-npm create svelte@latest my-app
-```
-
-## Developing
-
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+## Getting started
 
 ```bash
+npm install
 npm run dev
-
-# or start the server and open the app in a new browser tab
+# or
 npm run dev -- --open
 ```
 
-## Building
+Node: see `package.json` `engines` (currently 22.x).
 
-To create a production version of your app:
+## Scripts
 
-```bash
-npm run build
-```
+- `npm run dev` – local dev server
+- `npm run build` – production build (runs `npm run fetch-bsky` first)
+- `npm run preview` – preview production build
+- `npm run fetch-bsky` – pull latest data from Bluesky into `static/data/bsky.json`
+- `npm run check` / `check:watch` – typechecking
+- `npm run lint` / `format` – linting and formatting
 
-You can preview the production build with `npm run preview`.
+## Notes
 
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+- Content is mostly mdsvex-based posts under `src/posts`.
+- Pre-rendered with `adapter-auto` and `prerender.origin = "https://chrisjmears.com"` in `svelte.config.js`.
