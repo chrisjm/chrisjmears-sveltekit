@@ -434,9 +434,6 @@
                   <option value={lr}>{formatLearningRate(lr)}</option>
                 {/each}
               </select>
-              <span class="font-mono text-xs text-slate-600"
-                >Current: {learningRate.toPrecision(3)}</span
-              >
             </label>
 
             <label class="flex flex-col gap-1">
