@@ -44,6 +44,18 @@
 
   const initModeLabels = ["Zero", "He Uniform", "He Normal"] as const
 
+  const learningRateOptions = [
+    0.0001, 0.0003, 0.001, 0.003, 0.01, 0.03, 0.1, 0.2,
+  ]
+
+  const batchSizeOptions = [8, 16, 32, 64, 128, 256, 512]
+
+  function formatLearningRate(v: number): string {
+    if (v < 0.001) return v.toExponential(1)
+    if (v < 0.1) return v.toFixed(3)
+    return v.toFixed(2)
+  }
+
   async function initWasm() {
     const currentToken = ++initToken
     ready = false
@@ -308,40 +320,40 @@
 
       <div class="w-full max-w-[800px]">
         <div
-          class="mx-auto mt-4 inline-flex w-full flex-wrap items-center justify-center gap-x-8 gap-y-2 rounded-lg border border-slate-700 bg-slate-900/60 px-4 py-3 text-xs text-slate-100 sm:text-sm"
+          class="mx-auto mt-4 inline-flex w-full flex-wrap items-center justify-center gap-x-8 gap-y-2 rounded-lg border border-sky-900 bg-sky-800 px-4 py-3 text-xs text-sky-50 shadow-md sm:text-sm"
         >
           <div class="flex flex-col items-center">
-            <span class="text-[0.65rem] uppercase tracking-wide text-slate-400"
+            <span class="text-[0.65rem] uppercase tracking-wide text-sky-200/80"
               >Epoch</span
             >
             <span class="font-mono">{epoch}</span>
           </div>
           <div class="flex flex-col items-center">
-            <span class="text-[0.65rem] uppercase tracking-wide text-slate-400"
+            <span class="text-[0.65rem] uppercase tracking-wide text-sky-200/80"
               >Loss</span
             >
             <span class="font-mono">{loss.toFixed(4)}</span>
           </div>
           <div class="flex flex-col items-center">
-            <span class="text-[0.65rem] uppercase tracking-wide text-slate-400"
+            <span class="text-[0.65rem] uppercase tracking-wide text-sky-200/80"
               >Accuracy</span
             >
             <span class="font-mono">{accuracy.toFixed(3)}</span>
           </div>
           <div class="flex flex-col items-center">
-            <span class="text-[0.65rem] uppercase tracking-wide text-slate-400"
+            <span class="text-[0.65rem] uppercase tracking-wide text-sky-200/80"
               >Dataset</span
             >
             <span class="font-mono">{datasetLabels[datasetIndex] ?? "?"}</span>
           </div>
           <div class="flex flex-col items-center">
-            <span class="text-[0.65rem] uppercase tracking-wide text-slate-400"
+            <span class="text-[0.65rem] uppercase tracking-wide text-sky-200/80"
               >Optimizer</span
             >
             <span class="font-mono">{optimizerLabels[optimizer] ?? "?"}</span>
           </div>
           <div class="flex flex-col items-center">
-            <span class="text-[0.65rem] uppercase tracking-wide text-slate-400"
+            <span class="text-[0.65rem] uppercase tracking-wide text-sky-200/80"
               >Init</span
             >
             <span class="font-mono">{initModeLabels[initMode] ?? "?"}</span>
@@ -359,6 +371,38 @@
       >
         <div class="space-y-3 p-2">
           <div class="flex items-center justify-between gap-3">
+            <div class="flex items-center gap-3">
+              <div class="flex flex-col">
+                <span
+                  id="auto-train-label"
+                  class="text-[0.7rem] uppercase tracking-wide text-slate-500"
+                  >Auto-train</span
+                >
+                <span
+                  id="auto-train-help"
+                  class="text-[0.7rem] text-slate-500"
+                  >Train {autoMaxEpochs} epochs</span
+                >
+              </div>
+              <button
+                type="button"
+                role="switch"
+                aria-checked={autoTrain}
+                aria-labelledby="auto-train-label auto-train-help"
+                onclick={() => onAutoTrainToggle(!autoTrain)}
+                disabled={!ready}
+                class="relative inline-flex h-6 w-11 items-center rounded-full border transition-colors duration-150 disabled:cursor-not-allowed disabled:opacity-60 {autoTrain
+                  ? 'bg-emerald-500 border-emerald-500'
+                  : 'bg-slate-300 border-slate-300'}"
+              >
+                <span
+                  class="inline-block h-4 w-4 transform rounded-full bg-white shadow transition-transform duration-150 {autoTrain
+                    ? 'translate-x-5'
+                    : 'translate-x-1'}"
+                ></span>
+              </button>
+            </div>
+
             <button
               onclick={trainOneEpoch}
               disabled={!ready}
@@ -366,55 +410,38 @@
             >
               Train one epoch
             </button>
-
-            <div class="flex flex-col items-end gap-1 text-right">
-              <label class="text-sm">
-                <span class="inline-flex items-center gap-2">
-                  <input
-                    type="checkbox"
-                    bind:checked={autoTrain}
-                    onchange={(e) => onAutoTrainToggle(e.currentTarget.checked)}
-                    disabled={!ready}
-                    class="h-4 w-4 rounded border-slate-300 text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-500 disabled:cursor-not-allowed disabled:opacity-60"
-                  />
-                  <span>Auto-train</span>
-                </span>
-                <p class="text-xs text-slate-600">Train epochs automatically</p>
-              </label>
-            </div>
           </div>
 
           <div class="space-y-2">
             <label class="flex flex-col gap-1">
               <span>Learning rate</span>
-              <input
-                type="range"
-                min="0.0001"
-                max="0.2"
-                step="0.0001"
+              <select
                 bind:value={learningRate}
-                oninput={(e) => onLearningRateChange(+e.currentTarget.value)}
+                onchange={(e) => onLearningRateChange(+e.currentTarget.value)}
                 disabled={!ready}
-                class="w-full accent-slate-900 disabled:cursor-not-allowed disabled:opacity-60"
-              />
+                class="w-full rounded-md border border-slate-300 bg-white px-2 py-1 text-sm text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-500 disabled:cursor-not-allowed disabled:opacity-60"
+              >
+                {#each learningRateOptions as lr}
+                  <option value={lr}>{formatLearningRate(lr)}</option>
+                {/each}
+              </select>
               <span class="font-mono text-xs text-slate-600"
-                >{learningRate.toFixed(5)}</span
+                >Current: {learningRate.toPrecision(3)}</span
               >
             </label>
 
             <label class="flex flex-col gap-1">
               <span>Batch size</span>
-              <input
-                type="range"
-                min="1"
-                max="512"
-                step="1"
+              <select
                 bind:value={batchSize}
-                oninput={(e) => onBatchSizeChange(+e.currentTarget.value)}
+                onchange={(e) => onBatchSizeChange(+e.currentTarget.value)}
                 disabled={!ready}
-                class="w-full accent-slate-900 disabled:cursor-not-allowed disabled:opacity-60"
-              />
-              <span class="font-mono text-xs text-slate-600">{batchSize}</span>
+                class="w-full rounded-md border border-slate-300 bg-white px-2 py-1 text-sm text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-500 disabled:cursor-not-allowed disabled:opacity-60"
+              >
+                {#each batchSizeOptions as bs}
+                  <option value={bs}>{bs}</option>
+                {/each}
+              </select>
             </label>
           </div>
         </div>
