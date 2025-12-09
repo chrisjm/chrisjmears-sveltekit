@@ -122,6 +122,7 @@
     datasetIndex = mod._nn_get_dataset_index()
     optimizer = mod._nn_get_optimizer()
     initMode = mod._nn_get_init_mode()
+    autoTrain = !!mod._nn_get_auto_train()
   }
 
   onMount(() => {
