@@ -5,6 +5,21 @@
 
   const projects = [
     {
+      id: "neural-network-demo",
+      title: "Interactive Neural Network Demo",
+      description:
+        "A simple interactive 2D classification demo built with C++, OpenGL, and WebAssembly (WASM).",
+      tags: ["neural-network", "C++", "OpenGL", "WASM"],
+      imageUrl: "/images/neural-network-demo.jpg",
+      imageAlt: "Neural network field visualization with moon cluster dataset.",
+      links: [
+        {
+          url: "/neural-net-demo",
+          text: "View Demo",
+        },
+      ],
+    },
+    {
       id: "brewery-nlp",
       title: "Brewery Review Analysis with NLP and NER",
       description:
