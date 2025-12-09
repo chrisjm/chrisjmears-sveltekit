@@ -56,6 +56,13 @@
     return v.toFixed(2)
   }
 
+  function snapToLearningRateOption(v: number): number {
+    return learningRateOptions.reduce((closest, candidate) => {
+      if (Math.abs(candidate - v) < Math.abs(closest - v)) return candidate
+      return closest
+    }, learningRateOptions[0])
+  }
+
   async function initWasm() {
     const currentToken = ++initToken
     ready = false
@@ -85,7 +92,9 @@
     mod = instance
 
     // Initialize UI state from C++ side
-    learningRate = mod._nn_get_learning_rate()
+    const rawLearningRate = mod._nn_get_learning_rate()
+    learningRate = snapToLearningRateOption(rawLearningRate)
+    mod._nn_set_learning_rate(learningRate)
     batchSize = mod._nn_get_batch_size()
     autoTrain = !!mod._nn_get_auto_train()
     datasetIndex = mod._nn_get_dataset_index()
@@ -174,9 +183,10 @@
   }
 
   function onLearningRateChange(v: number) {
-    learningRate = v
+    const snapped = snapToLearningRateOption(v)
+    learningRate = snapped
     if (!mod) return
-    mod._nn_set_learning_rate(v)
+    mod._nn_set_learning_rate(snapped)
   }
 
   function onBatchSizeChange(v: number) {
@@ -378,9 +388,7 @@
                   class="text-[0.7rem] uppercase tracking-wide text-slate-500"
                   >Auto-train</span
                 >
-                <span
-                  id="auto-train-help"
-                  class="text-[0.7rem] text-slate-500"
+                <span id="auto-train-help" class="text-[0.7rem] text-slate-500"
                   >Train {autoMaxEpochs} epochs</span
                 >
               </div>
