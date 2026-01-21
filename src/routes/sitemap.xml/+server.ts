@@ -45,28 +45,6 @@ export const GET: RequestHandler = async ({ url }) => {
     loadEntries(newsletterModules, "/data-nerd-newsletter"),
   ]);
 
-  // Compute unique tag pages
-  const allPosts = await listAllPostsRaw();
-  const tagSet = new Set<string>();
-  const categorySet = new Set<string>();
-  for (const p of allPosts) {
-    const fm = p.data?.metadata ?? {};
-    const tags: string[] = Array.isArray(fm.tags) ? fm.tags : [];
-    const categories: string[] = Array.isArray(fm.categories)
-      ? fm.categories
-      : fm.categories
-        ? [fm.categories]
-        : [];
-    for (const t of tags) tagSet.add(slugify(t));
-    for (const c of categories) categorySet.add(slugify(c));
-  }
-  const tagEntries = Array.from(tagSet).map((slug) => ({
-    loc: `${origin}/blog/tag/${slug}/`,
-  }));
-  const categoryEntries = Array.from(categorySet).map((slug) => ({
-    loc: `${origin}/blog/category/${slug}/`,
-  }));
-
   type UrlItem = {
     loc: string;
     lastmod?: string;
@@ -99,18 +77,6 @@ export const GET: RequestHandler = async ({ url }) => {
       ...u,
       changefreq: "monthly" as const,
       priority: 0.6,
-    })),
-    // Tag pages
-    ...tagEntries.map((u) => ({
-      ...u,
-      changefreq: "weekly" as const,
-      priority: 0.5,
-    })),
-    // Category pages
-    ...categoryEntries.map((u) => ({
-      ...u,
-      changefreq: "weekly" as const,
-      priority: 0.5,
     })),
   ].sort((a, b) => a.loc.localeCompare(b.loc));
 

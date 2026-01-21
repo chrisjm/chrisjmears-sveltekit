@@ -1,12 +1,12 @@
-import { error } from "@sveltejs/kit"
-import type { PageLoad } from "./$types"
+import { error } from "@sveltejs/kit";
+import type { PageLoad } from "./$types";
 
 interface CaseStudy {
-  slug: string
-  title: string
-  description: string
-  tags: string[]
-  links?: Array<{ url: string; text: string }>
+  slug: string;
+  title: string;
+  description: string;
+  tags: string[];
+  links?: Array<{ url: string; text: string }>;
 }
 
 const caseStudies: Record<string, CaseStudy> = {
@@ -121,14 +121,14 @@ const caseStudies: Record<string, CaseStudy> = {
       },
     ],
   },
-}
+};
 
 export const load: PageLoad = ({ params }) => {
-  const caseStudy = caseStudies[params.slug]
+  const caseStudy = caseStudies[params.slug];
 
   if (!caseStudy) {
-    throw error(404, "Case study not found")
+    throw error(404, "Case study not found");
   }
 
-  return caseStudy
-}
+  return caseStudy;
+};
