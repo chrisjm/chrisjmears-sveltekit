@@ -6,6 +6,7 @@
     image?: string
     type?: string
     canonicalUrl?: string
+    robots?: string
   }
 
   import { page } from "$app/state"
@@ -17,6 +18,7 @@
     image = "/og-home.png",
     type = "website",
     canonicalUrl,
+    robots,
   }: Props = $props()
 
   // Ensure title has site name
@@ -41,6 +43,9 @@
   <title>{fullTitle}</title>
   <meta name="description" content={description} />
   <meta name="keywords" content={keywords} />
+  {#if robots}
+    <meta name="robots" content={robots} />
+  {/if}
 
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content={type} />
