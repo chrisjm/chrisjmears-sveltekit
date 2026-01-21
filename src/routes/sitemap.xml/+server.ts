@@ -1,6 +1,5 @@
 import type { RequestHandler } from "@sveltejs/kit";
-import { slugFromPath, slugify } from "$lib/slugify";
-import { listAllPostsRaw } from "$lib/content/posts";
+import { slugFromPath } from "$lib/slugify";
 
 export const prerender = true;
 
@@ -35,7 +34,7 @@ export const GET: RequestHandler = async ({ url }) => {
       const slug = slugFromPath(path);
       if (!slug) continue;
       const date = mod?.metadata?.date as string | undefined;
-      entries.push({ loc: `${origin}${basePath}/${slug}/`, lastmod: date });
+      entries.push({ loc: `${origin}${basePath}/${slug}`, lastmod: date });
     }
     return entries;
   };
@@ -49,13 +48,13 @@ export const GET: RequestHandler = async ({ url }) => {
     loc: string;
     lastmod?: string;
     changefreq?:
-      | "always"
-      | "hourly"
-      | "daily"
-      | "weekly"
-      | "monthly"
-      | "yearly"
-      | "never";
+    | "always"
+    | "hourly"
+    | "daily"
+    | "weekly"
+    | "monthly"
+    | "yearly"
+    | "never";
     priority?: number; // 0.0 to 1.0
   };
 
