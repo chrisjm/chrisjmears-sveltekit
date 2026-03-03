@@ -121,6 +121,23 @@ const caseStudies: Record<string, CaseStudy> = {
       },
     ],
   },
+  "coffee-ratio-calculator": {
+    slug: "coffee-ratio-calculator",
+    title: "Coffee Ratio Calculator",
+    description:
+      "Calculate perfect coffee-to-water ratios for pour over, French press, espresso, and more. Get tailored recommendations based on roast level, grind size, and brew method.",
+    tags: ["Svelte", "Tools", "Coffee"],
+    links: [
+      {
+        url: "https://coffee.chrisjmears.com/",
+        text: "View Project",
+      },
+      {
+        url: "https://github.com/chrisjm/coffee-ratio-calculator",
+        text: "View Source",
+      },
+    ],
+  },
 };
 
 export const load: PageLoad = ({ params }) => {

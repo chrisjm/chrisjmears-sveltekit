@@ -1,7 +1,7 @@
 <script lang="ts">
-  import Section from "$lib/components/Section.svelte"
-  import Heading2 from "$lib/components/Heading2.svelte"
-  import SEO from "$lib/components/SEO.svelte"
+  import Section from "$lib/components/Section.svelte";
+  import Heading2 from "$lib/components/Heading2.svelte";
+  import SEO from "$lib/components/SEO.svelte";
 
   const services = [
     {
@@ -22,6 +22,13 @@
             "Simple meditation timer with interval bells and solfeggio frequencies",
           slug: "meditation-timer",
           tags: ["Svelte", "Web App", "Audio"],
+        },
+        {
+          title: "Coffee Ratio Calculator",
+          description:
+            "Interactive calculator for perfect coffee-to-water ratios",
+          slug: "coffee-ratio-calculator",
+          tags: ["Svelte", "Tools"],
         },
         {
           title: "ML Project Checklist",
@@ -69,13 +76,14 @@
         },
         {
           title: "Interactive Neural Network Demo",
-          description: "2D classification visualization built with C++ and WASM",
+          description:
+            "2D classification visualization built with C++ and WASM",
           slug: "neural-network-demo",
           tags: ["C++", "OpenGL", "WASM"],
         },
       ],
     },
-  ]
+  ];
 </script>
 
 <SEO
