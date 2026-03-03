@@ -79,7 +79,7 @@
       links: [
         {
           text: "View Project",
-          url: "https://coffee-ratio-calculator.chrisjmears.com/",
+          url: "https://coffee.chrisjmears.com/",
         },
         {
           text: "View Source",
