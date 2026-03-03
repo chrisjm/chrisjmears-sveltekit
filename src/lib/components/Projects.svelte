@@ -1,21 +1,26 @@
 <script lang="ts">
-  import Section from "$lib/components/Section.svelte"
-  import Heading2 from "$lib/components/Heading2.svelte"
-  import ProjectCard from "$lib/components/ProjectCard.svelte"
+  import Section from "$lib/components/Section.svelte";
+  import Heading2 from "$lib/components/Heading2.svelte";
+  import ProjectCard from "$lib/components/ProjectCard.svelte";
 
   const projects = [
     {
-      id: "neural-network-demo",
-      title: "Interactive Neural Network Demo",
+      id: "obdb",
+      title: "Open Brewery DB",
       description:
-        "A simple interactive 2D classification demo built with C++, OpenGL, and WebAssembly (WASM).",
-      tags: ["neural-network", "C++", "OpenGL", "WASM"],
-      imageUrl: "/images/neural-network-demo.jpg",
-      imageAlt: "Neural network field visualization with moon cluster dataset.",
+        "Open Brewery DB is a free and open-source dataset and API with public information on breweries, cideries, brewpubs, and bottleshops. It is also a growing Discord community of beer-loving developers and data scientists.",
+      tags: ["open-source", "api"],
+      imageUrl:
+        "https://res.cloudinary.com/wanderingleafstudios/image/upload/v1572317242/openbrewerydb/OpenBreweryDBLogo.jpg",
+      imageAlt: "Open Brewery DB Logo",
       links: [
         {
-          url: "/neural-net-demo",
-          text: "View Demo",
+          text: "View Website",
+          url: "https://www.openbrewerydb.org",
+        },
+        {
+          text: "Join Discord Server",
+          url: "https://discord.gg/3G3syaD",
         },
       ],
     },
@@ -64,22 +69,21 @@
       ],
     },
     {
-      id: "obdb",
-      title: "Open Brewery DB",
+      id: "coffee-ratio-calculator",
+      title: "Coffee Ratio Calculator",
       description:
-        "Open Brewery DB is a free and open-source dataset and API with public information on breweries, cideries, brewpubs, and bottleshops. It is also a growing Discord community of beer-loving developers and data scientists.",
-      tags: ["open-source", "api"],
-      imageUrl:
-        "https://res.cloudinary.com/wanderingleafstudios/image/upload/v1572317242/openbrewerydb/OpenBreweryDBLogo.jpg",
-      imageAlt: "Open Brewery DB Logo",
+        "Calculate perfect coffee-to-water ratios for pour over, French press, espresso, and more. Get tailored recommendations based on roast level, grind size, and brew method.",
+      tags: ["svelte", "coffee"],
+      imageUrl: "/images/coffee-ratio-calculator.png",
+      imageAlt: "Coffee Ratio Calculator Logo of a pour-over coffee brew",
       links: [
         {
-          text: "View Website",
-          url: "https://www.openbrewerydb.org",
+          text: "View Project",
+          url: "https://coffee.chrisjmears.com/",
         },
         {
-          text: "Join Discord Server",
-          url: "https://discord.gg/3G3syaD",
+          text: "View Source",
+          url: "https://github.com/chrisjm/coffee-ratio-calculator",
         },
       ],
     },
@@ -133,7 +137,22 @@
         },
       ],
     },
-  ]
+    {
+      id: "neural-network-demo",
+      title: "Interactive Neural Network Demo",
+      description:
+        "A simple interactive 2D classification demo built with C++, OpenGL, and WebAssembly (WASM).",
+      tags: ["neural-network", "C++", "OpenGL", "WASM"],
+      imageUrl: "/images/neural-network-demo.jpg",
+      imageAlt: "Neural network field visualization with moon cluster dataset.",
+      links: [
+        {
+          url: "/neural-net-demo",
+          text: "View Demo",
+        },
+      ],
+    },
+  ];
 </script>
 
 <Section>
