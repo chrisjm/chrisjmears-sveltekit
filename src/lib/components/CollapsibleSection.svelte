@@ -1,10 +1,10 @@
 <script lang="ts">
   interface Props {
-    title: string
-    initiallyOpen?: boolean
-    headerBgClass?: string
-    headerTextClass?: string
-    children?: import("svelte").Snippet
+    title: string;
+    initiallyOpen?: boolean;
+    headerBgClass?: string;
+    headerTextClass?: string;
+    children?: import("svelte").Snippet;
   }
 
   let {
@@ -13,12 +13,16 @@
     headerBgClass = "",
     headerTextClass = "",
     children,
-  }: Props = $props()
+  }: Props = $props();
 
-  let isOpen = $state<boolean>(initiallyOpen)
+  let isOpen = $state<boolean>(false);
+
+  $effect(() => {
+    isOpen = initiallyOpen;
+  });
 
   function toggle() {
-    isOpen = !isOpen
+    isOpen = !isOpen;
   }
 </script>
 
