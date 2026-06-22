@@ -28,7 +28,7 @@
     kind = "category",
   }: Props = $props()
 
-  let showAll = $state(defaultExpanded)
+  let showAll = $state(defaultExpanded ?? false)
 
   const sortedItems = $derived(
     (items ?? []).slice().sort((a, b) => (b.count ?? 0) - (a.count ?? 0))

@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { untrack } from "svelte"
   interface Props {
     title: string
     initiallyOpen?: boolean
@@ -15,7 +16,7 @@
     children,
   }: Props = $props()
 
-  let isOpen = $state<boolean>(initiallyOpen)
+  let isOpen = $state<boolean>(untrack(() => initiallyOpen ?? true))
 
   function toggle() {
     isOpen = !isOpen
