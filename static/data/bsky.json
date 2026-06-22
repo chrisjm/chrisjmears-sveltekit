@@ -1,22 +1,70 @@
 {
   "actor": "chrisjmears.com",
-  "fetchedAt": "2025-08-15T03:15:17.670Z",
+  "fetchedAt": "2026-06-22T21:23:04.947Z",
   "items": [
     {
-      "id": "at://did:plc:ajidpcytbtoe74i7voejcybu/app.bsky.feed.post/3llnhcoy6b22f",
-      "text": "Cheers to a new API backend with #Laravel thanks to @alexjustesen.com ! 🍻",
-      "createdAt": "2025-03-31T03:50:14.091Z",
+      "id": "at://did:plc:rxqzqmnxikhhxgudvc4onb7h/app.bsky.feed.post/3mnj4tc3f3k2f",
+      "text": "Lots of updates from Open Brewery DB 🍺\n\nNew homepage + browse breweries by country are live. Dataset crossed 11,700+ breweries across 23 countries. API v1.1.0 shipped with real docs.\n\nAll thanks to an incredible group of contributors. 🙏🍻",
+      "createdAt": "2026-06-05T02:48:36.223Z",
+      "author": {
+        "handle": "chrisjmears.com",
+        "displayName": "Chris J Mears",
+        "avatar": "https://cdn.bsky.app/img/avatar/plain/did:plc:rxqzqmnxikhhxgudvc4onb7h/bafkreidiq6tz6fzixsxawmt5rbgoqlqdllt6dhue7rb3xd3zhqqm2wfyjq"
+      },
+      "url": "https://bsky.app/profile/chrisjmears.com/post/3mnj4tc3f3k2f",
+      "embed": {
+        "type": "record",
+        "by": "openbrewerydb.org",
+        "uri": "at://did:plc:ajidpcytbtoe74i7voejcybu/app.bsky.feed.post/3mnj463i3gs2f",
+        "valueType": "app.bsky.feed.post"
+      }
+    },
+    {
+      "id": "at://did:plc:ttyghfxxplrhfik4cgfmos2r/app.bsky.feed.post/3mgqwlvsic226",
+      "text": "Electronic Istanbul\nwww.youtube.com/watch?v=1Q3a...",
+      "createdAt": "2026-03-11T03:22:02.528Z",
+      "author": {
+        "handle": "tmbg.bsky.social",
+        "displayName": "They Might Be Giants",
+        "avatar": "https://cdn.bsky.app/img/avatar/plain/did:plc:ttyghfxxplrhfik4cgfmos2r/bafkreiearlri33iqvze2ytvmsrtl4esdzfh3n22xomiwyjacy4wde5mtgu"
+      },
+      "url": "https://bsky.app/profile/tmbg.bsky.social/post/3mgqwlvsic226",
+      "embed": {
+        "type": "external",
+        "uri": "https://www.youtube.com/watch?v=1Q3a38H1EPc",
+        "title": "Electronic Istanbul - They Might Be Giants (Official Video)",
+        "description": "YouTube video by ParticleMen",
+        "thumb": "https://cdn.bsky.app/img/feed_thumbnail/plain/did:plc:ttyghfxxplrhfik4cgfmos2r/bafkreihj2hf7dejcoawe6fut5t5xmia4osjskcouhjjih4eqdkjmlkfvbq"
+      },
+      "repost": {
+        "byHandle": "chrisjmears.com",
+        "byDisplayName": "Chris J Mears",
+        "byAvatar": "https://cdn.bsky.app/img/avatar/plain/did:plc:rxqzqmnxikhhxgudvc4onb7h/bafkreidiq6tz6fzixsxawmt5rbgoqlqdllt6dhue7rb3xd3zhqqm2wfyjq",
+        "profileUrl": "https://bsky.app/profile/chrisjmears.com"
+      }
+    },
+    {
+      "id": "at://did:plc:ajidpcytbtoe74i7voejcybu/app.bsky.feed.post/3m4htda3qts2g",
+      "text": "📢 API Update: We're deprecating the `/v1/breweries/autocomplete` endpoint. It will be removed by the end of 2025.\n\nPlease migrate to the `/v1/breweries/search` endpoint for more fun/same times! 😁\n\nQuestions? Find us on GitHub Issues or our Discord server! 🍻\n\nwww.openbrewerydb.org/news/2025/10...",
+      "createdAt": "2025-10-31T06:17:36.178Z",
       "author": {
         "handle": "openbrewerydb.org",
         "displayName": "Open Brewery DB",
-        "avatar": "https://cdn.bsky.app/img/avatar/plain/did:plc:ajidpcytbtoe74i7voejcybu/bafkreihsjawlm5hmar7dx36nvhw5t64z4cyupcylpoeumdskrxcolbwkaq@jpeg"
+        "avatar": "https://cdn.bsky.app/img/avatar/plain/did:plc:ajidpcytbtoe74i7voejcybu/bafkreihsjawlm5hmar7dx36nvhw5t64z4cyupcylpoeumdskrxcolbwkaq"
       },
-      "url": "https://bsky.app/profile/openbrewerydb.org/post/3llnhcoy6b22f",
+      "url": "https://bsky.app/profile/openbrewerydb.org/post/3m4htda3qts2g",
       "embed": {
-        "type": "record",
-        "by": "alexjustesen.com",
-        "uri": "at://did:plc:evkjvmofzefvytzm2br3fvpo/app.bsky.feed.post/3lln67ojn522s",
-        "valueType": "app.bsky.feed.post"
+        "type": "external",
+        "uri": "https://www.openbrewerydb.org/news/2025/10/autocomplete-endpoint-deprecated",
+        "title": "Autocomplete Endpoint Deprecated | OpenBreweryDB",
+        "description": "The autocomplete endpoint is deprecated and will be removed from v1 by the end of the year.",
+        "thumb": "https://cdn.bsky.app/img/feed_thumbnail/plain/did:plc:ajidpcytbtoe74i7voejcybu/bafkreibftn3chvhxlp2laq2sjdjwfjq2fr77mk7e6trpmsw3m44jzz5ssy"
+      },
+      "repost": {
+        "byHandle": "chrisjmears.com",
+        "byDisplayName": "Chris J Mears",
+        "byAvatar": "https://cdn.bsky.app/img/avatar/plain/did:plc:rxqzqmnxikhhxgudvc4onb7h/bafkreidiq6tz6fzixsxawmt5rbgoqlqdllt6dhue7rb3xd3zhqqm2wfyjq",
+        "profileUrl": "https://bsky.app/profile/chrisjmears.com"
       }
     }
   ]
