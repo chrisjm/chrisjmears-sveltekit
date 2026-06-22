@@ -3,7 +3,7 @@ layout: post
 date: "2018-10-30"
 title: "Learn to code from the beginning 📚"
 description: "Understanding how to program or code took me a while. First I had to get around the gate-keepers who said coding was impossible to learn. Programming is hard, but it's not impossible. In this article series, we go through the basic building blocks of learning to code from the beginning."
-categories: Technology
+categories: "Tech & Data"
 tags: ["programming", "coding", "beginners"]
 header:
   teaser: "https://res.cloudinary.com/wanderingleafstudios/image/upload/b_auto,c_pad,g_center,h_630,w_1200/v1537890988/chrisjmears.com/blog/maik-jonietz-535261-unsplash.jpg"

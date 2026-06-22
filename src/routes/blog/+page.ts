@@ -23,10 +23,22 @@ export const load: PageLoad = async () => {
 
   const tags = Array.from(tagMap.values()).sort((a, b) => b.count - a.count);
 
-  // Convert map to sorted array of categories (by name), excluding resources
+  // Featured categories shown first; demoted categories shown last
+  const FEATURED_SLUGS = new Set(["tech-and-data", "career-development"]);
+  const DEMOTED_SLUGS = new Set(["business", "personal"]);
+
+  function categoryTier(slug: string): number {
+    if (FEATURED_SLUGS.has(slug)) return 0;
+    if (DEMOTED_SLUGS.has(slug)) return 2;
+    return 1;
+  }
+
   const categorySections = Array.from(categoryPosts.values())
     .filter((c) => c.slug !== RESOURCES_CATEGORY_SLUG)
-    .sort((a, b) => a.name.localeCompare(b.name));
+    .sort((a, b) => {
+      const tierDiff = categoryTier(a.slug) - categoryTier(b.slug);
+      return tierDiff !== 0 ? tierDiff : a.name.localeCompare(b.name);
+    });
 
-  return { categorySections, resourcePosts, tags };
+  return { categorySections, resourcePosts, tags, FEATURED_SLUGS: [...FEATURED_SLUGS], DEMOTED_SLUGS: [...DEMOTED_SLUGS] };
 };

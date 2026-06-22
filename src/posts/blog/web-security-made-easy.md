@@ -3,7 +3,7 @@ layout: post
 date: "2018-11-29"
 title: "Don't Get Caught With Your Security Pants Down! 👖 Web Security Made Easy! 🔐"
 description: "Shopping on the Internet is like wandering around a crowded bazaar or farmer's market. While you can install these security certificates for no cost, there are certain situations where you might want to pay a small fee and do some extra paperwork to gain your customers' trust."
-categories: Technology
+categories: "Tech & Data"
 tags: ["security", "ecommerce"]
 header:
   cloudinaryPublicId: chrisjmears.com/blog/marcos-mayer-735961-unsplash.jpg

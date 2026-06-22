@@ -2,7 +2,7 @@
 layout: post
 date: "2009-10-20"
 title: HAML + Javascript
-categories: "Technology"
+categories: "Tech & Data"
 tags: ["haml", "javascript", "ruby-on-rails", "coding-tip"]
 header:
   teaser: ""

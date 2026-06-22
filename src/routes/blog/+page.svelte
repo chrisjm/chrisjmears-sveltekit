@@ -14,11 +14,23 @@
 
   let selectedTag = $state<string | null>(null)
   let showAllTags = $state(false)
+  let showDemoted = $state(false)
 
   const TOP_TAG_COUNT = 8
 
+  const FEATURED_SLUGS = $derived(new Set(data.FEATURED_SLUGS ?? []))
+  const DEMOTED_SLUGS = $derived(new Set(data.DEMOTED_SLUGS ?? []))
+
   function toggleTag(slug: string) {
     selectedTag = selectedTag === slug ? null : slug
+  }
+
+  function isFeatured(slug: string) {
+    return FEATURED_SLUGS.has(slug)
+  }
+
+  function isDemoted(slug: string) {
+    return DEMOTED_SLUGS.has(slug)
   }
 
   const filteredSections = $derived(
@@ -37,6 +49,10 @@
       : data.categorySections,
   )
 
+  const featuredSections = $derived(filteredSections.filter((c: any) => isFeatured(c.slug)))
+  const midSections = $derived(filteredSections.filter((c: any) => !isFeatured(c.slug) && !isDemoted(c.slug)))
+  const demotedSections = $derived(filteredSections.filter((c: any) => isDemoted(c.slug)))
+
   const filteredResources = $derived(
     selectedTag
       ? data.resourcePosts.filter((p: any) => {
@@ -51,13 +67,15 @@
 
 <SEO
   title="Writing - Chris J Mears"
-  description="Articles, guides, and resources by Chris J Mears on software engineering, data, and AI."
+  description="Articles, guides, and resources by Chris J Mears on software engineering, data, and career development."
   type="website"
 />
 
 <Section>
-  <h1 class="text-4xl font-bold mb-2">Writing</h1>
-  <p class="text-gray-500 mb-8">Posts and resources organized by topic.</p>
+  <div class="mb-10">
+    <h1 class="text-4xl font-bold mb-2">Writing</h1>
+    <p class="text-gray-500 mb-6">Posts and resources organized by topic.</p>
+  </div>
 
   {#if data.tags?.length}
     <div class="mb-10">
@@ -95,8 +113,10 @@
     </div>
   {/if}
 
-  {#if filteredSections.length}
-    {#each filteredSections as cat (cat.slug)}
+  {#if filteredSections.length === 0}
+    <p class="text-gray-500 mb-8">No posts match the selected tag.</p>
+  {:else}
+    {#each featuredSections as cat (cat.slug)}
       <CategorySection
         title={cat.name}
         posts={cat.posts}
@@ -104,21 +124,65 @@
         limit={3}
       />
     {/each}
-  {:else}
-    <p class="text-gray-500 mb-8">No posts match the selected tag.</p>
-  {/if}
 
-  {#if filteredResources.length}
-    <section class="mt-4">
-      <div class="flex items-baseline justify-between mb-4 border-b border-gray-200 pb-2">
-        <h2 class="text-2xl font-bold">Resources</h2>
-        <p class="text-sm text-gray-400">Living documents, updated over time</p>
+    {#each midSections as cat (cat.slug)}
+      <CategorySection
+        title={cat.name}
+        posts={cat.posts}
+        seeAllHref="/blog/category/{cat.slug}"
+        limit={3}
+      />
+    {/each}
+
+    {#if filteredResources.length}
+      <section class="mt-4 mb-12">
+        <div class="flex items-baseline justify-between mb-4 border-b border-gray-200 pb-2">
+          <h2 class="text-2xl font-bold">Resources</h2>
+          <p class="text-sm text-gray-400">Living documents, updated over time</p>
+        </div>
+        <ul class="space-y-6">
+          {#each filteredResources as post (post.id)}
+            <ResourceCard {post} />
+          {/each}
+        </ul>
+      </section>
+    {/if}
+
+    {#if demotedSections.length && !selectedTag}
+      <div class="mt-4 border-t border-gray-100 pt-8">
+        <button
+          class="flex items-center gap-2 text-sm text-gray-400 hover:text-gray-600 transition-colors mb-6"
+          onclick={() => (showDemoted = !showDemoted)}
+          aria-expanded={showDemoted}
+        >
+          <span class="text-xs uppercase tracking-widest font-medium">Older writing</span>
+          <span class="text-xs opacity-60">({demotedSections.reduce((n: number, c: any) => n + c.posts.length, 0)} posts)</span>
+          <span class="ml-1 text-xs">{showDemoted ? "▲" : "▼"}</span>
+        </button>
+        {#if showDemoted}
+          <div class="opacity-75">
+            {#each demotedSections as cat (cat.slug)}
+              <CategorySection
+                title={cat.name}
+                posts={cat.posts}
+                seeAllHref="/blog/category/{cat.slug}"
+                limit={3}
+              />
+            {/each}
+          </div>
+        {/if}
       </div>
-      <ul class="space-y-6">
-        {#each filteredResources as post (post.id)}
-          <ResourceCard {post} />
-        {/each}
-      </ul>
-    </section>
+    {/if}
+
+    {#if demotedSections.length && selectedTag}
+      {#each demotedSections as cat (cat.slug)}
+        <CategorySection
+          title={cat.name}
+          posts={cat.posts}
+          seeAllHref="/blog/category/{cat.slug}"
+          limit={3}
+        />
+      {/each}
+    {/if}
   {/if}
 </Section>
