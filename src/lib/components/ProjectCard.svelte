@@ -8,15 +8,18 @@
     imageUrl: string
     imageAlt: string
     links: { url: string; text: string }[]
+    featured?: boolean
   }
 
-  let { title, description, tags, imageUrl, imageAlt, links }: Props = $props()
+  let { title, description, tags, imageUrl, imageAlt, links, featured = false }: Props = $props()
 
   const isExternal = (url: string) => url.includes("http")
 </script>
 
 <div
-  class="rounded overflow-hidden shadow-xl border-1 border-gray-300 hover:shadow-sm mx-4 my-3 transition-all duration-300"
+  class="rounded overflow-hidden shadow-md border border-gray-200 mx-4 my-3 transition-all duration-300 hover:shadow-xl hover:scale-[1.01]"
+  class:border-t-4={featured}
+  class:border-t-amber-400={featured}
 >
   {#if isExternal(links[0].url)}
     <a href={links[0].url} target="_blank">

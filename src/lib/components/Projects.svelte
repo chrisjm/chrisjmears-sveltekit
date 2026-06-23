@@ -140,6 +140,7 @@
     {
       id: "neural-network-demo",
       title: "Interactive Neural Network Demo",
+      featured: true,
       description:
         "A simple interactive 2D classification demo built with C++, OpenGL, and WebAssembly (WASM).",
       tags: ["neural-network", "C++", "OpenGL", "WASM"],
@@ -159,7 +160,7 @@
   <Heading2 title="Projects" />
   <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-2 gap-3">
     {#each projects as project (project.id)}
-      <ProjectCard {...project} />
+      <ProjectCard {...project} featured={project.featured ?? false} />
     {/each}
   </div>
 </Section>

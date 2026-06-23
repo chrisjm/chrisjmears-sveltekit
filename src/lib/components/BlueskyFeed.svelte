@@ -62,15 +62,18 @@
 
 </script>
 
-<Section sectionClasses="bg-sky-600">
-  <div class="flex items-baseline justify-between">
-    <h2 class="text-xl text-white font-semibold">Latest on Bluesky</h2>
-    <a
-      href="https://bsky.app/profile/chrisjmears.com"
-      target="_blank"
-      rel="noopener noreferrer"
-      class="text-sm text-sky-200 hover:text-sky-100">View profile</a
-    >
+<Section sectionClasses="bg-sky-600 text-white">
+  <div class="mb-10 text-center">
+    <div class="flex items-baseline justify-between mb-2">
+      <h2 class="text-4xl font-bold">Latest on Bluesky</h2>
+      <a
+        href="https://bsky.app/profile/chrisjmears.com"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="text-sm text-sky-200 hover:text-sky-100">View profile →</a
+      >
+    </div>
+    <hr class="bg-white h-1 border-none" />
   </div>
 
   {#if loading && items.length === 0}
@@ -81,24 +84,24 @@
     >
       {#each Array(3) as _, i}
         <li
-          class="rounded-md border border-gray-200 p-4 animate-pulse bg-gray-50"
+          class="rounded-md border border-sky-500 p-4 animate-pulse bg-sky-700"
           aria-hidden="true"
         >
-          <div class="h-4 w-1/2 bg-gray-200 rounded"></div>
-          <div class="mt-2 h-4 w-2/3 bg-gray-200 rounded"></div>
-          <div class="mt-3 h-3 w-24 bg-gray-200 rounded"></div>
+          <div class="h-4 w-1/2 bg-sky-600 rounded"></div>
+          <div class="mt-2 h-4 w-2/3 bg-sky-600 rounded"></div>
+          <div class="mt-3 h-3 w-24 bg-sky-600 rounded"></div>
         </li>
       {/each}
     </ul>
   {:else if error && items.length === 0}
-    <p class="mt-4 text-sm text-gray-600 bg-gray-50">{error}</p>
+    <p class="mt-4 text-sm text-sky-200 bg-sky-700 p-3 rounded">{error}</p>
   {:else}
     <ul class="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
       {#each items as it}
-        <li class="rounded-md border border-gray-200 p-4 bg-gray-50">
+        <li class="rounded-md border border-sky-500 p-4 bg-sky-700 text-white">
           {#if it.repost?.byHandle}
             <div
-              class="mb-2 flex items-center justify-between text-xs text-gray-600"
+              class="mb-2 flex items-center justify-between text-xs text-sky-300"
             >
               <div>
                 <span aria-hidden="true">↻</span>
@@ -123,7 +126,7 @@
                   href={it.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  class="text-sky-600 hover:text-sky-700">Original post →</a
+                  class="text-sky-300 hover:text-white">Original post →</a
                 >
               {/if}
             </div>
@@ -153,7 +156,7 @@
                 >
               {/if}
               {#if it.createdAt}
-                <span class="text-gray-500"> · {timeAgo(it.createdAt)}</span>
+                <span class="text-sky-300"> · {timeAgo(it.createdAt)}</span>
               {/if}
             </div>
           </div>
@@ -172,13 +175,13 @@
                 <img
                   src={it.embed.thumb || it.embed.fullsize}
                   alt={it.embed.alt || ""}
-                  class="rounded-md border border-gray-200 max-h-80 w-auto"
+                  class="rounded-md border border-sky-500 max-h-80 w-auto"
                   loading="lazy"
                 />
               </a>
             {:else if it.embed.type === "external"}
               <a
-                class="mt-3 block rounded-md border border-gray-200 p-3 hover:bg-gray-50"
+                class="mt-3 block rounded-md border border-sky-500 p-3 hover:bg-sky-600"
                 href={it.embed.uri}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -188,7 +191,7 @@
                     <img
                       src={it.embed.thumb}
                       alt={it.embed.title || "Link thumbnail"}
-                      class="h-12 w-12 rounded object-cover border border-gray-200"
+                      class="h-12 w-12 rounded object-cover border border-sky-500"
                       loading="lazy"
                     />
                   {/if}
@@ -196,7 +199,7 @@
                     <div class="text-sm font-medium line-clamp-1">
                       {it.embed.title}
                     </div>
-                    <div class="text-xs text-gray-600 line-clamp-2">
+                    <div class="text-xs text-sky-300 line-clamp-2">
                       {it.embed.description}
                     </div>
                   </div>
@@ -204,7 +207,7 @@
               </a>
             {:else if it.embed.type === "record"}
               <div
-                class="mt-3 rounded-md border border-gray-200 p-3 text-sm text-gray-700"
+                class="mt-3 rounded-md border border-sky-500 p-3 text-sm text-sky-200"
               >
                 Quoted post{it.embed.by ? ` by ${it.embed.by}` : ""}
               </div>

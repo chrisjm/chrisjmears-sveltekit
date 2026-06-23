@@ -3,7 +3,7 @@
   import Section from "$lib/components/Section.svelte"
 </script>
 
-<Section sectionClasses="bg-sky-100">
+<Section sectionClasses="bg-slate-50">
   <Heading2 title="About Me" />
   <div class="flex flex-col lg:flex-row">
     <div class="mb-5 md:mr-5 text-center">
@@ -15,8 +15,8 @@
     </div>
     <div class="flex-1 mb-5 md:mr-5">
       <div>
-        <ul class="text-lg mb-8">
-          <li class="mb-4 leading-tight">
+        <ul class="text-lg mb-8 space-y-4">
+          <li class="leading-relaxed">
             As an accomplished Senior Software Engineer transitioning into
             Machine Learning Engineering, I bring a strong foundation in
             JavaScript and Python, complemented by my growing expertise in data
@@ -24,7 +24,7 @@
             artificial intelligence fuels my commitment to harnessing data to
             drive actionable insights and innovative solutions.
           </li>
-          <li class="mb-4 leading-tight">
+          <li class="leading-relaxed">
             I own and operate a
             <a href="https://www.wanderingleafstudios.com" target="_blank">
               data analytics and software consulting business
@@ -32,14 +32,13 @@
             and have previously worked for companies large and small in different
             sectors including Fortune 500, startups, and non-profits.
           </li>
-          <li class="mb-4 leading-tight">
-            Finally, Iʼm an open-source project maintainer,
+          <li class="leading-relaxed">
+            Iʼm an open-source project maintainer,
             <a href="https://www.openbrewerydb.org/" target="_blank">
               Open Brewery DB
             </a>
             , and proud rescue dog owner.
           </li>
-          <li class="mb-4 leading-tight"></li>
         </ul>
       </div>
     </div>
