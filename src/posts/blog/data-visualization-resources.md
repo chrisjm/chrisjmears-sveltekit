@@ -18,7 +18,7 @@ This is a living document where I collect data visualization resources from my G
 
 - [D3.js Gallery](https://observablehq.com/@d3/gallery) - Collection of D3 examples
 
-## Georgia Tech Course Resources
+## Georgia Tech 🐝 Course Notes and Resources
 
 - [Polo Club Data Visualization](https://poloclub.github.io/) - Research group with great viz examples
 

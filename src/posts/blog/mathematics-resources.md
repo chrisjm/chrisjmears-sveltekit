@@ -25,10 +25,6 @@ This is a living document where I collect mathematics resources essential for da
 - [StatQuest with Josh Starmer](https://www.youtube.com/c/StatQuestwithJoshStarmer) - Intuitive explanations of statistical concepts
 - [Seeing Theory](https://seeing-theory.brown.edu/) - Interactive visualizations of probability and statistics
 
-## Georgia Tech Resources
-
-- NOTES GO HERE
-
 ## Reference Books
 
 - [Introduction to Linear Algebra](https://math.mit.edu/~gs/linearalgebra/) - Gilbert Strang's classic textbook
@@ -39,3 +35,6 @@ This is a living document where I collect mathematics resources essential for da
 - [Brilliant.org](https://brilliant.org/) - Interactive math and science problems
 - [Paul's Online Math Notes](https://tutorial.math.lamar.edu/) - Comprehensive math notes and practice
 
+## Georgia Tech 🐝 Course Notes
+
+- NOTES GO HERE
