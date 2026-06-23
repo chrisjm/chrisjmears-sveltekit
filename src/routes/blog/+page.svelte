@@ -1,125 +1,188 @@
 <script lang="ts">
   import type { PageData } from "./$types"
   import Section from "$lib/components/Section.svelte"
-  import BlogList from "$lib/components/BlogList.svelte"
   import SEO from "$lib/components/SEO.svelte"
-  import ChipRow from "$lib/components/ChipRow.svelte"
+  import CategorySection from "$lib/components/CategorySection.svelte"
+  import ResourceCard from "$lib/components/ResourceCard.svelte"
   import { slugify } from "$lib/slugify"
+
   interface Props {
     data: PageData
   }
 
   let { data }: Props = $props()
 
-  // Interactive filtering state
-  let selectedCategories = $state<string[]>([])
-  let selectedTags = $state<string[]>([])
+  let selectedTag = $state<string | null>(null)
+  let showAllTags = $state(false)
+  let showDemoted = $state(false)
 
-  function toggleSelected(kind: "category" | "tag", slug: string) {
-    if (kind === "category") {
-      selectedCategories = selectedCategories.includes(slug)
-        ? selectedCategories.filter((s) => s !== slug)
-        : [...selectedCategories, slug]
-    } else {
-      selectedTags = selectedTags.includes(slug)
-        ? selectedTags.filter((s) => s !== slug)
-        : [...selectedTags, slug]
-    }
+  const TOP_TAG_COUNT = 8
+
+  const FEATURED_SLUGS = $derived(new Set(data.FEATURED_SLUGS ?? []))
+  const DEMOTED_SLUGS = $derived(new Set(data.DEMOTED_SLUGS ?? []))
+
+  function toggleTag(slug: string) {
+    selectedTag = selectedTag === slug ? null : slug
   }
 
-  // Derive filtered posts by OR within each facet, AND between facets
-  const filteredPosts = $derived(
-    data.allPosts.filter((p) => {
-      const fm = p.data?.metadata ?? {}
-      const cats: string[] = Array.isArray(fm.categories)
-        ? fm.categories
-        : fm.categories
-          ? [fm.categories]
-          : []
-      const tags: string[] = Array.isArray(fm.tags) ? fm.tags : []
+  function isFeatured(slug: string) {
+    return FEATURED_SLUGS.has(slug)
+  }
 
-      const catSlugs = cats.map((c) => slugify(c))
-      const tagSlugs = tags.map((t) => slugify(t))
+  function isDemoted(slug: string) {
+    return DEMOTED_SLUGS.has(slug)
+  }
 
-      const hasCat =
-        selectedCategories.length === 0 ||
-        catSlugs.some((s) => selectedCategories.includes(s))
-
-      const hasTag =
-        selectedTags.length === 0 ||
-        tagSlugs.some((s) => selectedTags.includes(s))
-
-      return hasCat && hasTag
-    })
+  const filteredSections = $derived(
+    selectedTag
+      ? data.categorySections
+          .map((cat: any) => ({
+            ...cat,
+            posts: cat.posts.filter((p: any) => {
+              const tags: string[] = Array.isArray(p.data?.metadata?.tags)
+                ? p.data.metadata.tags
+                : []
+              return tags.some((t) => slugify(t) === selectedTag)
+            }),
+          }))
+          .filter((cat: any) => cat.posts.length > 0)
+      : data.categorySections,
   )
 
-  function clearFilters() {
-    selectedCategories = []
-    selectedTags = []
-  }
+  const featuredSections = $derived(filteredSections.filter((c: any) => isFeatured(c.slug)))
+  const midSections = $derived(filteredSections.filter((c: any) => !isFeatured(c.slug) && !isDemoted(c.slug)))
+  const demotedSections = $derived(filteredSections.filter((c: any) => isDemoted(c.slug)))
 
-  function displayCategory(slug: string) {
-    return data.categories?.find((c) => c.slug === slug)?.name ?? slug
-  }
-  function displayTag(slug: string) {
-    return data.tags?.find((t) => t.slug === slug)?.name ?? slug
-  }
+  const filteredResources = $derived(
+    selectedTag
+      ? data.resourcePosts.filter((p: any) => {
+          const tags: string[] = Array.isArray(p.data?.metadata?.tags)
+            ? p.data.metadata.tags
+            : []
+          return tags.some((t) => slugify(t) === selectedTag)
+        })
+      : data.resourcePosts,
+  )
 </script>
 
 <SEO
-  title="Blog Archive - Chris J Mears"
-  description="Articles and posts by Chris J Mears on software engineering, data, and AI."
+  title="Writing - Chris J Mears"
+  description="Articles, guides, and resources by Chris J Mears on software engineering, data, and career development."
   type="website"
 />
 
 <Section>
-  <h1 class="text-4xl mb-6">Blog Archive</h1>
-  <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-    <div class="md:col-span-2">
-      {#if selectedCategories.length || selectedTags.length}
-        <div class="mb-4 text-sm text-gray-600 flex items-center gap-2 flex-wrap">
-          <span class="opacity-80">Active filters:</span>
-          {#each selectedCategories as sc}
-            <span class="rounded-full border px-2 py-0.5">Category: {displayCategory(sc)}</span>
-          {/each}
-          {#each selectedTags as st}
-            <span class="rounded-full border px-2 py-0.5">Tag: #{displayTag(st)}</span>
-          {/each}
-          <button class="ml-2 underline" onclick={clearFilters}>Clear</button>
-        </div>
-      {/if}
-      <BlogList posts={filteredPosts} />
-    </div>
-    <aside class="md:col-span-1 md:sticky top-4 h-fit">
-      {#if data.categories?.length}
-        <ChipRow
-          title="Browse by Category"
-          items={data.categories}
-          hrefPrefix="/blog/category/"
-          interactive={true}
-          selected={selectedCategories}
-          hideToggle={true}
-          defaultExpanded={true}
-          kind="category"
-          on:select={(e) => toggleSelected(e.detail.kind, e.detail.slug)}
-        />
-      {/if}
-
-      {#if data.tags?.length}
-        <div class="mt-6">
-          <ChipRow
-            title="Browse by Tag"
-            items={data.tags}
-            hrefPrefix="/blog/tag/"
-            interactive={true}
-            selected={selectedTags}
-            hideToggle={true}
-            defaultExpanded={true}
-            kind="tag"
-            on:select={(e) => toggleSelected(e.detail.kind, e.detail.slug)}
-          />
-        </div>
-      {/if}
-    </aside>
+  <div class="mb-10">
+    <h1 class="text-4xl font-bold mb-2">Writing</h1>
+    <p class="text-gray-500 mb-6">Posts and resources organized by topic.</p>
   </div>
+
+  {#if data.tags?.length}
+    <div class="mb-10">
+      <p class="text-xs uppercase tracking-widest text-gray-400 mb-3">Filter by tag</p>
+      <div class="flex flex-wrap gap-2">
+        {#each (showAllTags ? data.tags : data.tags.slice(0, TOP_TAG_COUNT)) as tag (tag.slug)}
+          <button
+            class={`rounded-full border px-3 py-1 text-sm transition-colors ${
+              selectedTag === tag.slug
+                ? "bg-gray-900 text-white border-gray-900"
+                : "hover:bg-gray-100 text-gray-700"
+            }`}
+            aria-pressed={selectedTag === tag.slug}
+            onclick={() => toggleTag(tag.slug)}
+          >
+            #{tag.name}
+            <span class="opacity-50 text-xs">({tag.count})</span>
+          </button>
+        {/each}
+        {#if data.tags.length > TOP_TAG_COUNT}
+          <button
+            class="rounded-full border border-dashed px-3 py-1 text-sm text-gray-400 hover:text-gray-700 hover:border-gray-400 transition-colors"
+            onclick={() => (showAllTags = !showAllTags)}
+          >
+            {showAllTags ? "Show less" : `+${data.tags.length - TOP_TAG_COUNT} more`}
+          </button>
+        {/if}
+        {#if selectedTag}
+          <button
+            class="text-sm text-gray-400 underline ml-2"
+            onclick={() => (selectedTag = null)}
+          >Clear</button>
+        {/if}
+      </div>
+    </div>
+  {/if}
+
+  {#if filteredSections.length === 0}
+    <p class="text-gray-500 mb-8">No posts match the selected tag.</p>
+  {:else}
+    {#each featuredSections as cat (cat.slug)}
+      <CategorySection
+        title={cat.name}
+        posts={cat.posts}
+        seeAllHref="/blog/category/{cat.slug}"
+        limit={3}
+      />
+    {/each}
+
+    {#each midSections as cat (cat.slug)}
+      <CategorySection
+        title={cat.name}
+        posts={cat.posts}
+        seeAllHref="/blog/category/{cat.slug}"
+        limit={3}
+      />
+    {/each}
+
+    {#if filteredResources.length}
+      <section class="mt-4 mb-12">
+        <div class="flex items-baseline justify-between mb-4 border-b border-gray-200 pb-2">
+          <h2 class="text-2xl font-bold">Resources</h2>
+          <p class="text-sm text-gray-400">Living documents, updated over time</p>
+        </div>
+        <ul class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {#each filteredResources as post (post.id)}
+            <ResourceCard {post} />
+          {/each}
+        </ul>
+      </section>
+    {/if}
+
+    {#if demotedSections.length && !selectedTag}
+      <div class="mt-4 border-t border-gray-100 pt-8">
+        <button
+          class="flex items-center gap-2 text-sm text-gray-400 hover:text-gray-600 transition-colors mb-6"
+          onclick={() => (showDemoted = !showDemoted)}
+          aria-expanded={showDemoted}
+        >
+          <span class="text-xs uppercase tracking-widest font-medium">Older writing</span>
+          <span class="text-xs opacity-60">({demotedSections.reduce((n: number, c: any) => n + c.posts.length, 0)} posts)</span>
+          <span class="ml-1 text-xs">{showDemoted ? "▲" : "▼"}</span>
+        </button>
+        {#if showDemoted}
+          <div class="opacity-75">
+            {#each demotedSections as cat (cat.slug)}
+              <CategorySection
+                title={cat.name}
+                posts={cat.posts}
+                seeAllHref="/blog/category/{cat.slug}"
+                limit={3}
+              />
+            {/each}
+          </div>
+        {/if}
+      </div>
+    {/if}
+
+    {#if demotedSections.length && selectedTag}
+      {#each demotedSections as cat (cat.slug)}
+        <CategorySection
+          title={cat.name}
+          posts={cat.posts}
+          seeAllHref="/blog/category/{cat.slug}"
+          limit={3}
+        />
+      {/each}
+    {/if}
+  {/if}
 </Section>

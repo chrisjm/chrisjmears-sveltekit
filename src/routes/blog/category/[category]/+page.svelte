@@ -4,11 +4,14 @@
   import BlogList from "$lib/components/BlogList.svelte"
   import SEO from "$lib/components/SEO.svelte"
   import ChipRow from "$lib/components/ChipRow.svelte"
+  import { RESOURCES_CATEGORY_SLUG } from "$lib/content/posts"
 
   interface Props {
     data: PageData
   }
   let { data }: Props = $props()
+
+  const isResources = $derived(data.category.slug === RESOURCES_CATEGORY_SLUG)
 </script>
 
 <SEO
@@ -27,7 +30,7 @@
   </p>
   <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
     <div class="md:col-span-2">
-      <BlogList posts={data.posts} />
+      <BlogList posts={data.posts} dateLabel={isResources ? "updated" : "published"} />
     </div>
     <aside class="md:col-span-1 md:sticky top-4 h-fit">
       {#if data.categories?.length}

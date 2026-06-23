@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { ExternalLink } from "@lucide/svelte"
   import Section from "$lib/components/Section.svelte"
   import SEO from "$lib/components/SEO.svelte"
   import type { PageData } from "./$types"
@@ -54,7 +55,7 @@
 
         {#if data.links && data.links.length > 0}
           <div
-            class="bg-gradient-to-br from-sky-50 to-blue-50 border border-sky-200 rounded-lg p-6"
+            class="bg-linear-to-br from-sky-50 to-blue-50 border border-sky-200 rounded-lg p-6"
           >
             <h2 class="text-2xl font-bold mb-4 mt-0">Project Links</h2>
             <div class="flex flex-col gap-3">
@@ -65,19 +66,7 @@
                   rel="noopener noreferrer"
                   class="flex items-center gap-2 text-sky-600 hover:text-sky-700 font-medium hover:translate-x-1 transition-transform"
                 >
-                  <svg
-                    class="w-5 h-5 flex-shrink-0"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
-                    />
-                  </svg>
+                  <ExternalLink class="w-5 h-5 shrink-0" />
                   <span>{link.text}</span>
                 </a>
               {/each}

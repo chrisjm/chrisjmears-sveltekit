@@ -1,11 +1,12 @@
 <script lang="ts">
+  import { Menu, X } from "@lucide/svelte"
+  import { afterNavigate } from "$app/navigation"
+
   interface Props {
     backgroundColor: string
     textColor: string
     mobileMenuTextColor: string
   }
-
-  import { afterNavigate } from "$app/navigation"
 
   let { backgroundColor, textColor, mobileMenuTextColor }: Props = $props()
 
@@ -47,14 +48,11 @@
             aria-controls="primary-menu"
             onclick={() => (isExpanded = !isExpanded)}
           >
-            <svg
-              class="fill-current h-3 w-3"
-              viewBox="0 0 20 20"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <title>Menu</title>
-              <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z" />
-            </svg>
+            {#if isExpanded}
+              <X class="h-4 w-4" />
+            {:else}
+              <Menu class="h-4 w-4" />
+            {/if}
           </button>
         </div>
         <div

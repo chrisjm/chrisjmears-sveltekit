@@ -2,7 +2,7 @@
 layout: post
 date: "2009-05-21"
 title: Mac OS X Terminal Aliases
-categories: Technology
+categories: "Tech & Data"
 tags: ["mac-os-x", "terminal", "command-line", "productivity"]
 header:
   teaser: ""

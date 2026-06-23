@@ -2,9 +2,25 @@
   import { slugify } from "$lib/slugify"
   interface Props {
     posts: any[]
+    showDate?: boolean
+    dateLabel?: "published" | "updated"
   }
 
-  let { posts }: Props = $props()
+  let { posts, showDate = true, dateLabel = "published" }: Props = $props()
+
+  function getDisplayDate(metadata: any): string | null {
+    if (!showDate) return null
+    const raw =
+      dateLabel === "updated"
+        ? (metadata?.updated ?? metadata?.date)
+        : metadata?.date
+    if (!raw) return null
+    return new Intl.DateTimeFormat("en-US", {
+      month: "long",
+      day: "numeric",
+      year: "numeric",
+    }).format(new Date(raw))
+  }
 </script>
 
 <div class="grid grid-cols-1 gap-6">
@@ -18,23 +34,27 @@
           {post.data.metadata.title}
         </h3>
       </a>
-      <div class="mt-2 block text-sm text-gray-700">
-        {new Intl.DateTimeFormat("en-US", {
-          month: "long",
-          day: "numeric",
-          year: "numeric",
-        }).format(new Date(post.data.metadata.date))}
-
-        {#if post.data.metadata.updated}
-          <span class="text-xs text-gray-400">
-            (Updated: {new Intl.DateTimeFormat("en-US", {
-              month: "long",
-              day: "numeric",
-              year: "numeric",
-            }).format(new Date(post.data.metadata.updated))})
-          </span>
+      {#if showDate}
+        {@const displayDate = getDisplayDate(post.data.metadata)}
+        {#if displayDate}
+          <div class="mt-2 block text-sm text-gray-700">
+            {#if dateLabel === "updated"}
+              <span class="text-xs text-gray-400">Last updated: {displayDate}</span>
+            {:else}
+              {displayDate}
+              {#if post.data.metadata.updated}
+                <span class="text-xs text-gray-400">
+                  (Updated: {new Intl.DateTimeFormat("en-US", {
+                    month: "long",
+                    day: "numeric",
+                    year: "numeric",
+                  }).format(new Date(post.data.metadata.updated))})
+                </span>
+              {/if}
+            {/if}
+          </div>
         {/if}
-      </div>
+      {/if}
       {#if false}
         <!-- Teaser image intentionally suppressed for text-first design -->
       {/if}

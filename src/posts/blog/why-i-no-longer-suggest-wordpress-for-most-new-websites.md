@@ -3,7 +3,7 @@ layout: post
 date: "2019-01-25"
 title: "Why I no longer suggest WordPress for (most) new websites"
 description: "After my years of consulting for small businesses and solopreneurs, I've learned there are many situations where a WordPress-driven website is either overkill, too complicated, or overly expensive to run correctly."
-categories: Technology
+categories: "Tech & Data"
 tags: ["ecommerce", "web-hosting", "wordpress", "squarespace", "woocommerce"]
 header:
   cloudinaryPublicId: chrisjmears.com/blog/linh-ha-1170851-unsplash.jpg
