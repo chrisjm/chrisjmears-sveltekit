@@ -25,7 +25,7 @@
         <strong class="text-white">Analytics Engineering</strong>,
         with expertise in
         <strong class="text-white">
-          Software Engineering, Data Visualization, and Healthcare Analysis
+          Full-Stack Engineering, Data Visualization, and Healthcare Analysis
         </strong>.
       </h2>
       <div class="hero-cta">
