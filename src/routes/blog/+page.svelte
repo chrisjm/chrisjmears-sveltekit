@@ -140,7 +140,7 @@
           <h2 class="text-2xl font-bold">Resources</h2>
           <p class="text-sm text-gray-400">Living documents, updated over time</p>
         </div>
-        <ul class="space-y-6">
+        <ul class="grid grid-cols-1 md:grid-cols-2 gap-6">
           {#each filteredResources as post (post.id)}
             <ResourceCard {post} />
           {/each}
