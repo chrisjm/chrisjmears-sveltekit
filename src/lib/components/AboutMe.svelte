@@ -17,27 +17,22 @@
       <div>
         <ul class="text-lg mb-8 space-y-4">
           <li class="leading-relaxed">
-            As an accomplished Senior Software Engineer transitioning into
-            Machine Learning Engineering, I bring a strong foundation in
-            JavaScript and Python, complemented by my growing expertise in data
-            analysis and statistics. My passion for machine learning and
-            artificial intelligence fuels my commitment to harnessing data to
-            drive actionable insights and innovative solutions.
+            I'm a builder who spent two decades writing software, got curious about what the data actually said, and went back to school in my forties to learn the math and research principles. 
+            Now I design data systems that don't fall over, from healthcare claims pipelines and LLM evaluations to analytics products. I thrive at companies that need someone to own ambiguous, end-to-end problems.
           </li>
           <li class="leading-relaxed">
-            I own and operate a
+            Through my consulting practice,
             <a href="https://www.wanderingleafstudios.com" target="_blank">
-              data analytics and software consulting business
+              Wandering Leaf Studios
             </a>
-            and have previously worked for companies large and small in different
-            sectors including Fortune 500, startups, and non-profits.
+            , I help teams turn messy data into clear strategy. Having worked across Fortune 500s, startups, non-profits, and universities, I'm always chasing the same question: <em>Are we building what actually matters?</em>
           </li>
           <li class="leading-relaxed">
-            Iʼm an open-source project maintainer,
+            Outside of work, I maintain
             <a href="https://www.openbrewerydb.org/" target="_blank">
               Open Brewery DB
             </a>
-            , and proud rescue dog owner.
+            , an open-source dataset and API I built that serves nearly 1 million weekly requests on a pocket-change budget. I'm also a student and graduate TA for Georgia Tech's Online Masters of Science in Analytics (OMSA) program and doing my best to learn in public.
           </li>
         </ul>
       </div>
