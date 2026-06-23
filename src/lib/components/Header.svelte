@@ -1,6 +1,7 @@
 <script lang="ts">
   import { Menu, X } from "@lucide/svelte"
   import { afterNavigate } from "$app/navigation"
+  import { onMount } from "svelte"
 
   interface Props {
     backgroundColor: string
@@ -11,6 +12,7 @@
   let { backgroundColor, textColor, mobileMenuTextColor }: Props = $props()
 
   let isExpanded = $state(false)
+  let isScrolled = $state(false)
 
   let isLightHeader = $derived(
     backgroundColor === "white" && textColor === "gray-900"
@@ -19,18 +21,27 @@
   afterNavigate(() => {
     isExpanded = false
   })
+
+  onMount(() => {
+    const handleScroll = () => {
+      isScrolled = window.scrollY > 10
+    }
+    window.addEventListener("scroll", handleScroll, { passive: true })
+    return () => window.removeEventListener("scroll", handleScroll)
+  })
 </script>
 
 <header
-  class="sticky top-0 z-50"
+  class="sticky top-0 z-50 transition-shadow duration-300"
   class:bg-white={isLightHeader}
   class:text-gray-900={isLightHeader}
   class:bg-sky-700={!isLightHeader}
   class:text-white={!isLightHeader}
+  class:shadow-md={isScrolled}
 >
   <div class="container mx-auto p-8 md:px-16">
     <div class="flex flex-row justify-between items-center">
-      <div class="flex-1 text-3xl md:text-4xl font-black">
+      <div class="flex-1 text-3xl md:text-4xl font-black font-display">
         <a href="/" class="no-underline antialiased">
           <span class="hidden md:inline lg:hidden">CJM</span>
           <span class="inline md:hidden lg:inline">Chris J Mears</span>

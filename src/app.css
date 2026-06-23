@@ -1,5 +1,14 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,400&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,700;0,9..144,900;1,9..144,300;1,9..144,700&display=swap");
 @import "tailwindcss";
 @import "./prismjs-nightowl.css";
+
+@theme {
+  --font-sans: "DM Sans", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  --font-display: "Fraunces", Georgia, serif;
+  --color-accent: #FBBF24;
+  --color-accent-hover: #F59E0B;
+  --color-accent-dark: #92400E;
+}
 
 a {
   @apply hover:underline;
@@ -114,10 +123,19 @@ header .expanded a {
 }
 
 p {
-  @apply leading-6;
+  @apply leading-7;
 }
 
 .btn,
 a.btn {
-  @apply no-underline bg-sky-900 border-2 border-white hover:bg-sky-500 text-white font-semibold py-2 px-4 rounded shadow-md hover:shadow-none text-xl;
+  @apply no-underline border-2 text-gray-900 font-semibold py-2 px-4 rounded shadow-md text-xl transition-colors duration-200;
+  background-color: var(--color-accent);
+  border-color: var(--color-accent);
+  text-decoration: none;
+
+  &:hover {
+    background-color: var(--color-accent-hover);
+    border-color: var(--color-accent-hover);
+    box-shadow: none;
+  }
 }

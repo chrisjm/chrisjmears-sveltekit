@@ -13,7 +13,7 @@
 
   let {
     title = "Chris J Mears",
-    description = "I'm an aspiring Machine Learning Engineer with expertise in Software Engineering, Data Visualization, Healthcare Analysis, and AI",
+    description = "I'm an aspiring Machine Learning Engineer specializing in Analytics Engineering, with expertise in Full-Stack Engineering, Data Visualization, and Healthcare Analysis",
     keywords = "analytics engineer, data engineer, data analyst, senior-level, software engineer, machine learning engineer, svelte, python, sql, javascript, typescript, data analysis, machine learning, ai",
     image = "/og-home.png",
     type = "website",
