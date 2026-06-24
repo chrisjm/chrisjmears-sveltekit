@@ -1,5 +1,5 @@
 import type { RequestHandler } from "@sveltejs/kit";
-import { slugFromPath } from "$lib/slugify";
+import { slugFromPath } from "$lib/utils";
 
 export const prerender = true;
 
@@ -15,7 +15,6 @@ export const GET: RequestHandler = async ({ url }) => {
     "/blog",
     "/contact",
     "/resume",
-    "/archives",
     "/data-nerd-newsletter",
   ];
 

@@ -2,7 +2,7 @@
   import Section from "$lib/components/Section.svelte"
   import Header2 from "$lib/components/Heading2.svelte"
   import type { PostSummary } from "$lib/content/types"
-  import { slugify } from "$lib/slugify"
+  import { slugify } from "$lib/utils"
 
   interface Props {
     posts: PostSummary[]

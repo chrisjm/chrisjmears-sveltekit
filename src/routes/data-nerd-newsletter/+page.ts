@@ -1,5 +1,5 @@
 import type { PageLoad } from "./$types";
-import { slugFromPath } from "$lib/slugify";
+import { slugFromPath } from "$lib/utils";
 import sorter from "sorters";
 import type { Frontmatter } from "$lib/content/types";
 
