@@ -3,7 +3,7 @@ layout: post
 date: "2018-11-06"
 title: "Learn why your site is slow with some Inspector Magic ✨"
 description: "I made a 4-minute video describing a method you can use to determine if and why a website is slow using Google Chrome, Lighthouse, and a little Inspector Magic ✨."
-categories: "Tech & Data"
+categories: Business
 ---
 
 I made a 4-minute video describing a method you can use to determine if and why a website is slow using Google Chrome, [Lighthouse](https://developers.google.com/web/tools/lighthouse/), and a little [Inspector Magic](https://developers.google.com/web/tools/chrome-devtools/) ✨.

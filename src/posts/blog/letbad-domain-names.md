@@ -3,7 +3,7 @@ layout: post
 date: "2019-02-28"
 title: "Learn Enough To Be Almost Dangerous: Domain Names"
 description: "If you’re a small business owner and run an online business (or even a website), as annoying as it is, you should learn enough to be almost dangerous about domain names and how they work."
-categories: "Tech & Data"
+categories: Business
 ---
 
 I’m sure you’ve heard the terms domain name, DNS, and domain registrars before. Or maybe not?
