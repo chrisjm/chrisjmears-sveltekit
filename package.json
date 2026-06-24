@@ -8,7 +8,7 @@
   "scripts": {
     "dev": "vite dev",
     "build": "vite build",
-    "prebuild": "npm run fetch-bsky",
+    "prebuild": "npm run fetch-bsky && npm run generate-blog-og",
     "preview": "vite preview",
     "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
     "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
@@ -16,6 +16,7 @@
     "format": "prettier --write .",
     "install-playwright": "npm run build && npx playwright install chromium",
     "generate-og": "node scripts/generate-og.mjs",
+    "generate-blog-og": "node scripts/generate-blog-og.mjs",
     "fetch-bsky": "node scripts/fetch-bsky.mjs",
     "list-frontmatter": "node scripts/list-frontmatter.mjs"
   },
