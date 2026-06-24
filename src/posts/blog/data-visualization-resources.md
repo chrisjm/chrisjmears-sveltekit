@@ -3,8 +3,7 @@ date: "2026-06-22"
 updated: "2026-06-22"
 title: "Data Visualization Resources"
 description: "Resources and tools for data visualization, covering everything from basic charts to interactive dashboards."
-categories: ["resources"]
-tags: ["data-visualization", "d3", "charts", "analytics", "ga-tech"]
+categories: ["Resources"]
 ---
 
 This is a living document where I collect data visualization resources from my Georgia Tech OMSA journey and beyond.

@@ -1,10 +1,10 @@
 ---
+layout: post
 date: "2026-06-22"
 updated: "2026-06-22"
 title: "Machine Learning Resources"
 description: "Machine learning resources, courses, and tools from my OMSA program and self-study."
-categories: ["resources"]
-tags: ["machine-learning", "ml", "ai", "python", "ga-tech", "omsa"]
+categories: ["Resources"]
 ---
 
 This is a living document where I collect machine learning resources from my Georgia Tech OMSA program and personal learning.

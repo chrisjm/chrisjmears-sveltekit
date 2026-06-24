@@ -1,10 +1,10 @@
 ---
+layout: post
 date: "2026-06-22"
 updated: "2026-06-22"
 title: "Mathematics Resources"
 description: "Mathematical foundations for data science, analytics, and machine learning."
-categories: ["resources"]
-tags: ["mathematics", "linear-algebra", "calculus", "statistics", "ga-tech", "omsa"]
+categories: ["Resources"]
 ---
 
 This is a living document where I collect mathematics resources essential for data science and analytics.

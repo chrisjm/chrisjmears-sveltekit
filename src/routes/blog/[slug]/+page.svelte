@@ -17,7 +17,6 @@
   title={data.frontmatter.title + " - Chris J Mears"}
   description={data.frontmatter.description}
   type="website"
-  image={data.frontmatter.header?.teaser}
 />
 
 <Section containerClasses="container mx-auto max-w-3xl p-5 md:pt-10">
@@ -46,7 +45,7 @@
       : []}
   {#if categories.length}
     <div class="mt-2 text-sm">
-      <span class="opacity-70 mr-2">Categories:</span>
+      <span class="opacity-70 mr-2">Category:</span>
       {#each categories as c, i}
         <a
           class="underline text-blue-600 hover:text-blue-800"
@@ -55,18 +54,7 @@
       {/each}
     </div>
   {/if}
-  {#if Array.isArray(data.frontmatter.tags) && data.frontmatter.tags.length}
-    <div class="mb-6 text-sm">
-      <span class="opacity-70 mr-2">Tags:</span>
-      {#each data.frontmatter.tags as t, i}
-        <a
-          class="underline text-blue-600 hover:text-blue-800"
-          href="/blog/tag/{slugify(t)}">{t}</a
-        >{i < data.frontmatter.tags.length - 1 ? ", " : ""}
-      {/each}
-    </div>
-  {/if}
-  <div class="post-content">
+  <div class="post-content mt-4">
     <SvelteComponent />
   </div>
 </Section>

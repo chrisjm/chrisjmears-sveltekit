@@ -3,9 +3,6 @@ layout: post
 date: "2012-12-09"
 title: TextMate How-to Book
 categories: Personal
-tags: ["announcement", "book", "web-development", "tools"]
-header:
-  teaser: "https://res.cloudinary.com/wanderingleafstudios/image/upload/b_auto,c_pad,g_center,h_630,w_1200/v1537457980/chrisjmears.com/blog/3981OT_TextMateHow-to_cov.png"
 ---
 
 I'm very excited to announce that a book I've written has been published! The book is called [TextMate How-to](http://www.packtpub.com/textmate-powerfully-versatile-text-and-code-editor/book) and is published by [Packt Publishing](http://www.packtpub.com/).

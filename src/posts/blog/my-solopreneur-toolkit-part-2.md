@@ -4,16 +4,7 @@ date: "2018-10-02"
 title: "My Solopreneur Toolkit: Part 2 - Communication & Scheduling"
 description: "Reliable communication is necessary for any business to thrive whether you have a team, clients, or customers. In this post, I go over the communication and scheduling tools I use daily to collaborate with my clients and solopreneur community."
 categories: Business
-tags: ["tools", "communication", "scheduling"]
-header:
-  teaser: "https://res.cloudinary.com/wanderingleafstudios/image/upload/b_auto,c_pad,g_center,h_630,w_1200/v1537890988/chrisjmears.com/blog/jessica-lewis-512224-unsplash.jpg"
 ---
-
-![laptop phone and bullet calendar](https://res.cloudinary.com/wanderingleafstudios/image/upload/v1538497956/chrisjmears.com/blog/jessica-lewis-512224-unsplash.jpg)
-
-<div class="text-right text-gray-500 text-sm mb-6">
-  <em>Photo by Jessica Lewis on Unsplash</em>
-</div>
 
 Reliable communication is necessary for any business to thrive whether you have a team, clients, or customers. In this post, I go over the communication and scheduling tools I use daily to collaborate with my clients and solopreneur community.
 

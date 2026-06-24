@@ -3,17 +3,8 @@ layout: post
 title: "Avoid getting trapped by your web host"
 description: "One of the more intimidating choices for non-technical small business owners is the overwhelming number of options for creating and hosting your website and registering domains. The following is a list of 10 tips about web hosts and domain registrars every entrepreneur should know."
 categories: "Tech & Data"
-tags: ["web-hosting", "domain-names", "small-business", "solopreneurship"]
 date: "2018-10-19"
-header:
-  teaser: "https://res.cloudinary.com/wanderingleafstudios/image/upload/b_auto,c_pad,g_center,h_630,w_1200/v1537890988/chrisjmears.com/blog/erik-kossakowski-666859-unsplash.jpg"
 ---
-
-![three birds flying in the sky](https://res.cloudinary.com/wanderingleafstudios/image/upload/v1539969073/chrisjmears.com/blog/erik-kossakowski-666859-unsplash.jpg)
-
-<div class="text-right text-gray-500 text-sm mb-6">
-  <em>Photo by Erik Kossakowski on Unsplash</em>
-</div>
 
 One of the more intimidating choices for non-technical small business owners is the overwhelming number of options for creating and hosting your website and registering domains.
 
