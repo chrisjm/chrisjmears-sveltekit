@@ -3,7 +3,7 @@ date: "2026-06-22"
 updated: "2026-06-22"
 title: "Machine Learning Resources"
 description: "Machine learning resources, courses, and tools from my OMSA program and self-study."
-categories: ["resources"]
+categories: ["Resources"]
 tags: ["machine-learning", "ml", "ai", "python", "ga-tech", "omsa"]
 ---
 

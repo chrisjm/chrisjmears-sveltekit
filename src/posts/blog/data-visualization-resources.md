@@ -3,7 +3,7 @@ date: "2026-06-22"
 updated: "2026-06-22"
 title: "Data Visualization Resources"
 description: "Resources and tools for data visualization, covering everything from basic charts to interactive dashboards."
-categories: ["resources"]
+categories: ["Resources"]
 tags: ["data-visualization", "d3", "charts", "analytics", "ga-tech"]
 ---
 

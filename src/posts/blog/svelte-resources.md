@@ -3,7 +3,7 @@ date: "2026-06-22"
 updated: "2026-06-22"
 title: "Svelte Resources"
 description: "A collection of Svelte resources, tutorials, and tools that I've found useful for learning and development."
-categories: ["resources"]
+categories: ["Resources"]
 tags: ["svelte", "javascript", "frontend", "web-development"]
 ---
 
