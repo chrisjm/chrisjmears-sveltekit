@@ -4,16 +4,7 @@ date: "2018-10-16"
 title: "My Solopreneur Toolkit: Part 4 - Web Hosting & Email Marketing 🕸 ✉️"
 description: "Web hosts are necessary if you plan to sell anything. In the same way, email marketing services help you keep in contact with your clients and customers. I conclude this toolkit series with Web Hosting and Email Marketing."
 categories: Business
-tags: ["tools", "domain-names", "marketing", "web-hosting"]
-header:
-  teaser: "https://res.cloudinary.com/wanderingleafstudios/image/upload/b_auto,c_pad,g_center,h_630,w_1200/v1537890988/chrisjmears.com/blog/campaign-creators-771711-unsplash.jpg"
 ---
-
-![man writing on whiteboard](https://res.cloudinary.com/wanderingleafstudios/image/upload/v1539711141/chrisjmears.com/blog/campaign-creators-771711-unsplash.jpg)
-
-<div class="text-right text-gray-500 text-sm mb-6">
-  <em>Photo by Campaign Creators on Unsplash</em>
-</div>
 
 Web hosts are necessary if you plan to sell anything. Whether it's a product or a service, it's beneficial to your business to have a web presence, even if it's just information about how to contact you.
 

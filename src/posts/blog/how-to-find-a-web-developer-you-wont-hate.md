@@ -4,16 +4,7 @@ date: "2018-11-27"
 title: "How to find a web developer you won't hate 😅"
 description: "Looking for web site help, we often find ourselves in the same predicament as someone who is inexperienced with cars searching for a new mechanic. Here are some tips you can use to find a web developer you won't hate."
 categories: Business
-tags: ["web-development", "small-business"]
-header:
-  teaser: "https://res.cloudinary.com/wanderingleafstudios/image/upload/b_auto,c_pad,g_center,h_630,w_1200/v1537890988/chrisjmears.com/blog/rawpixel-699806-unsplash.jpg"
 ---
-
-![two person's hands shaking](https://res.cloudinary.com/wanderingleafstudios/image/upload/v1543340510/chrisjmears.com/blog/rawpixel-699806-unsplash.jpg)
-
-<div class="text-right text-gray-500 text-sm mb-6">
-  <em>Photo by rawpixel on Unsplash</em>
-</div>
 
 As small business owners, we need to juggle our time between our passion and the tedious business administration.
 

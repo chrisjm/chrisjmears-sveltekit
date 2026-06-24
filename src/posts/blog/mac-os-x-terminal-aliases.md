@@ -3,9 +3,6 @@ layout: post
 date: "2009-05-21"
 title: Mac OS X Terminal Aliases
 categories: "Tech & Data"
-tags: ["mac-os-x", "terminal", "command-line", "productivity"]
-header:
-  teaser: ""
 ---
 
 Partly because I wanted to post more and partly because I transfer computers a lot and I figure a blog is as good place as any to share my thoughts with, well, myself.

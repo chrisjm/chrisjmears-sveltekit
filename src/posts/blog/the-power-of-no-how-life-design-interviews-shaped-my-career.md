@@ -4,16 +4,7 @@ date: "2025-08-15"
 title: 'The Power of "No": How Life Design Interviews Shaped My Career Over 5 Years'
 description: 'The greatest strength of a Life Design Interview isn''t finding a "yes"—it''s confidently finding your "no." Follow my 5-year journey and see how ruling out the wrong careers helped me discover the right one in data science.'
 categories: "Career Development"
-tags: ["life-design", "informational-interviews", "career-change"]
-header:
-  teaser: "https://res.cloudinary.com/wanderingleafstudios/image/upload/v1755289734/chrisjmears.com/blog/power-of-no.jpg"
 ---
-
-![winding road with a lot of branching paths with x's and one goal](https://res.cloudinary.com/wanderingleafstudios/image/upload/v1755289734/chrisjmears.com/blog/power-of-no.jpg)
-
-<div class="text-right text-gray-400 text-sm mb-6">
-  <em>Photo by Google Gemini</em>
-</div>
 
 This is a follow-up to the original blog post in March 2020: [Conduct Life Design Interviews: How Life Design Interviews Can Help You Find Your Passion](/blog/conduct-life-design-interviews).
 

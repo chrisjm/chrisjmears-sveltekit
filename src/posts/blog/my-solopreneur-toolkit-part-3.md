@@ -4,16 +4,7 @@ date: "2018-10-09"
 title: "My Solopreneur Toolkit: Part 3 - Business & Finance 🗄💰"
 description: 'Needless to say, running a business is complicated. Taxes, regulations, permits, contracts, payment gateways, accounting books,legal documents, spreadsheets, ad nauseam. In the third part of "My Solopreneur Toolkit" series, I''ll go over the services and tools I use to manage my business and finances.'
 categories: Business
-tags: ["tools", "finance", "accounting"]
-header:
-  teaser: "https://res.cloudinary.com/wanderingleafstudios/image/upload/b_auto,c_pad,g_center,h_630,w_1200/v1537890988/chrisjmears.com/blog/rawpixel-645294-unsplash.jpg"
 ---
-
-![laptop phone and bullet calendar](https://res.cloudinary.com/wanderingleafstudios/image/upload/v1539098563/chrisjmears.com/blog/rawpixel-645294-unsplash.jpg)
-
-<div class="text-right text-gray-500 text-sm mb-6">
-  <em>Photo by rawpixel on Unsplash</em>
-</div>
 
 Needless to say, running a business is complicated. Taxes, regulations, permits, contracts, payment gateways, accounting books,legal documents, spreadsheets, ad nauseam.
 

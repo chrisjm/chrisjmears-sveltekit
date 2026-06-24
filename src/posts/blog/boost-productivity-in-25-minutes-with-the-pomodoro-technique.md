@@ -3,9 +3,6 @@ layout: post
 date: "2018-09-20"
 title: Boost your productivity in 25 minutes with a 🍅
 categories: Personal
-tags: ["productivity", "time-management", "deep-work"]
-header:
-  teaser: "https://res.cloudinary.com/wanderingleafstudios/image/upload/b_auto,c_pad,g_center,h_630,w_1200/v1537457980/chrisjmears.com/blog/pomodoro-timer.jpg"
 ---
 
 Have you ever needed a little extra boost of motivation to get some work done?

@@ -4,17 +4,7 @@ date: "2019-01-25"
 title: "Why I no longer suggest WordPress for (most) new websites"
 description: "After my years of consulting for small businesses and solopreneurs, I've learned there are many situations where a WordPress-driven website is either overkill, too complicated, or overly expensive to run correctly."
 categories: "Tech & Data"
-tags: ["ecommerce", "web-hosting", "wordpress", "squarespace", "woocommerce"]
-header:
-  cloudinaryPublicId: chrisjmears.com/blog/linh-ha-1170851-unsplash.jpg
-  teaser: "https://res.cloudinary.com/wanderingleafstudios/image/upload/b_auto,c_pad,g_center,h_630,w_1200/v1537890988/chrisjmears.com/blog/linh-ha-1170851-unsplash.jpg"
 ---
-
-![complex building ducts](https://res.cloudinary.com/wanderingleafstudios/image/upload/v1548446853/chrisjmears.com/blog/linh-ha-1170851-unsplash.jpg)
-
-<div class="text-right text-gray-500 text-sm mb-6">
-  <em>Photo by Linh Ha on Unsplash</em>
-</div>
 
 Don't get me wrong. WordPress is extremely powerful, versatile, and generally easy to use and update. There's a reason it makes up more than 30% of all websites in existence today ([Usage Statistics and Market Share of WordPress for Websites, January 2019](https://w3techs.com/technologies/details/cm-wordpress/all/all)).
 

@@ -1,10 +1,10 @@
 ---
+layout: post
 date: "2026-06-22"
 updated: "2026-06-22"
 title: "Svelte Resources"
 description: "A collection of Svelte resources, tutorials, and tools that I've found useful for learning and development."
 categories: ["Resources"]
-tags: ["svelte", "javascript", "frontend", "web-development"]
 ---
 
 This is a living document where I collect Svelte resources that I've found valuable during my learning journey and development work.
