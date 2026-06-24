@@ -50,7 +50,7 @@
       <div class="md:text-right relative">
         <div class="flex flex-wrap items-center justify-end">
           <button
-            class="block md:hidden border flex items-center px-3 py-2 rounded"
+            class="md:hidden border flex items-center px-3 py-2 rounded"
             class:border-gray-900={isLightHeader}
             class:text-gray-900={isLightHeader}
             class:border-white={!isLightHeader}
@@ -68,7 +68,7 @@
         </div>
         <div
           id="primary-menu"
-          class="md:block md:flex md:items-center md:w-auto"
+          class="md:flex md:items-center md:w-auto"
           class:hidden={!isExpanded}
           class:expanded={isExpanded}
           class:bg-white={isExpanded}
