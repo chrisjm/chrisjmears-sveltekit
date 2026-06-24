@@ -16,7 +16,8 @@
 <SEO
   title={data.frontmatter.title + " - Chris J Mears"}
   description={data.frontmatter.description}
-  type="website"
+  image={`/images/og/blog/${data.slug}.png`}
+  type="article"
 />
 
 <Section containerClasses="container mx-auto max-w-3xl p-5 md:pt-10">
