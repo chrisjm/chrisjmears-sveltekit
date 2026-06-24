@@ -2,8 +2,6 @@ import { slugFromPath, slugify } from "$lib/slugify";
 import { sorter } from "sorters";
 import type { PostSummary } from "$lib/content/types";
 
-export const RESOURCES_CATEGORY_SLUG = "resources";
-
 export async function loadAllPostModules() {
   const posts = import.meta.glob(`/src/posts/blog/*.{md,svx,svelte.md}`);
   const modules: Array<{ path: string; module: any }> = [];
@@ -58,7 +56,6 @@ export type RawPost = { id: string; path: string; data: any };
 
 export async function listPostsByCategory(): Promise<{
   categoryPosts: Map<string, { name: string; slug: string; posts: RawPost[] }>;
-  resourcePosts: RawPost[];
 }> {
   const allPosts = await listAllPostsRaw();
 
@@ -66,7 +63,6 @@ export async function listPostsByCategory(): Promise<{
     string,
     { name: string; slug: string; posts: RawPost[] }
   >();
-  const resourcePosts: RawPost[] = [];
 
   for (const post of allPosts) {
     const fm = post.data?.metadata ?? {};
@@ -78,21 +74,11 @@ export async function listPostsByCategory(): Promise<{
 
     for (const cat of cats) {
       const slug = slugify(cat);
-      if (slug === RESOURCES_CATEGORY_SLUG) {
-        resourcePosts.push(post);
-      } else {
-        const entry = categoryPosts.get(slug) ?? { name: cat, slug, posts: [] };
-        entry.posts.push(post);
-        categoryPosts.set(slug, entry);
-      }
+      const entry = categoryPosts.get(slug) ?? { name: cat, slug, posts: [] };
+      entry.posts.push(post);
+      categoryPosts.set(slug, entry);
     }
   }
 
-  resourcePosts.sort(
-    (a, b) =>
-      new Date(b.data?.metadata?.updated ?? b.data?.metadata?.date ?? 0).getTime() -
-      new Date(a.data?.metadata?.updated ?? a.data?.metadata?.date ?? 0).getTime(),
-  );
-
-  return { categoryPosts, resourcePosts };
+  return { categoryPosts };
 }

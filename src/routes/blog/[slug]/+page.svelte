@@ -55,17 +55,6 @@
       {/each}
     </div>
   {/if}
-  {#if Array.isArray(data.frontmatter.tags) && data.frontmatter.tags.length}
-    <div class="mb-6 text-sm">
-      <span class="opacity-70 mr-2">Tags:</span>
-      {#each data.frontmatter.tags as t, i}
-        <a
-          class="underline text-blue-600 hover:text-blue-800"
-          href="/blog/tag/{slugify(t)}">{t}</a
-        >{i < data.frontmatter.tags.length - 1 ? ", " : ""}
-      {/each}
-    </div>
-  {/if}
   <div class="post-content">
     <SvelteComponent />
   </div>

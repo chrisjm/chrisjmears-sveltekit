@@ -1,44 +1,41 @@
 import type { PageLoad } from "./$types";
-import { listAllPostsRaw, listPostsByCategory, RESOURCES_CATEGORY_SLUG } from "$lib/content/posts";
-import { slugify } from "$lib/slugify";
+import { listAllPostsRaw, listPostsByCategory, listRecentPosts } from "$lib/content/posts";
 
 export const load: PageLoad = async () => {
-  const [allPosts, { categoryPosts, resourcePosts }] = await Promise.all([
+  const [allPosts, { categoryPosts }, recentPosts] = await Promise.all([
     listAllPostsRaw(),
     listPostsByCategory(),
+    listRecentPosts(5),
   ]);
 
-  const tagMap = new Map<string, { name: string; slug: string; count: number }>();
+  // Most visited posts (manually curated)
+  const MOST_VISITED_SLUGS = [
+    "conduct-life-design-interviews",
+    "learn-to-code-from-the-beginning",
+    "the-power-of-no-how-life-design-interviews-shaped-my-career"
+  ];
 
-  for (const p of allPosts) {
-    const fm = p.data?.metadata ?? {};
-    const tags: string[] = Array.isArray(fm.tags) ? fm.tags : [];
-    for (const t of tags) {
-      const s = slugify(t);
-      const item = tagMap.get(s) ?? { name: t, slug: s, count: 0 };
-      item.count += 1;
-      tagMap.set(s, item);
-    }
-  }
-
-  const tags = Array.from(tagMap.values()).sort((a, b) => b.count - a.count);
-
-  // Featured categories shown first; demoted categories shown last
-  const FEATURED_SLUGS = new Set(["tech-and-data", "career-development"]);
-  const DEMOTED_SLUGS = new Set(["business", "personal"]);
-
-  function categoryTier(slug: string): number {
-    if (FEATURED_SLUGS.has(slug)) return 0;
-    if (DEMOTED_SLUGS.has(slug)) return 2;
-    return 1;
-  }
+  const CATEGORY_ORDER = ["Career Development", "Tech & Data", "Resources", "Business", "Personal"];
 
   const categorySections = Array.from(categoryPosts.values())
-    .filter((c) => c.slug !== RESOURCES_CATEGORY_SLUG)
     .sort((a, b) => {
-      const tierDiff = categoryTier(a.slug) - categoryTier(b.slug);
-      return tierDiff !== 0 ? tierDiff : a.name.localeCompare(b.name);
+      const aIndex = CATEGORY_ORDER.indexOf(a.name);
+      const bIndex = CATEGORY_ORDER.indexOf(b.name);
+      // If both are in the order, sort by their position
+      if (aIndex !== -1 && bIndex !== -1) return aIndex - bIndex;
+      // If only a is in the order, it comes first
+      if (aIndex !== -1) return -1;
+      // If only b is in the order, it comes first
+      if (bIndex !== -1) return 1;
+      // If neither is in the order, sort alphabetically
+      return a.name.localeCompare(b.name);
     });
 
-  return { categorySections, resourcePosts, tags, FEATURED_SLUGS: [...FEATURED_SLUGS], DEMOTED_SLUGS: [...DEMOTED_SLUGS] };
+  const mostVisitedPosts = allPosts.filter((p) => MOST_VISITED_SLUGS.includes(p.id));
+
+  return {
+    categorySections,
+    recentPosts,
+    mostVisitedPosts,
+  };
 };
