@@ -73,11 +73,14 @@
       {@const isOpen = openCategories[cat.slug] ?? false}
       <section class="mb-12">
         <h2 class="text-2xl font-bold mb-4 border-b border-gray-200 pb-2">{cat.name}</h2>
+        {#if cat.explanation}
+          <p class="text-gray-500 mb-4 -mt-2 italic">{cat.explanation}</p>
+        {/if}
         <ul class="space-y-3">
           {#each previewPosts as post (post.id)}
             {@const fm = post.data?.metadata ?? {}}
             <li>
-              <a href="/blog/{post.id}" class="group block">
+              <a href={cat.slug === "data-nerd-newsletter" ? `/data-nerd-newsletter/${post.id}` : `/blog/${post.id}`} class="group block">
                 <h3 class="text-lg font-semibold text-sky-700 group-hover:text-sky-900 group-hover:underline leading-snug">
                   {fm.title}
                 </h3>
@@ -100,7 +103,7 @@
               {#each olderPosts as post (post.id)}
                 {@const fm = post.data?.metadata ?? {}}
                 <li>
-                  <a href="/blog/{post.id}" class="group block">
+                  <a href={cat.slug === "data-nerd-newsletter" ? `/data-nerd-newsletter/${post.id}` : `/blog/${post.id}`} class="group block">
                     <h3 class="text-lg font-semibold text-sky-700 group-hover:text-sky-900 group-hover:underline leading-snug">
                       {fm.title}
                     </h3>
