@@ -122,15 +122,6 @@
               <a
                 class="no-underline antialiased px-5 py-3 block hover:bg-gray-200 active:bg-gray-300 md:hover:bg-transparent"
                 onclick={() => (isExpanded = false)}
-                href="/archives"
-              >
-                Archives
-              </a>
-            </li>
-            <li class="md:inline-block md:mr-2 mb-0">
-              <a
-                class="no-underline antialiased px-5 py-3 block hover:bg-gray-200 active:bg-gray-300 md:hover:bg-transparent"
-                onclick={() => (isExpanded = false)}
                 href="/contact"
               >
                 Contact

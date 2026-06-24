@@ -2,7 +2,7 @@
   import type { PageData } from "./$types"
   import Section from "$lib/components/Section.svelte"
   import SEO from "$lib/components/SEO.svelte"
-  import { slugify } from "$lib/slugify"
+  import { slugify } from "$lib/utils"
 
   interface Props {
     data: PageData

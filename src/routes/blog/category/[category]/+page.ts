@@ -1,6 +1,6 @@
 import type { PageLoad } from "./$types";
 import { listAllPostsRaw } from "$lib/content/posts";
-import { slugify, unslugify } from "$lib/slugify";
+import { slugify, unslugify } from "$lib/utils";
 import { error } from "@sveltejs/kit";
 
 export const load: PageLoad = async ({ params }) => {

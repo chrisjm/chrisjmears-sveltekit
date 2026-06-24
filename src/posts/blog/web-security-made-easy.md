@@ -3,7 +3,7 @@ layout: post
 date: "2018-11-29"
 title: "Don't Get Caught With Your Security Pants Down! 👖 Web Security Made Easy! 🔐"
 description: "Shopping on the Internet is like wandering around a crowded bazaar or farmer's market. While you can install these security certificates for no cost, there are certain situations where you might want to pay a small fee and do some extra paperwork to gain your customers' trust."
-categories: "Tech & Data"
+categories: Business
 ---
 
 Shopping on the Internet is like wandering around a crowded bazaar or farmer's market. With any marketplace, there can be a general unease about who to trust. If there isn't a sign of security, then customers may shop elsewhere.

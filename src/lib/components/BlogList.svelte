@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { slugify } from "$lib/slugify"
+  import { getDisplayDate } from "$lib/utils"
   interface Props {
     posts: any[]
     showDate?: boolean
@@ -7,28 +7,15 @@
   }
 
   let { posts, showDate = true, dateLabel = "published" }: Props = $props()
-
-  function getDisplayDate(metadata: any): string | null {
-    if (!showDate) return null
-    const raw =
-      dateLabel === "updated"
-        ? (metadata?.updated ?? metadata?.date)
-        : metadata?.date
-    if (!raw) return null
-    return new Intl.DateTimeFormat("en-US", {
-      month: "long",
-      day: "numeric",
-      year: "numeric",
-    }).format(new Date(raw))
-  }
 </script>
 
 <div class="grid grid-cols-1 gap-6">
   {#each posts as post (post.id)}
+    {@const isNewsletter = post.path?.includes("data-nerd-newsletter") || post.data?.metadata?.categories === "data-nerd-newsletter"}
     <div class="mb-10 leading-normal">
       <a
         class="underline hover:text-black text-blue-500 block"
-        href="/blog/{post.id}"
+        href={isNewsletter ? `/data-nerd-newsletter/${post.id}` : `/blog/${post.id}`}
       >
         <h3 class="text-2xl md:text-3xl">
           {post.data.metadata.title}

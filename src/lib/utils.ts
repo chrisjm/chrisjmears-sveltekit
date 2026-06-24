@@ -20,3 +20,19 @@ export function unslugify(slug: string): string {
 
 export const slugFromPath = (path: string) =>
   path.match(/([\w-]+)\.(svelte\.md|md|svx)/i)?.[1] ?? null;
+
+export function getDisplayDate(
+  metadata: any,
+  dateLabel: "published" | "updated" = "published"
+): string | null {
+  const raw =
+    dateLabel === "updated"
+      ? (metadata?.updated ?? metadata?.date)
+      : metadata?.date;
+  if (!raw) return null;
+  return new Intl.DateTimeFormat("en-US", {
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+  }).format(new Date(raw));
+}

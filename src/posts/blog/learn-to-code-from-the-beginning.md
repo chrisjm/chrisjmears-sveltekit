@@ -3,7 +3,7 @@ layout: post
 date: "2018-10-30"
 title: "Learn to code from the beginning 📚"
 description: "Understanding how to program or code took me a while. First I had to get around the gate-keepers who said coding was impossible to learn. Programming is hard, but it's not impossible. In this article series, we go through the basic building blocks of learning to code from the beginning."
-categories: "Tech & Data"
+categories: "Career Development"
 ---
 
 Okay, okay. I know. You don't need another lecture on how you need to learn to code. You get it.
