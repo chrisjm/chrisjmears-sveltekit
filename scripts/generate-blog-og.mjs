@@ -4,23 +4,34 @@ import { createHash } from "node:crypto";
 import sharp from "sharp";
 
 const ROOT = process.cwd();
-const POSTS_DIR = join(ROOT, "src", "posts", "blog");
-const OUT_DIR = join(ROOT, "static", "images", "og", "blog");
+const BLOG_DIR = join(ROOT, "src", "posts", "blog");
+const NEWSLETTER_DIR = join(ROOT, "src", "posts", "data-nerd-newsletter");
+const BLOG_OUT_DIR = join(ROOT, "static", "images", "og", "blog");
+const NEWSLETTER_OUT_DIR = join(ROOT, "static", "images", "og", "data-nerd-newsletter");
 const SITE_URL = "chrisjmears.com";
+const BASE_SEED = 42;
 const WIDTH = 1200;
 const HEIGHT = 630;
 const FORCE = process.argv.includes("--force");
 
-// Vibrant base palettes — each is a set of HSL hues
-const PALETTES = [
-  { hues: [280, 320, 200, 180], name: "magenta-cyan" },
-  { hues: [10, 40, 350, 300], name: "sunset" },
-  { hues: [160, 180, 200, 280], name: "ocean" },
-  { hues: [50, 30, 0, 340], name: "gold-crimson" },
-  { hues: [120, 80, 160, 200], name: "forest-spring" },
-  { hues: [270, 240, 210, 300], name: "violet-indigo" },
-  { hues: [330, 280, 220, 190], name: "berry-sky" },
-  { hues: [20, 60, 180, 220], name: "amber-azure" },
+// Category-specific palettes for visual grouping
+const CATEGORY_PALETTES = {
+  Business: { hues: [10, 40, 350, 300] },
+  "Career Development": { hues: [200, 220, 180, 240] },
+  Personal: { hues: [120, 80, 160, 60] },
+  Resources: { hues: [270, 240, 300, 210] },
+  "data-nerd-newsletter": { hues: [180, 200, 160, 220] },
+};
+
+// Fallback vibrant palettes for uncategorized posts
+const FALLBACK_PALETTES = [
+  { hues: [280, 320, 200, 180] },
+  { hues: [160, 180, 200, 280] },
+  { hues: [50, 30, 0, 340] },
+  { hues: [120, 80, 160, 200] },
+  { hues: [270, 240, 210, 300] },
+  { hues: [330, 280, 220, 190] },
+  { hues: [20, 60, 180, 220] },
 ];
 
 // Simple seeded PRNG (mulberry32)
@@ -47,19 +58,36 @@ function parseFrontmatter(content) {
   if (!match) return {};
   const yaml = match[1];
   const fm = {};
-  // Simple YAML parsing for our flat key-value frontmatter
   const lines = yaml.split("\n");
   for (const line of lines) {
-    const kv = line.match(/^(\w+):\s*"?(.*?)"?\s*$/);
-    if (kv) {
-      fm[kv[1]] = kv[2].replace(/"/g, "");
+    const kvMatch = line.match(/^(\w+):\s*(.*)$/);
+    if (!kvMatch) continue;
+    const key = kvMatch[1];
+    let value = kvMatch[2].trim();
+    if (value.startsWith('"') && value.endsWith('"')) {
+      value = value.slice(1, -1);
+    } else if (value.startsWith("'") && value.endsWith("'")) {
+      value = value.slice(1, -1);
+    } else if (value.startsWith("[") && value.endsWith("]")) {
+      const inner = value.slice(1, -1);
+      value = inner
+        .split(",")
+        .map((s) => s.trim().replace(/^["']|["']$/g, ""))
+        .filter(Boolean);
     }
+    fm[key] = value;
   }
   return fm;
 }
 
 function slugFromFilename(filename) {
   return basename(filename, extname(filename));
+}
+
+function getFirstCategory(fm) {
+  const cats = fm.categories;
+  if (Array.isArray(cats)) return cats[0] || null;
+  return cats || null;
 }
 
 // Estimate text width for auto-sizing (sans-serif heuristic)
@@ -70,7 +98,7 @@ function estimateTextWidth(text, fontSize) {
 }
 
 // Auto-size title text: find the largest font size that fits, with line wrapping
-function layoutTitle(title, maxWidth, maxHeight, maxFontSize = 64, minFontSize = 28) {
+function layoutTitle(title, maxWidth, maxHeight, maxFontSize = 96, minFontSize = 42) {
   const padding = 80;
   const availableWidth = maxWidth - padding * 2;
   const lineHeightFactor = 1.25;
@@ -120,9 +148,41 @@ function layoutTitle(title, maxWidth, maxHeight, maxFontSize = 64, minFontSize =
   return { fontSize, lines: lines.slice(0, 4), lineHeight };
 }
 
-function generateSVG(slug, title, rng) {
-  const seed = hashSlug(slug);
-  const palette = PALETTES[seed % PALETTES.length];
+function getPalette(category, slug) {
+  if (category && CATEGORY_PALETTES[category]) {
+    return CATEGORY_PALETTES[category];
+  }
+  const seed = BASE_SEED + hashSlug(slug);
+  return FALLBACK_PALETTES[seed % FALLBACK_PALETTES.length];
+}
+
+const CATEGORY_EMOJIS = {
+  Business: "💼",
+  "Career Development": "🎯",
+  Personal: "❤️",
+  Resources: "📚",
+  "data-nerd-newsletter": "📊",
+};
+
+function generateBadgeSVG(badgeText, emoji) {
+  const badgeFontSize = 30;
+  const badgeHeight = 68;
+  const badgePadding = 48;
+  const fullText = emoji ? `${emoji} ${badgeText}` : badgeText;
+  const badgeWidth = Math.ceil(estimateTextWidth(fullText, badgeFontSize)) + badgePadding * 2;
+  const badgeX = (WIDTH - badgeWidth) / 2;
+  const badgeY = 25;
+
+  return `  <!-- Category badge -->
+  <g transform="translate(${badgeX}, ${badgeY})">
+    <rect width="${badgeWidth}" height="${badgeHeight}" rx="${badgeHeight / 2}" fill="#000000" fill-opacity="0.45" />
+    <text x="${badgeWidth / 2}" y="${badgeHeight / 2}" font-size="${badgeFontSize}" font-weight="600" text-anchor="middle" dominant-baseline="middle" fill="#ffffff" font-family="'DM Sans', 'Helvetica Neue', Arial, sans-serif">${escapeXml(fullText)}</text>
+  </g>`;
+}
+
+function generateSVG(slug, title, category, type, rng) {
+  const seed = BASE_SEED + hashSlug(slug);
+  const palette = getPalette(category, slug);
 
   // Seeded turbulence parameters
   const turbSeed = seed % 10000;
@@ -132,7 +192,7 @@ function generateSVG(slug, title, rng) {
 
   // Generate gradient stops with vibrant colors
   const hueShift = rng() * 60 - 30;
-  const colors = palette.hues.map((h, i) => {
+  const colors = palette.hues.map((h) => {
     const hue = (h + hueShift + 360) % 360;
     const sat = 70 + rng() * 25;
     const light = 35 + rng() * 25;
@@ -151,17 +211,29 @@ function generateSVG(slug, title, rng) {
   const bgHue = (palette.hues[0] + hueShift + 360) % 360;
   const bgColor = hsl(bgHue, 50, 12);
 
-  // Title layout
-  const titleAreaHeight = 320;
-  const titleYStart = 100;
+  // Determine badge text and emoji
+  let badgeText = null;
+  let badgeEmoji = null;
+  if (type === "newsletter") {
+    badgeText = "Data Nerd Newsletter";
+    badgeEmoji = CATEGORY_EMOJIS["data-nerd-newsletter"];
+  } else if (category) {
+    badgeText = category;
+    badgeEmoji = CATEGORY_EMOJIS[category];
+  }
+
+  // Title layout — shift down to make room for badge
+  const titleAreaHeight = 280;
   const { fontSize, lines, lineHeight } = layoutTitle(
     title,
     WIDTH,
     titleAreaHeight,
   );
 
-  // Build title text elements
-  const titleYCenter = HEIGHT / 2 - ((lines.length - 1) * lineHeight) / 2;
+  // Build title text elements (shifted down for larger badge)
+  const titleShift = badgeText ? 10 : -40;
+  const titleYCenter =
+    HEIGHT / 2 - ((lines.length - 1) * lineHeight) / 2 + titleShift;
   const titleText = lines
     .map((line, i) => {
       const y = titleYCenter + i * lineHeight;
@@ -170,7 +242,8 @@ function generateSVG(slug, title, rng) {
     .join("\n");
 
   // URL text at bottom
-  const urlY = HEIGHT - 40;
+  const urlY = HEIGHT - 55;
+  const badgeSVG = badgeText ? generateBadgeSVG(badgeText, badgeEmoji) : "";
 
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${WIDTH}" height="${HEIGHT}" viewBox="0 0 ${WIDTH} ${HEIGHT}">
   <defs>
@@ -219,11 +292,13 @@ function generateSVG(slug, title, rng) {
   <!-- Dark overlay for text readability -->
   <rect width="${WIDTH}" height="${HEIGHT}" fill="url(#overlay)" />
 
+${badgeSVG}
+
   <!-- Title -->
   ${titleText}
 
   <!-- Site URL -->
-  <text x="${WIDTH / 2}" y="${urlY}" font-size="26" font-weight="400" text-anchor="middle" dominant-baseline="middle" fill="#ffffff" fill-opacity="0.7" font-family="'DM Sans', 'Helvetica Neue', Arial, sans-serif">${SITE_URL}</text>
+  <text x="${WIDTH / 2}" y="${urlY}" font-size="39" font-weight="400" text-anchor="middle" dominant-baseline="middle" fill="#ffffff" fill-opacity="0.7" font-family="'DM Sans', 'Helvetica Neue', Arial, sans-serif">${SITE_URL}</text>
 </svg>`;
 }
 
@@ -245,15 +320,15 @@ async function fileExists(path) {
   }
 }
 
-async function main() {
-  await mkdir(OUT_DIR, { recursive: true });
+async function processDirectory(srcDir, outDir, type) {
+  await mkdir(outDir, { recursive: true });
 
-  const files = await readdir(POSTS_DIR);
+  const files = await readdir(srcDir);
   const mdFiles = files.filter((f) => f.endsWith(".md"));
 
   if (mdFiles.length === 0) {
-    console.log("No blog posts found in", POSTS_DIR);
-    return;
+    console.log(`No posts found in ${srcDir}`);
+    return { generated: 0, skipped: 0, total: 0 };
   }
 
   let generated = 0;
@@ -261,29 +336,48 @@ async function main() {
 
   for (const file of mdFiles) {
     const slug = slugFromFilename(file);
-    const outPath = join(OUT_DIR, `${slug}.png`);
+    const outPath = join(outDir, `${slug}.png`);
 
     if (!FORCE && (await fileExists(outPath))) {
-      console.log(`  SKIP  ${slug} (already exists)`);
+      console.log(`  SKIP  ${type}/${slug} (already exists)`);
       skipped++;
       continue;
     }
 
-    const content = await readFile(join(POSTS_DIR, file), "utf-8");
+    const content = await readFile(join(srcDir, file), "utf-8");
     const fm = parseFrontmatter(content);
     const title = fm.title || slug;
+    const category = getFirstCategory(fm);
 
-    const seed = hashSlug(slug);
+    const seed = BASE_SEED + hashSlug(slug);
     const rng = mulberry32(seed);
-    const svg = generateSVG(slug, title, rng);
+    const svg = generateSVG(slug, title, category, type, rng);
 
     await sharp(Buffer.from(svg)).png().toFile(outPath);
-    console.log(`  OK    ${slug}`);
+    console.log(`  OK    ${type}/${slug}`);
     generated++;
   }
 
+  return { generated, skipped, total: mdFiles.length };
+}
+
+async function main() {
+  console.log("Generating blog OG images...");
+  const blog = await processDirectory(BLOG_DIR, BLOG_OUT_DIR, "blog");
+
+  console.log("\nGenerating newsletter OG images...");
+  const newsletter = await processDirectory(
+    NEWSLETTER_DIR,
+    NEWSLETTER_OUT_DIR,
+    "newsletter",
+  );
+
+  const totalGen = blog.generated + newsletter.generated;
+  const totalSkip = blog.skipped + newsletter.skipped;
+  const totalPosts = blog.total + newsletter.total;
+
   console.log(
-    `\nDone: ${generated} generated, ${skipped} skipped, ${mdFiles.length} total`,
+    `\nDone: ${totalGen} generated, ${totalSkip} skipped, ${totalPosts} total`,
   );
 }
 
