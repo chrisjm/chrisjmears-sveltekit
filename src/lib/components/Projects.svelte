@@ -11,8 +11,8 @@
         "Open Brewery DB is a free and open-source dataset and API with public information on breweries, cideries, brewpubs, and bottleshops. It is also a growing Discord community of beer-loving developers and data scientists.",
       tags: ["open-source", "api"],
       imageUrl:
-        "https://res.cloudinary.com/wanderingleafstudios/image/upload/v1572317242/openbrewerydb/OpenBreweryDBLogo.jpg",
-      imageAlt: "Open Brewery DB Logo",
+        "/images/obdb-screenshot.png",
+      imageAlt: "Open Brewery DB Screenshot",
       links: [
         {
           text: "View Website",
