@@ -124,7 +124,7 @@
       {#each data.resume.projects as project}
         <li class="project-item mt-3">
           <h3 class="font-bold mb-1">
-            <a target="_blank" href={project.url}>{project.name}</a>
+            <a target="_blank" href={project.url} class="underline font-bold">{project.name}</a>
           </h3>
           <p class="mt-3">{project.description}</p>
         </li>
@@ -137,7 +137,7 @@
     <ul class="certificaton-list mt-3">
       {#each data.resume.certificates as certification}
         <li class="certification-item mb-1">
-          <a target="_blank" href={certification.url}>
+          <a target="_blank" href={certification.url} class="underline font-bold">
             {certification.name}
           </a>
         </li>
@@ -149,7 +149,11 @@
     <ul class="certificaton-list mt-3">
       {#each data.resume.publications as publication}
         <li class="publication-item mb-1">
-          {publication.name}<br />
+          {#if publication.url}
+            <a target="_blank" href={publication.url} class="underline font-bold">{publication.name}</a>
+          {:else}
+            {publication.name}
+          {/if}<br />
           {publication.publisher}<br />
           {publication.releaseDate}<br />
           {publication.summary}

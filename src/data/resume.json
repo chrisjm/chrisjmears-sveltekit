@@ -1,10 +1,10 @@
 {
   "basics": {
     "name": "Chris J Mears",
-    "label": "Senior Software Engineer",
+    "label": "Senior Software & Analytics Engineer",
     "image": "",
     "url": "https://chrisjmears.com",
-    "summary": "Detail-oriented analyst with a foundation in software engineering and extensive experience transforming complex healthcare data into actionable insights. Highly proficient in developing reports and dashboards using SQL and data visualizations to support data-driven decision-making. Currently advancing analytics expertise through an Online Master of Science in Analytics at Georgia Institute of Technology.",
+    "summary": "Senior Software and Analytics Engineer with 20 years of experience building production systems from the ground up and transforming complex datasets into actionable insights. Expert in architecting full-stack applications with Svelte and TypeScript, and designing high-integrity data pipelines using Python, SQL, and BigQuery. Currently a Graduate Teaching Assistant at Georgia Tech mentoring 1,500+ students in data analysis, with a proven track record of owning technical strategy, infrastructure decisions, and end-to-end product delivery in healthcare and startup environments.",
     "location": {
       "address": "",
       "postalCode": "",
@@ -27,6 +27,27 @@
   },
   "work": [
     {
+      "name": "Georgia Institute of Technology (Remote)",
+      "position": "Graduate Teaching Assistant (CSE 6040: Computing for Data Analysis)",
+      "url": "https://gatech.edu/",
+      "startDate": "2026-01-01",
+      "endDate": "Present",
+      "summary": "Mentoring 1,500+ graduate students in Python, Pandas, SQL, and NumPy, adapting explanations to individual learning levels and building tutorial videos to reduce repetitive support needs.",
+      "highlights": [
+        "Mentor 1500+ graduate students in Python, Pandas, SQL, and NumPy, adapting explanations to individual learning levels and building tutorial videos to reduce repetitive support needs."
+      ]
+    },
+    {
+      "name": "Corvia Medical (Remote)",
+      "position": "Data Analyst (Contract)",
+      "startDate": "2025-09-01",
+      "endDate": "2026-05-31",
+      "summary": "Ensuring data integrity for medical device research by manually digitizing and validating analog pressure waveform signals into ground-truth datasets for downstream analysis.",
+      "highlights": [
+        "Ensuring data integrity for medical device research by manually digitizing and validating analog pressure waveform signals into ground-truth datasets for downstream analysis."
+      ]
+    },
+    {
       "name": "Definitive Healthcare / Carevoyance",
       "position": "Senior Software Engineer",
       "url": "https://www.definitivehc.com/carevoyance",
@@ -34,6 +55,7 @@
       "endDate": "2024-07-19",
       "summary": "Implemented and scheduled Node.js data pipelines to transform billions of Medicare and proprietary claims into BigQuery and import curated datasets into PostgreSQL for analytics and in‑product use.",
       "highlights": [
+        "Achieved 90%+ auto-match rate on post-acquisition entity resolution across two healthcare databases — reverse-engineered undocumented address waterfall logic from the pipeline (interviewing stakeholders to reconstruct decision history), then designed NPI-based BigQuery matching queries that cut cloud testing costs ~90% per run while processing billions of Medicare claims records.",
         "Implemented data pipelines to transform billions of Medicare and proprietary claims data, load into BigQuery, and import into PostgreSQL via scheduled Node.js scripts, enhancing data accessibility for analytics and in-product usage."
       ]
     },
@@ -45,9 +67,10 @@
       "endDate": "2024-01-01",
       "summary": "Built Svelte reporting UIs and Express.js APIs that delivered executive‑level healthcare analytics; extended a Python/TypeScript PowerPoint generation system with data‑driven charts; managed Elasticsearch and a custom graph database while overseeing AWS and GCP services.",
       "highlights": [
-        "Generated comprehensive reports using Svelte and an Express.js API server on key healthcare business metrics, including Total ROI, Readmissions, and procedure referrals analysis, providing critical insights that informed strategic initiatives that increased customer usage by 20%.",
-        "Developed new features for a custom PowerPoint generation system using Python and TypeScript, implementing data-generated charts, enabling customers to generate accurate, real-time embedded charts that saved an average of 10 hours each week per user.",
-        "Managed Elasticsearch and custom graph database operations while overseeing AWS and Google Cloud cloud services, enhancing system reliability and performance while maintaining consistent costs."
+        "Saved the analysis team 10+ hours/week (25%+ productivity increase) by architecting a full-stack reporting engine (Python/TypeScript) that auto-generated branded, white-labeled PowerPoint deliverables from Elasticsearch and PostgreSQL — working around Office XML constraints to build an iteration pipeline, eliminating the need for customers to export data to external tools.",
+        "Delivered client-facing Looker dashboards used for 1-2 years — built the underlying data infrastructure (BigQuery, GCS staging, CTEs) that continued powering analytics after dashboards were absorbed into the platform.",
+        "Increased daily platform utilization by serving as primary frontend implementer — translated complex UI/UX designs into production-ready Svelte and TypeScript applications across the entire platform.",
+        "Resolved client issues end-to-end without escalation by maintaining and querying Elasticsearch clusters, MongoDB, and PostgreSQL directly supporting customer service."
       ]
     },
     {
@@ -58,10 +81,10 @@
       "endDate": "2021-10-31",
       "summary": "Early engineering hire at a twice-acquired healthcare claims analytics startup, contributing to the development of innovative solutions through data visualization, UI architecture, and data pipeline integration.",
       "highlights": [
-        "Collaborated on a small engineering team within an enterprise-level monolithic platform, focusing on feature building, data architecture, and system design principles to ensure scalability, security, and performance.",
-        "Engineered the initial UI architecture and data visualization projects using AngularJS and Svelte, enhancing user experience and interface functionality, which resulted in a 20% increase in user engagement.",
-        "Created Google Looker Studio dashboards generated from daily-updated Google Cloud Storage data, transforming complex user analytics datasets from PostgreSQL into actionable visualizations for managers, improving stakeholder decision-making efficiency by 50%.",
-        "Mastered foundational knowledge in data analysis, data engineering, and API development to support team initiatives."
+        "Reduced manual database maintenance by 50% by writing Node.js and Bash automation scripts for Elasticsearch cluster operations — scripting patterns later used as teaching examples for automation and data engineering.",
+        "Generated comprehensive reports using Svelte and an Express.js API server on key healthcare business metrics, including Total ROI, Readmissions, and procedure referrals analysis.",
+        "Engineered initial UI architecture and data visualization projects using AngularJS and Svelte, resulting in a 20% increase in user engagement.",
+        "Created Google Looker Studio dashboards from daily-updated GCS data, transforming complex user analytics datasets from PostgreSQL into actionable visualizations."
       ]
     },
     {
@@ -72,10 +95,9 @@
       "endDate": "2021-02-01",
       "summary": "Established a consulting business that empowers clients to discover hidden data insights, increasing actionable strategies by 30% through tailored analytics and technology solutions.",
       "highlights": [
-        "Increased online sales by over $200k in six months by enhancing a brewery’s Shopify eCommerce solution, configuring data analytics to collect relevant customer data for email marketing, and collaborating on creative solutions for shipping and logistics problems.",
-        "Facilitated effective communication with clients through multiple support channels, providing timely debugging support and improving client satisfaction ratings by 15%.",
-        "Elevated sales by 50% over the previous year using data-driven analysis, A/B testing, and geo-targeted segmentation with Google AdWords campaigns.",
-        "Automated queries and text scraping using Zapier and cloud computing to reduce weekly administration tasks by over 50%."
+        "Generated $200k in incremental online sales for an e-commerce client by building custom Shopify bundle integrations and JavaScript-based product configurators that increased average order value.",
+        "Ran geo-targeted A/B tests on Google Ads to optimize ad creative and audience segmentation — establishing foundational experimentation practices for data-driven marketing decisions.",
+        "Cut manual operations by 50% by developing automation pipelines using Zapier and cloud-based scraping tools — real-world automation workflow design applicable to data engineering curricula."
       ]
     },
     {
@@ -86,8 +108,8 @@
       "endDate": "2014-05-01",
       "summary": "Hired pre-Amazon acquisition and contributor to mobile web development team on a product used by millions of users.",
       "highlights": [
-        "Built cross-browser and cross-device compliant mobile web app using Ruby on Rails and JavaScript.",
-        "Mentored junior team members on web development conventions and best practices."
+        "Served 17M+ monthly unique visitors by building high-traffic, cross-browser/device mobile web applications using Ruby on Rails and JavaScript.",
+        "Mentored junior developers on frontend best practices through structured peer reviews and code quality sessions."
       ]
     },
     {
@@ -97,9 +119,7 @@
       "endDate": "2013-02-01",
       "summary": "Technical co-founder at a three-person bootstrapped advertising tech startup that culminated in a successful acquisition by Adacus in January 2018.",
       "highlights": [
-        "Designed the backend for a data-driven ad creation product, generating consistent revenue over 5 years with minimal maintenance.",
-        "Architected a robust PHP backend platform, automating reporting and configuring data pipelines and storage solutions using AWS cloud services, resulting in operational efficiency and minimal costs.",
-        "Drove strategic technical decisions that enhanced team productivity and project outcomes while fulfilling multiple roles, including data engineer, lead software developer, systems administrator, database administrator, and cloud systems architect."
+        "Built a scalable SaaS advertising platform from scratch (PHP, Ruby on Rails, AWS) — owned all technical strategy, infrastructure decisions, and end-to-end product delivery."
       ]
     },
     {
@@ -110,8 +130,7 @@
       "endDate": "2011-06-01",
       "summary": "Initially hired as a contract-to-hire Software Engineer III, transitioning to a full-time Front-End Engineer role, contributing to optimizing user experience and enhancing the performance of enterprise-level media solutions.",
       "highlights": [
-        "Redesigned front-end code, resulting in a 5% reduction in download times and increased browser compatibility for an enterprise-level media platform.",
-        "Influenced the internationalization (i18n) effort, collaborating with senior developers to implement custom text replacement, enhancing accessibility for global users in the Cisco Media Solutions Group."
+        "Built and maintained frontend media pages for a major entertainment platform using PHP and CSS — led internationalization efforts for global deployment, gaining early exposure to i18n workflows and cross-market content delivery."
       ]
     },
     {
@@ -132,8 +151,7 @@
       "endDate": "2008-09-01",
       "summary": "Pioneered the IT department as the first hire at the Wine Institute, driving significant improvements in technology infrastructure and operations within a non-profit environment.",
       "highlights": [
-        "Continuously improved the non-profit’s IT infrastructure with a minimal budget, resulting in 99% system uptime and enhanced user satisfaction.",
-        "Migrated the main member database and re-branded the website, leading to a 10% increase in website traffic; managed network security, asset management, and comprehensive documentation."
+        "Served as first IT manager — migrated member database to a CRM-based system for improved tracking, redesigned the public-facing website, and managed external contractors for web development projects."
       ]
     },
     {
@@ -144,9 +162,7 @@
       "endDate": "2005-02-01",
       "summary": "Acquired technical expertise in telecommunications and network support, focusing on data management, security protocols, and customer service in a corporate environment.",
       "highlights": [
-        "Delivered Tier 2 network support to over 400 remote offices nationwide, resolving more than 80% of issues on the first call and maintaining active communication with major carriers like AT&T and MCI Worldcom.",
-        "Led a data and voice network management initiative using HP OpenView to monitor network devices, resulting in a 20% improvement in response times and automated ticket generation through Remedy.",
-        "Pioneered comprehensive voice and data security procedures, reducing vulnerability to hacker and virus attacks."
+        "Provided tier-1 network support and troubleshooting for enterprise off-site locations — escalated to telecom carriers and software-level diagnostics, gaining foundational experience in operational monitoring and incident response."
       ]
     },
     {
@@ -202,6 +218,14 @@
       "issuer": "Springboard",
       "url": "https://www.coursera.org/account/accomplishments/specialization/77F6S8V7QERX",
       "summary": "600+ hours of hands-on curriculum, with 1:1 industry expert mentor oversight, and completion of 2 in-depth capstone projects. Mastering skills in Python, SQL, data analysis, data visualization, hypothesis testing, and machine learning."
+    },
+    {
+      "name": "Professional Scrum Master I (PSM I)",
+      "issuer": "Scrum.org"
+    },
+    {
+      "name": "GCP/Data Engineering specializations",
+      "issuer": "Google Cloud"
     }
   ],
   "publications": [
@@ -209,118 +233,128 @@
       "name": "TextMate How-to",
       "publisher": "Packt Publishing",
       "releaseDate": "2012-10-26",
-      "summary": "ISBN: 1849693986"
+      "summary": "ISBN: 1849693986",
+      "url": "https://www.packtpub.com/en-us/product/textmate-how-to-9781849693998"
     }
   ],
   "skills": [
     {
-      "name": "Programming",
+      "name": "Languages",
       "keywords": [
-        "Python",
+        "Python (Pandas, NumPy, Scikit-learn)",
+        "R (RStudio)",
         "SQL",
-        "JavaScript",
         "TypeScript",
-        "Ruby",
+        "JavaScript (Svelte, Node.js, D3.js)",
+        "Ruby (Rails)",
         "PHP",
+        "Bash/Shell",
         "HTML",
         "CSS"
       ]
     },
     {
-      "name": "Machine Learning",
+      "name": "Data & AI",
       "keywords": [
-        "scikit-learn",
-        "spaCy",
-        "regression models",
-        "classification/clustering models",
-        "NumPy"
+        "LLM evaluation (Llama CPP, LM Studio)",
+        "transformers (BERT, distillation)",
+        "NLP (spaCy, NER)",
+        "dbt",
+        "Airflow",
+        "ETL",
+        "Data Modeling",
+        "Machine Learning (scikit-learn, regression, classification)",
+        "Statistics (hypothesis testing, t-tests, confidence intervals, p-values, regression analysis, probability, distributions)",
+        "SMOTE",
+        "Spark",
+        "PySpark"
       ]
     },
     {
-      "name": "Database & Data Storage",
+      "name": "Cloud & DevOps",
       "keywords": [
-        "Relational",
-        "NoSQL",
-        "MySQL",
-        "Postgres",
-        "MongoDB",
-        "S3",
-        "RDS",
-        "Google Cloud Storage (GCS)",
+        "GCP (BigQuery, GCS)",
+        "AWS (S3, RDS, Elasticsearch)",
+        "Docker",
+        "Redis",
+        "Terraform",
+        "CI/CD (GitHub Actions)",
         "Databricks"
       ]
     },
     {
-      "name": "Cloud Services",
-      "keywords": ["Amazon Web Services (AWS)", "Google Cloud Platform (GCP)"]
-    },
-    {
-      "name": "DevOps",
-      "keywords": ["Docker", "Github", "Github Actions"]
-    },
-    {
-      "name": "Tools",
+      "name": "Databases",
       "keywords": [
-        "bash",
-        "git",
-        "Github",
-        "Jira",
-        "Linux",
-        "NumPy",
-        "Pandas",
-        "SciPy",
-        "UNIX",
-        "Vim",
-        "VS Code",
-        "Jupyter",
-        "Spark",
-        "PySpark",
-        "BigQuery"
+        "BigQuery",
+        "PostgreSQL",
+        "MongoDB",
+        "Elasticsearch",
+        "Graph Databases",
+        "DynamoDB",
+        "MySQL",
+        "NoSQL"
       ]
     },
     {
-      "name": "Data Visualization & Deployment",
+      "name": "Visualization",
       "keywords": [
+        "Looker Studio",
         "Tableau",
+        "D3.js",
+        "Leaflet",
         "Seaborn",
         "Matplotlib",
         "Streamlit",
-        "Google Looker Studio"
+        "Excel",
+        "Google Sheets",
+        "PowerPoint"
       ]
     },
     {
-      "name": "Research & Analysis",
+      "name": "Research",
       "keywords": [
-        "A/B Testing",
-        "Data Visualization",
-        "Exploratory Data Analysis (EDA)",
-        "Extract Transform Load (ETL)",
-        "Hypothesis Testing",
+        "EDA",
         "Data Mining",
-        "Data Management"
+        "Data Quality",
+        "Data Validation",
+        "Technical Writing",
+        "A/B Testing",
+        "Hypothesis Testing"
       ]
     }
   ],
   "projects": [
     {
+      "name": "LLM Evaluation Pipeline",
+      "description": "Systematically comparing distilled and quantized local models (Llama CPP, LM Studio) against API baselines — discovering that quantization introduces behavioral instability (repetition loops, hallucinations) beyond mere accuracy degradation, with implications for deploying LLMs in resource-constrained clinical NLP and medical document processing environments.",
+      "startDate": "2026-05-01"
+    },
+    {
+      "name": "Chicago Housing Predictive Visualization",
+      "description": "Full-stack analytics tool (D3.js, Leaflet, Svelte) forecasting housing flip probabilities from the Chicago public datasets.",
+      "url": "https://chicago-house-flipping.netlify.app/",
+      "startDate": "2025-08-01",
+      "endDate": "2025-12-01"
+    },
+    {
+      "name": "Open Brewery DB",
+      "description": "Creator and maintainer of an open-source dataset and API serving 800k+ weekly requests across 10+ years — the go-to resource for global brewery data with 70+ community contributors. Migrated from Rails/PostgreSQL to Laravel/SQLite with Meilisearch for real-time search, reducing infrastructure cost while scaling. Survived 10x traffic spikes through caching-first architecture. Currently building data quality pipelines to track brewery lifecycle events (openings, closures, relocations) across historical records.",
+      "url": "https://www.openbrewerydb.org/",
+      "startDate": "2018-08-01"
+    },
+    {
       "name": "Brewery Review Analysis with Natural Language Processing (NLP) and Named Entity Recognition (NER)",
-      "description": "Springboard Data Science Career Track Capstone Project",
+      "description": "Springboard capstone — transformer-based NLP and NER pipeline for sentiment classification and entity extraction from brewery reviews; NER methodology directly transferable to clinical entity extraction.",
       "url": "https://chrisjm.co/brewery-nlp",
       "startDate": "2020-11-01",
       "endDate": "2021-01-01"
     },
     {
       "name": "Credit Card Fraud Analysis and Prediction",
-      "description": "Springboard Data Science Career Track Capstone Project",
+      "description": "Built a machine learning pipeline (scikit-learn) to detect fraudulent transactions with severe class imbalance — optimized for recall over precision based on cost asymmetry (missing fraud is more expensive than investigating false positives), using SMOTE to improve minority class detection.",
       "url": "https://chrisjm.co/cc-fraud-analysis",
       "startDate": "2020-06-01",
       "endDate": "2020-09-01"
-    },
-    {
-      "name": "Open Brewery DB",
-      "description": "Open source dataset and API of breweries.",
-      "url": "https://www.openbrewerydb.org/",
-      "startDate": "2018-08-01"
     }
   ]
 }
